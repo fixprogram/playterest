@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <title>Playterest</title>
+    <link rel="stylesheet" href="/css/style.css">
+  </head>
+  <body>
+    <section class="container">
+      {{>header}}
+
+      {{>sidebar}}
+
+      <section class="page-content">
+        <form action="" class="chat-form">
+          <input id="m" autocomplete="off" placeholder="Let's go playing guys"/><button>Send</button>
+        </form>
+        <ul id="messages" class="chat-list"></ul>
+      </section>
+
+      {{>games}}
+
+      {{>footer}}
+    </section>
+
+    <script src="https://cdn.socket.io/socket.io-1.2.0.js"></script>
+    <script src="https://code.jquery.com/jquery-1.11.1.js"></script>
+    <script>
+      $(function () {
+        const messages = `{{data}}`.split(',')
+
+        if(messages.length >= 1 && messages[0] !== '') {
+          messages.forEach((item) => {
+            $('#messages').append($('<li>').text(item));
+          })
+        }
+        var socket = io();
+        $('form').submit(function(){
+          socket.emit('chat message', {msg: $('#m').val(), tag: '{{tag}}'});
+          $('#m').val('');
+          return false;
+        });
+        socket.on('chat message', function(msg) {
+          $('#messages').append($('<li>').text(msg.msg));
+          window.scrollTo(0, document.body.scrollHeight);
+        });
+      });
+    </script>
+  </body>
+</html>
