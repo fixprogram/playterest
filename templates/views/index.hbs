@@ -28,25 +28,27 @@
     <script src="https://cdn.socket.io/socket.io-1.2.0.js"></script>
     <script src="https://code.jquery.com/jquery-1.11.1.js"></script>
     <script>
-      $(function () {
-        const messages = `{{data}}`.split(',')
+    $(function () {
+    const messages = `{{data}}`.split(',')
 
-        if(messages.length >= 1 && messages[0] !== '') {
-          messages.forEach((item) => {
-            $('#messages').prepend($('<li>').text(item));
-          })
+    if(messages.length >= 1 && messages[0] !== '') {
+      messages.forEach((item) => {
+        if(item.length > 1) {
+          $('#messages').prepend($('<li>').text(item));
         }
-        var socket = io();
-        $('form').submit(function() {
-          socket.emit('chat message', {msg: $('#m').val(), tag: '{{tag}}'});
-          $('#m').val('');
-          return false;
-        });
-        socket.on('chat message', function(msg) {
-          $('#messages').prepend($('<li>').text(msg.msg));
-          window.scrollTo(0, document.body.scrollHeight);
-        });
-      });
+      })
+    }
+    var socket = io();
+    $('form').submit(function() {
+      socket.emit('chat message', {msg: $('#m').val(), tag: '{{tag}}'});
+      $('#m').val('');
+      return false;
+    });
+    socket.on('chat message', function(msg) {
+      $('#messages').prepend($('<li>').text(msg.msg));
+      window.scrollTo(0, document.body.scrollHeight);
+    });
+  });
     </script>
   </body>
 </html>
