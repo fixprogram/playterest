@@ -1,7 +1,15 @@
 <header class='page-header'>
+
     <a href="/" class="page-header--logo">Logo | PLAYTEREST</a>
 
     <h1 class="page-header--title">{{title}}</h1>
 
-    <div class="user-block">User block</div>
+    <div class="user-block">
+      {{#if user}}
+        <a href="account">{{user.displayName}}</a>
+        <a href='logout'>Logout</a></h2>
+      {{else}}
+        <a href="auth/steam">Log in</a>
+      {{/if}}
+    </div>
 </header>

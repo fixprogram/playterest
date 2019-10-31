@@ -3,16 +3,30 @@
   "version": "0.0.1",
   "description": "my first socket.io app",
   "dependencies": {
+    "connect-redis": "^4.0.3",
     "express": "^4.15.2",
     "express-session": "^1.16.2",
     "hbs": "^4.0.5",
     "mongo": "^0.1.0",
     "mongodb": "^2.2.36",
+    "passport": "^0.4.0",
+    "passport-openid": "^0.4.0",
+    "passport-steam": "^1.0.11",
     "path": "^0.12.7",
     "pg": "^7.12.1",
-    "socket.io": "^1.7.4"
+    "socket.io": "^1.7.4",
+    "util": "^0.12.1",
+    "@passport-next/passport-openid": "^1.0.0",
+    "steam-web": "0.4.0"
+  },
+  "devDependencies": {
+    "ava": "^0.10.0",
+    "ejs": "^2.4.2",
+    "express": "^4.14.0",
+    "express-session": "^1.13.0",
+    "passport": "^0.3.2"
   },
   "scripts": {
-    "start": "node index.js"
+    "start": "node app.js"
   }
 }
