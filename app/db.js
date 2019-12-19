@@ -1,28 +1,28 @@
-module.exports = {
+module.exports = dataBase = {
     mongodb: require('mongodb').MongoClient,
     connectionUrl: 'mongodb://127.0.0.1:27017',
     dbName: 'chat',
 
     getCollection: function(app) {
-        module.exports.mongodb.connect(module.exports.connectionUrl, (error, client) => {
-            if(error) console.log(error)
+        dataBase.mongodb.connect(dataBase.connectionUrl, (error, client) => {
+            if(error) console.log(error);
 
-            const db = client.db(module.exports.dbName);
+            const db = client.db(dataBase.dbName);
             
             app.locals.collection = db.collection('messages');
 
             app.listen(3010, () => {
-                console.log('Сервер ожидает подключения...')
+                console.log('Сервер ожидает подключения...');
             });
         });
     },
 
     writeMessage: function(messageTag, messageContent) {
-        module.exports.mongodb.connect(module.exports.connectionUrl, (error, client) => {
+        dataBase.mongodb.connect(dataBase.connectionUrl, (error, client) => {
             if (error) console.log('Unable to connect to the database');
         
-            const db = client.db(module.exports.dbName)
-            const dbMessages = db.collection('messages')
+            const db = client.db(dataBase.dbName);
+            const dbMessages = db.collection('messages');
             
             dbMessages.insertOne({
                 tag: messageTag,
