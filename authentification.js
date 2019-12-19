@@ -1,7 +1,7 @@
 module.exports = {
     getPassport: function() {
         const passport = require('passport');
-        const SteamStrategy = require('../lib/passport-steam').Strategy;
+        const SteamStrategy = require('./lib/passport-steam').Strategy;
         
         passport.serializeUser(function(user, done) {
             done(null, user);
@@ -26,4 +26,4 @@ module.exports = {
 
       return passport;
     }
-}
+};
