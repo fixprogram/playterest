@@ -1,1 +1,1 @@
-web: gunicorn playterest:app
+web: gunicorn runp-heroku:app
