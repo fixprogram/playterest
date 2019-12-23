@@ -1,6 +1,6 @@
 module.exports = dataBase = {
     mongodb: require('mongodb').MongoClient,
-    connectionUrl: 'mongodb://127.0.0.1:27017',
+    connectionUrl: 'mongodb://heroku_969m2gr9:d0ljj3k0df4v7psa45cn26u376@ds129098.mlab.com:29098/heroku_969m2gr9',
     dbName: 'chat',
 
     getCollection: function(app) {
