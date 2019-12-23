@@ -7,8 +7,9 @@ module.exports = dataBase = {
         dataBase.mongodb.connect(dataBase.connectionUrl, (error, client) => {
             if(error) console.log(error);
 
-            const db = client.db(dataBase.dbName);
-            
+            // const db = client.db(dataBase.dbName);
+            const db = client.db('heroku_969m2gr9');
+
             app.locals.collection = db.collection('messages');
 
             app.listen(3010, () => {
