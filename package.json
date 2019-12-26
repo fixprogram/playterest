@@ -3,21 +3,24 @@
   "version": "1.0.0",
   "description": "",
   "dependencies": {
+    "@passport-next/passport-openid": "^1.0.0",
+    "connect-mongo": "^3.2.0",
     "connect-redis": "^4.0.3",
+    "crypto": "^1.0.1",
     "express": "^4.15.2",
     "express-session": "^1.16.2",
     "hbs": "^4.0.5",
     "mongo": "^0.1.0",
     "mongodb": "^2.2.36",
+    "mongoose": "^5.8.3",
     "passport": "^0.4.0",
     "passport-openid": "^0.4.0",
     "passport-steam": "^1.0.11",
     "path": "^0.12.7",
     "pg": "^7.12.1",
     "socket.io": "^1.7.4",
-    "util": "^0.12.1",
-    "@passport-next/passport-openid": "^1.0.0",
-    "steam-web": "0.4.0"
+    "steam-web": "0.4.0",
+    "util": "^0.12.1"
   },
   "author": "",
   "devDependencies": {
