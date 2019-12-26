@@ -13,7 +13,7 @@ db.getCollection(app);
 
 const mongoose = require('mongoose');
 const session = require('express-session');
-const mongoStore = require('connect-mongo')(session);
+const MongoStore = require('connect-mongo')(session);
 
 const passport = require('./authentification').getPassport();
 
