@@ -110,26 +110,26 @@ app.get('/', function (req, res) {
     });
 });
 
-app.get('/account', ensureAuthenticated, function (req, res) {
-    res.render('account', {user: req.user, avatar: req.user.photos[2].value});
-});
-
-app.get('/logout', function (req, res) {
-    req.logout();
-    res.redirect('/');
-});
-
-app.get('/auth/steam',
-    passport.authenticate('steam', {failureRedirect: '/'}),
-    function (req, res) {
-        res.redirect('/');
-    });
-
-app.get('/auth/steam/return',
-    passport.authenticate('steam', {failureRedirect: '/'}),
-    function (req, res) {
-        res.redirect('/');
-    });
+// app.get('/account', ensureAuthenticated, function (req, res) {
+//     res.render('account', {user: req.user, avatar: req.user.photos[2].value});
+// });
+//
+// app.get('/logout', function (req, res) {
+//     req.logout();
+//     res.redirect('/');
+// });
+//
+// app.get('/auth/steam',
+//     passport.authenticate('steam', {failureRedirect: '/'}),
+//     function (req, res) {
+//         res.redirect('/');
+//     });
+//
+// app.get('/auth/steam/return',
+//     passport.authenticate('steam', {failureRedirect: '/'}),
+//     function (req, res) {
+//         res.redirect('/');
+//     });
 
 io.on('connection', function (socket) {
     socket.on('chat message', function (msg) {
