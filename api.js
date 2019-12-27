@@ -38,9 +38,7 @@ function hash(text) {
 }
 
 exports.loadUser = function(req, res, next) {
-    console.log(req.session);
-    console.log(req.session.user.id);
-    if (req.session.user_id) {
+    if (req.session.user.id) {
         User.findById(req.session.user.id, function(user) {
             if (user) {
                 req.currentUser = user;
