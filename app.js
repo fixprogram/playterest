@@ -1,6 +1,6 @@
 const express = require('express');
 const app = express();
-const router = express.Router();
+// const router = express.Router();
 const http = require('http').Server(app);
 const io = require('socket.io')(http);
 const port = process.env.PORT || 3000; // Подключаться по этому хосту.. На 3010 сервак
@@ -40,6 +40,7 @@ app.use(session({
 
 app.use(passport.initialize());
 app.use(passport.session());
+app.use(app.router());
 
 app.use(session({
     secret: 'your secret',
@@ -50,7 +51,7 @@ app.use(session({
 
 // Create a user
 
-router.post('/login', function (req, res, next) {
+app.post('/login', function (req, res, next) {
     if (req.session.user) return res.redirect('/');
 
     console.log(req.body.username + ' ' + req.body.password);
@@ -68,7 +69,7 @@ router.post('/login', function (req, res, next) {
         })
 });
 
-router.post('/', function (req, res, body) {
+app.post('/', function (req, res, body) {
     api.createUser(req.body).then(function (result) {
         console.log("User created");
     })
@@ -79,14 +80,14 @@ router.post('/', function (req, res, body) {
     })
 });
 
-router.post('/logout', function(req, res, next) {
+app.post('/logout', function(req, res, next) {
     if (req.session.user) {
         delete req.session.user;
         res.redirect('/');
     }
 });
 
-module.exports = router;
+module.exports = app;
 
 //
 
