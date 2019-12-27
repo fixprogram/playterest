@@ -6,7 +6,7 @@ let User = require('./models/User.js');
 
 exports.createUser = function(userData) {
     let user = {
-        name: userData.name,
+        username: userData.username,
         email: userData.email,
         password: hash(userData.password)
     };
@@ -20,7 +20,7 @@ exports.getUser = function(id) {
 
 exports.checkUser = function(userData) {
     console.log(userData);
-    return User.findOne({email:userData.email}).then(function(doc) {
+    return User.findOne({username:userData.username}).then(function(doc) {
         if ( doc.password == hash(userData.password) ) {
             console.log('The password is okay');
             return Promise.resolve(doc)
