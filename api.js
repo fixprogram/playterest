@@ -18,6 +18,7 @@ exports.getUser = function(id) {
 };
 
 exports.checkUser = function(userData) {
+    console.log(userData);
     return User.findOne({email:userData.email}).then(function(doc) {
         if ( doc.password == hash(userData.password) ) {
             console.log('The password is okay');
