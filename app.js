@@ -71,7 +71,7 @@ app.post('/login', function (req, res, next) {
         })
 });
 
-app.post('/', function (req, res, body) {
+app.post('/register', function (req, res, body) {
     api.createUser(req.body).then(function (result) {
         console.log("User created");
     })
