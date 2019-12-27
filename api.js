@@ -20,6 +20,9 @@ exports.getUser = function(id) {
 
 exports.checkUser = function(userData) {
     console.log(userData);
+    console.log(User);
+    console.log(User.findOne({username:userData.username}));
+
     return User.findOne({username:userData.username}).then(function(doc) {
         console.log(doc);
         if ( doc.password == hash(userData.password) ) {
