@@ -110,6 +110,10 @@ app.get('/', function (req, res) {
     });
 });
 
+app.get('/login', function(req, res) {
+    res.render('login');
+});
+
 // app.get('/account', ensureAuthenticated, function (req, res) {
 //     res.render('account', {user: req.user, avatar: req.user.photos[2].value});
 // });
