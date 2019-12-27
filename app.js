@@ -56,7 +56,7 @@ app.use(session({
 app.post('/login', function (req, res, next) {
     if (req.session.user) return res.redirect('/');
 
-    console.log(req);
+    console.log(req.body.username + ' ' + req.body.password);
 
     api.checkUser(req.body).then(function (user) {
         if (user) {
