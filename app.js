@@ -119,6 +119,10 @@ app.get('/login', function(req, res) {
     res.render('login');
 });
 
+app.get('/register', function(req, res) {
+    res.render('register');
+});
+
 // app.get('/account', ensureAuthenticated, function (req, res) {
 //     res.render('account', {user: req.user, avatar: req.user.photos[2].value});
 // });
