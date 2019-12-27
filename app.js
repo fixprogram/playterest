@@ -1,6 +1,5 @@
 const express = require('express');
 const app = express();
-app.use(express.json());
 // const router = express.Router();
 const http = require('http').Server(app);
 const io = require('socket.io')(http);
@@ -41,6 +40,9 @@ app.use(session({
 
 app.use(passport.initialize());
 app.use(passport.session());
+
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
 
 app.use(session({
     secret: 'your secret',
