@@ -79,7 +79,9 @@ app.post('/register', function (req, res, body) {
         if (err.toJSON().code == 11000) {
             res.status(500).send("This email is already exists");
         }
-    })
+    });
+
+    res.redirect('/login');
 });
 
 app.post('/logout', function(req, res, next) {
