@@ -53,6 +53,8 @@ app.use(session({
 router.post('/login', function (req, res, next) {
     if (req.session.user) return res.redirect('/');
 
+    console.log(req.body.username + ' ' + req.body.password);
+
     api.checkUser(req.body).then(function (user) {
         if (user) {
             req.session.user = {id: user._id, name: user.name};
