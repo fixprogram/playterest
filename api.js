@@ -10,7 +10,7 @@ exports.createUser = function(userData) {
         email: userData.email,
         password: hash(userData.password)
     };
-    mongoose.connection.collections['users'].insert(user);
+    mongoose.connection.collections['users'].insertOne(user);
     console.log(user);
     return new User(user).save()
 };
