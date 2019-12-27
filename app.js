@@ -84,7 +84,7 @@ app.post('/register', function (req, res, body) {
     res.redirect('/login');
 });
 
-app.post('/logout', function(req, res, next) {
+app.get('/logout', function(req, res, next) {
     if (req.session.user) {
         delete req.session.user;
         res.redirect('/');
