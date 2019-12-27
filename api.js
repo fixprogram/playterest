@@ -20,9 +20,6 @@ exports.getUser = function(id) {
 };
 
 exports.checkUser = function(userData) {
-    console.log(userData);
-    console.log(User);
-    console.log(User.findOne({username:userData.username}));
 
     return User.findOne({username:userData.username}).then(function(doc) {
         console.log(doc);
@@ -30,6 +27,7 @@ exports.checkUser = function(userData) {
             console.log('The password is okay');
             return Promise.resolve(doc)
         } else {
+            console.log('The password is Wrong');
             return Promise.reject('Reject Wrong')
         }
     })
@@ -38,3 +36,18 @@ exports.checkUser = function(userData) {
 function hash(text) {
     return crypto.createHash('sha1').update(text).digest('base64')
 }
+
+exports.loadUser = function(req, res, next) {
+    if (req.session.user_id) {
+        User.findById(req.session.user_id, function(user) {
+            if (user) {
+                req.currentUser = user;
+                next();
+            } else {
+                res.redirect('/login');
+            }
+        });
+    } else {
+        res.redirect('/login');
+    }
+};

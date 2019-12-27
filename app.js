@@ -41,6 +41,7 @@ app.use(session({
 app.use(passport.initialize());
 app.use(passport.session());
 
+app.use(express.cookieDecoder());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
@@ -95,6 +96,10 @@ module.exports = app;
 
 //
 
+app.get('/profile', api.loadUser, function(req, res) {
+    res.render('profile');
+});
+
 app.get('/', function (req, res) {
     let collection = app.locals.collection;
     let game = req.query.game;
@@ -112,7 +117,6 @@ app.get('/', function (req, res) {
             messages += item.text + ', ';
         });
 
-        console.log(req.user);
         res.render('index', {data: messages, tag: game, user: req.user});
     });
 });
