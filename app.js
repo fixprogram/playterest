@@ -54,34 +54,40 @@ app.use(session({
 // Create a user
 
 app.post('/login', function (req, res, next) {
-    if (req.session.user) return res.redirect('/');
+    if (req.session.user) {
+        res.redirect('/');
+    } else {
+        console.log(req.body.username + ' ' + req.body.password);
 
-    console.log(req.body.username + ' ' + req.body.password);
-
-    api.checkUser(req.body).then(function (user) {
-        if (user) {
-            req.session.user = {id: user._id, name: user.username};
-            res.redirect('/')
-        } else {
-            return next(error)
-        }
-    })
-        .catch(function (error) {
-            return next(error)
+        api.checkUser(req.body).then(function (user) {
+            if (user) {
+                req.session.user = {id: user._id, name: user.username};
+                res.redirect('/')
+            } else {
+                return next(error)
+            }
         })
+            .catch(function (error) {
+                return next(error)
+            })
+    }
 });
 
 app.post('/register', function (req, res, body) {
-    api.createUser(req.body).then(function (result) {
-        console.log("User created");
-    })
-        .catch(function (err) {
-        if (err.toJSON().code == 11000) {
-            res.status(500).send("This email is already exists");
-        }
-    });
+    if(req.session.user) {
+        res.redirect('/');
+    } else {
+        api.createUser(req.body).then(function (result) {
+            console.log("User created");
+        })
+            .catch(function (err) {
+                if (err.toJSON().code == 11000) {
+                    res.status(500).send("This email is already exists");
+                }
+            });
 
-    res.redirect('/login');
+        res.redirect('/login');
+    }
 });
 
 app.get('/logout', function(req, res, next) {
