@@ -103,7 +103,7 @@ app.get('/', function (req, res) {
     let collection = app.locals.collection;
     let game = req.query.game;
 
-    console.log(req.query.game);
+    console.log(req.session.user);
 
     if (game === undefined) game = 'index';
 
