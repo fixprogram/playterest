@@ -6,10 +6,10 @@
 
     <div class="user-block">
       {{#if user}}
-        <a href="account">{{user.displayName}}</a>
-        <a href='logout'>Logout</a></h2>
+        <a href="/profile">{{user}}</a>
+        <a href='/logout'>Logout</a></h2>
       {{else}}
-        <a href="auth/steam">Log in</a>
+        <a href="/login">Log in</a>
       {{/if}}
     </div>
 </header>

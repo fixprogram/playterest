@@ -54,7 +54,7 @@ app.use(session({
 // Create a user
 
 app.post('/login', function (req, res, next) {
-    if (req.session.user) return res.redirect('/');
+    if (req.session.user.id) return res.redirect('/');
 
     console.log(req.body.username + ' ' + req.body.password);
 
@@ -116,7 +116,7 @@ app.get('/', function (req, res) {
             messages += item.text + ', ';
         });
 
-        res.render('index', {data: messages, tag: game, user: req.user});
+        res.render('index', {data: messages, tag: game, user: req.body.username});
     });
 });
 
