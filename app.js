@@ -60,7 +60,7 @@ app.post('/login', function (req, res, next) {
 
     api.checkUser(req.body).then(function (user) {
         if (user) {
-            req.session.user = {id: user._id, name: user.name};
+            req.session.user = {id: user._id, name: user.username};
             res.redirect('/')
         } else {
             return next(error)
@@ -127,27 +127,6 @@ app.get('/login', function(req, res) {
 app.get('/register', function(req, res) {
     res.render('register');
 });
-
-// app.get('/account', ensureAuthenticated, function (req, res) {
-//     res.render('account', {user: req.user, avatar: req.user.photos[2].value});
-// });
-//
-// app.get('/logout', function (req, res) {
-//     req.logout();
-//     res.redirect('/');
-// });
-//
-// app.get('/auth/steam',
-//     passport.authenticate('steam', {failureRedirect: '/'}),
-//     function (req, res) {
-//         res.redirect('/');
-//     });
-//
-// app.get('/auth/steam/return',
-//     passport.authenticate('steam', {failureRedirect: '/'}),
-//     function (req, res) {
-//         res.redirect('/');
-//     });
 
 io.on('connection', function (socket) {
     socket.on('chat message', function (msg) {
