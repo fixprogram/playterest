@@ -103,7 +103,7 @@ app.get('/', function (req, res) {
     let collection = app.locals.collection;
     let game = req.query.game;
 
-    console.log(req.session.user);
+    console.log('req.session.user: ' + req.session.user);
 
     if (game === undefined) game = 'index';
 
@@ -116,7 +116,7 @@ app.get('/', function (req, res) {
             messages += item.text + ', ';
         });
 
-        res.render('index', {data: messages, tag: game, user: req.body.username});
+        res.render('index', {data: messages, tag: game, user: req.session.user.name});
     });
 });
 
