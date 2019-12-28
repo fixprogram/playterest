@@ -41,7 +41,7 @@ app.use(session({
 app.use(passport.initialize());
 app.use(passport.session());
 
-app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.urlencoded({extended: false}));
 app.use(bodyParser.json());
 
 app.use(session({
@@ -54,7 +54,7 @@ app.use(session({
 // Create a user
 
 app.post('/login', function (req, res, next) {
-    if (req.session.user) {
+    if (req.session.user.id) {
         res.redirect('/');
     } else {
         console.log(req.body.username + ' ' + req.body.password);
@@ -74,7 +74,7 @@ app.post('/login', function (req, res, next) {
 });
 
 app.post('/register', function (req, res, body) {
-    if(req.session.user) {
+    if (req.session.user.id) {
         res.redirect('/');
     } else {
         api.createUser(req.body).then(function (result) {
@@ -90,7 +90,7 @@ app.post('/register', function (req, res, body) {
     }
 });
 
-app.get('/logout', function(req, res, next) {
+app.get('/logout', function (req, res, next) {
     if (req.session.user) {
         delete req.session.user;
         res.redirect('/');
@@ -101,7 +101,7 @@ module.exports = app;
 
 //
 
-app.get('/profile', api.loadUser, function(req, res) {
+app.get('/profile', api.loadUser, function (req, res) {
     res.render('profile');
 });
 
@@ -122,7 +122,7 @@ app.get('/', function (req, res) {
             messages += item.text + ', ';
         });
 
-        if(req.session.user) {
+        if (req.session.user) {
             res.render('index', {data: messages, tag: game, user: req.session.user.name});
         } else {
             res.render('index', {data: messages, tag: game, user: false});
@@ -130,11 +130,11 @@ app.get('/', function (req, res) {
     });
 });
 
-app.get('/login', function(req, res) {
+app.get('/login', function (req, res) {
     res.render('login');
 });
 
-app.get('/register', function(req, res) {
+app.get('/register', function (req, res) {
     res.render('register');
 });
 
