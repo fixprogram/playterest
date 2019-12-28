@@ -1,7 +1,7 @@
 html {
     height: 100%;
     box-sizing: border-box;
-    background: #10191D url('../assets/img/site-bg.jpg') no-repeat center;
+    background: #10191D url('../assets/img/site-bg.jpg') no-repeat center 0;
 }
   
 *,
