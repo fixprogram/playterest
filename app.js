@@ -101,7 +101,11 @@ app.get('/profile', api.loadUser, function (req, res) {
     res.render('profile');
 });
 
-app.get('/', function (req, res) {
+app.get('/', function(req, res) {
+   res.render('index');
+});
+
+app.get('/home', function (req, res) {
     let collection = app.locals.collection;
     let game = req.query.game;
 
@@ -119,9 +123,9 @@ app.get('/', function (req, res) {
         });
 
         if (req.session.user) {
-            res.render('index', {data: messages, tag: game, user: req.session.user.name});
+            res.render('home', {data: messages, tag: game, user: req.session.user.name});
         } else {
-            res.render('index', {data: messages, tag: game, user: false});
+            res.render('home', {data: messages, tag: game, user: false});
         }
     });
 });
