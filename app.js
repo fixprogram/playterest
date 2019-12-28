@@ -116,7 +116,11 @@ app.get('/', function (req, res) {
             messages += item.text + ', ';
         });
 
-        res.render('index', {data: messages, tag: game, user: req.session.user.name});
+        if(req.session.user) {
+            res.render('index', {data: messages, tag: game, user: req.session.user.name});
+        } else {
+            res.render('index', {data: messages, tag: game, user: false});
+        }
     });
 });
 
