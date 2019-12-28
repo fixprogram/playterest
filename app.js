@@ -25,7 +25,7 @@ app.set('view engine', 'hbs');
 app.set('views', views);
 hbs.registerPartials(partialsPath);
 app.use(express.static(publicDirectoryPath));
-app.use("/assets", express.static(${__dirname}/assets));
+app.use("/assets", express.static(`${__dirname}/assets`));
 
 app.use(session({
         secret: 'your secret',
