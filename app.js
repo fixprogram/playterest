@@ -98,12 +98,20 @@ module.exports = app;
 
 //
 
-app.get('/profile', api.loadUser, function (req, res) {
-    res.render('profile');
+app.get('/profile', function (req, res) {
+    api.loadUser(req, res, function() {
+        res.render('profile');
+    }, function() {
+        res.redirect('/login')
+    })
 });
 
 app.get('/', function(req, res) {
-   res.render('index', {title: 'Играй по своим правилам на playterest.'});
+    api.loadUser(req, res, function() {
+        res.redirect('/home');
+    }, function() {
+        res.render('index', {title: 'Играй по своим правилам на playterest.'});
+    });
 });
 
 app.get('/home', function (req, res) {

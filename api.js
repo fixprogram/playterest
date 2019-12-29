@@ -37,18 +37,17 @@ function hash(text) {
     return crypto.createHash('sha1').update(text).digest('base64')
 }
 
-exports.loadUser = function(req, res, next) {
+exports.loadUser = function(req, res, next, previous) {
     if (req.session.user) {
         User.findById(req.session.user.id, function(err, user) {
-            console.log(user);
             if (user) {
                 req.currentUser = user;
                 next();
             } else {
-                res.redirect('/login');
+                previous();
             }
         });
     } else {
-        res.redirect('/login');
+        previous();
     }
 };
