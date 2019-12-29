@@ -103,7 +103,7 @@ app.get('/profile', api.loadUser, function (req, res) {
 });
 
 app.get('/', function(req, res) {
-   res.render('index', {title: 'Играй по своим правилам на <span>playterest</span>.'});
+   res.render('index', {title: 'Играй по своим правилам на playterest.'});
 });
 
 app.get('/home', function (req, res) {
