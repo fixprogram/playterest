@@ -1,71 +1,72 @@
 html {
     height: 100%;
     box-sizing: border-box;
-    background: #10191D url('../assets/img/site-bg.jpg') no-repeat center 0;
-    background-attachment: fixed;
 }
-  
+
 *,
 *::before,
 *::after {
-  box-sizing: inherit;
+    box-sizing: inherit;
 }
 
 body {
-  min-width: 320px;
-  margin: 0;
-  display: flex;
-  flex-direction: column;
-  word-wrap: break-word;
+    min-width: 320px;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    word-wrap: break-word;
 
-  text-align: center;
-  /* font-family: $font-primary;
-  font-size: $size-primary;
-  color: $black; */
+    text-align: center;
+    font-family: SF UI Display;
+    color: #fff;
 
-  /* background-color: $color-bg; */
+    background: #10191D url('../assets/img/site-bg.jpg') no-repeat center 0;
+    background-attachment: fixed;
 }
 
 a {
-  display: block;
-  text-decoration: none;
-  /* font-family: $font-primary; */
+    display: block;
+    text-decoration: none;
+    /* font-family: $font-primary; */
 }
 
 img {
-  max-width: 100%;
-  height: auto;
+    max-width: 100%;
+    height: auto;
 }
 
 .visually-hidden:not(:focus):not(:active),
 input[type="checkbox"].visually-hidden,
 input[type="radio"].visually-hidden {
-  position: absolute;
+    position: absolute;
 
-  width: 1px;
-  height: 1px;
-  margin: -1px;
-  border: 0;
-  padding: 0;
+    width: 1px;
+    height: 1px;
+    margin: -1px;
+    border: 0;
+    padding: 0;
 
-  white-space: nowrap;
+    white-space: nowrap;
 
-  clip-path: inset(100%);
-  clip: rect(0 0 0 0);
-  overflow: hidden;
+    clip-path: inset(100%);
+    clip: rect(0 0 0 0);
+    overflow: hidden;
 }
 
 ul {
-  margin: 0;
-  padding: 0;
+    margin: 0;
+    padding: 0;
 
-  list-style-type: none;
+    list-style-type: none;
 }
 
-h1,h2,h3,h4,h5,h6 {
-  /* font-family: $font-title;
-  font-size: $size-title;
-  font-weight: $weight-title; */
+h1, h2, h3, h4, h5, h6 {
+    font-family: SF UI Display;
+    font-size: 35px;
+    line-height: 42px;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    text-align: center;
 }
 
 /* /////////////// */
@@ -92,7 +93,7 @@ h1,h2,h3,h4,h5,h6 {
 }
 
 .page-header {
-  border-bottom: 1px solid #000;
+    border-bottom: 1px solid #000;
 }
 
 .page-sidebar,
@@ -104,15 +105,15 @@ h1,h2,h3,h4,h5,h6 {
 }
 
 .page-sidebar a {
-  height: 40px;
-  font-size: 12px;
-  text-transform: uppercase;
-  font-weight: 600;
-  line-height: 1.17;
+    height: 40px;
+    font-size: 12px;
+    text-transform: uppercase;
+    font-weight: 600;
+    line-height: 1.17;
 }
 
 .page-games a {
-  padding: 5px 0;
+    padding: 5px 0;
 }
 
 .page-content {
@@ -128,27 +129,31 @@ h1,h2,h3,h4,h5,h6 {
 }
 
 .page-content .chat-form input {
-  width: 100%;
-  height: 40px;
-  border-radius: 5px;
-  padding: 0 10px;
+    width: 100%;
+    height: 40px;
+    border-radius: 5px;
+    padding: 0 10px;
 }
 
 .page-content .chat-form .chat-form--submit {
-  position: absolute;
-  right: 0;
-  height: 40px;
-  width: 100px;
-  cursor: pointer;
+    position: absolute;
+    right: 0;
+    height: 40px;
+    width: 100px;
+    cursor: pointer;
+}
+
+.main-title span {
+    color: #53FFCB;
 }
 
 .page-content .chat-list li {
-  width: 100%;
-  padding: 20px;
-  margin: 10px 0;
-  text-align: left;
-  border: 1px solid;
-  border-radius: 20px 20px 0 20px;
+    width: 100%;
+    padding: 20px;
+    margin: 10px 0;
+    text-align: left;
+    border: 1px solid;
+    border-radius: 20px 20px 0 20px;
 }
 
 .raiting-item {
