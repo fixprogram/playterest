@@ -15,8 +15,6 @@ const mongoose = require('mongoose');
 const session = require('express-session');
 const MongoStore = require('connect-mongo')(session);
 
-const passport = require('./authentification').getPassport();
-
 const views = path.join(__dirname, 'templates/views');
 const partialsPath = path.join(__dirname, 'templates/partials');
 const publicDirectoryPath = path.join(__dirname, 'templates/assets');
@@ -38,9 +36,6 @@ app.use(session({
         })
     })
 );
-
-app.use(passport.initialize());
-app.use(passport.session());
 
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(bodyParser.json());
