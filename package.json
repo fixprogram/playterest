@@ -5,11 +5,13 @@
   "dependencies": {
     "@passport-next/passport-openid": "^1.0.0",
     "body-parser": "^1.19.0",
+    "cheerio": "^1.0.0-rc.2",
     "connect-mongo": "^3.2.0",
     "connect-redis": "^4.0.3",
     "crypto": "^1.0.1",
     "express": "^4.15.2",
     "express-session": "^1.16.2",
+    "fs": "0.0.1-security",
     "hbs": "^4.0.5",
     "mongo": "^0.1.0",
     "mongodb": "^2.2.36",
@@ -19,11 +21,10 @@
     "passport-steam": "^1.0.11",
     "path": "^0.12.7",
     "pg": "^7.12.1",
+    "request": "^2.87.0",
     "socket.io": "^1.7.4",
     "steam-web": "0.4.0",
-    "util": "^0.12.1",
-    "cheerio": "^1.0.0-rc.2",
-    "request": "^2.87.0"
+    "util": "^0.12.1"
   },
   "author": "",
   "devDependencies": {

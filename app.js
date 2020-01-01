@@ -7,6 +7,7 @@ const port = process.env.PORT || 3000; // Подключаться по этом
 const path = require('path');
 const hbs = require('hbs');
 const api = require('./api.js');
+const parser = require('./parser.js');
 
 const db = require('./db.js');
 db.getCollection(app);
@@ -141,6 +142,8 @@ app.get('/login', function (req, res) {
 app.get('/register', function (req, res) {
     res.render('register');
 });
+
+parser.imgParse();
 
 io.on('connection', function (socket) {
     socket.on('chat message', function (msg) {
