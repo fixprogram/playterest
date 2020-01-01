@@ -156,7 +156,7 @@ request('https://store.steampowered.com/', (error, response, body) => {
         const srcs = [];
 
         // указываем класс изображений и откуда их брать
-        $('.sale_capsule_image_ctn img', '.home_topsellers_games_ctn')
+        $('.sale_capsule_image', '.sale_capsule_image_ctn')
             .each((idx, pic) => {
                 const src = $(pic).attr('src');
                 srcs.push(src)
