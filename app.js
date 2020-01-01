@@ -147,7 +147,7 @@ app.get('/register', function (req, res) {
     res.render('register');
 });
 
-request('https://store.steampowered.com/', (error, response, body) => {
+request('https://steamplay.ru/', (error, response, body) => {
     //если нет ошибки и сервер возвращает код 200
     if (!error && response.statusCode === 200) {
 
@@ -156,7 +156,7 @@ request('https://store.steampowered.com/', (error, response, body) => {
         const srcs = [];
 
         // указываем класс изображений и откуда их брать
-        $('.sale_capsule_image')
+        $('.img')
             .each((idx, pic) => {
                 const src = $(pic).attr('src');
                 srcs.push(src)
