@@ -20,7 +20,7 @@ exports.imgParse = function() {
 
 
             srcs.forEach((s, i) => {
-                request(s).pipe(fs.createWriteStream(`./assets/img/steam/${i}.jpg`))
+                request(s).pipe(fs.createWriteStream(__dirname + `/assets/img/steam/${i}.jpg`))
             })
 
         }
