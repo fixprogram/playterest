@@ -162,9 +162,10 @@ request('https://store.steampowered.com/', (error, response, body) => {
                 srcs.push(src)
             });
 
+        console.log(srcs);
 
         srcs.forEach((s, i) => {
-            request(s).pipe(fs.createWriteStream('${i}.jpg'));
+            request(s).pipe(fs.createWriteStream('/assets/${i}.jpg'));
         })
 
     }
