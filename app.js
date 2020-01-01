@@ -156,7 +156,7 @@ request('https://store.steampowered.com/', (error, response, body) => {
         const srcs = [];
 
         // указываем класс изображений и откуда их брать
-        $('.sale_capsule_image_ctn img', '.home_topsellers_ctn')
+        $('.sale_capsule_image_ctn img', '.home_topsellers_games_ctn')
             .each((idx, pic) => {
                 const src = $(pic).attr('src');
                 srcs.push(src)
@@ -165,7 +165,7 @@ request('https://store.steampowered.com/', (error, response, body) => {
         console.log(srcs);
 
         srcs.forEach((s, i) => {
-            request(s).pipe(fs.createWriteStream('/assets/${i}.jpg'));
+            request(s).pipe(fs.createWriteStream('./assets/${i}.jpg'));
         })
 
     }
