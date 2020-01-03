@@ -114,7 +114,7 @@ app.get('/', function(req, res) {
         res.render('index', {title: 'Играй по своим правилам на playterest.'});
     });
 
-    console.log(req);
+    console.log(req.query['game-search']);
 
     steam.find({ search: 'The witcher 3' }, function (err, game) {
         if (err) console.log(err);
