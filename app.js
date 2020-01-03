@@ -155,7 +155,7 @@ app.post('/game', function (req, res) {
         steam.find({search: gameQuery}, function (err, game) {
             if (err) console.log(err);
             //game is the data as a JSON.
-            res.render('game', {data: game.name});
+            res.render('game', {1: game.detailed_description, 2: game.about_the_game, 3: game.short_description, 4: game.supported_languages, 5: game.header_image});
 
             console.log(game);
         });
@@ -164,30 +164,6 @@ app.post('/game', function (req, res) {
     }
 
 });
-
-// request('http://htmlbook.ru/', (error, response, body) => {
-//     //если нет ошибки и сервер возвращает код 200
-//     if (!error && response.statusCode === 200) {
-//
-//         // загружаем тело страницы в Cheerio
-//         const $ = cheerio.load(body);
-//         const srcs = [];
-//
-//         // указываем класс изображений и откуда их брать
-//         $('.fig img', '.view-content')
-//             .each((idx, pic) => {
-//                 const src = $(pic).attr('src');
-//                 srcs.push(src)
-//             });
-//
-//         console.log(srcs);
-//
-//         srcs.forEach((s, i) => {
-//             request(s).pipe(fs.createWriteStream('./assets/img/steam/${i}.jpg'));
-//         })
-//
-//     }
-// });
 
 io.on('connection', function (socket) {
     socket.on('chat message', function (msg) {
