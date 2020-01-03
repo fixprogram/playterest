@@ -149,6 +149,8 @@ app.get('/register', function (req, res) {
 });
 
 app.post('/game', function (req, res) {
+    console.log(req);
+
     let gameQuery = req.query['game-search'];
 
     if(gameQuery) {
