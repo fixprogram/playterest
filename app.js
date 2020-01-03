@@ -155,7 +155,7 @@ app.post('/game', function (req, res) {
         steam.find({search: gameQuery}, function (err, game) {
             if (err) console.log(err);
             //game is the data as a JSON.
-            res.render('game', {1: game.detailed_description, 2: game.about_the_game, 3: game.short_description, 4: game.supported_languages, 5: game.header_image});
+            res.render('game', {data: game});
 
             console.log(game);
         });
