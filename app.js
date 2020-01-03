@@ -114,13 +114,13 @@ app.get('/', function(req, res) {
         res.render('index', {title: 'Играй по своим правилам на playterest.'});
     });
 
-    console.log(req.query['game-search']);
-
-    steam.find({ search: 'The witcher 3' }, function (err, game) {
-        if (err) console.log(err);
-        //game is the data as a JSON.
-        console.log(game.name)
-    });
+    if(req.query['game-search']) {
+        steam.find({ search: req.query['game-search'] }, function (err, game) {
+            if (err) console.log(err);
+            //game is the data as a JSON.
+            res.render('game', {data: game});
+        });
+    }
 });
 
 app.get('/home', function (req, res) {
