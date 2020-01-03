@@ -158,7 +158,7 @@ app.post('/game', function (req, res) {
             res.render('game', {data: game});
         });
     } else {
-        res.rename('404');
+        res.render('404');
     }
 
 });
