@@ -158,7 +158,12 @@ app.post('/game', function (req, res) {
             res.render('game', {data: game});
         });
     } else {
-        res.render('404');
+        // res.render('404');
+        steam.find({search: 'The witcher 3'}, function (err, game) {
+            if (err) console.log(err);
+            //game is the data as a JSON.
+            res.render('game', {data: game});
+        });
     }
 
 });
