@@ -7,6 +7,7 @@ const port = process.env.PORT || 3000; // Подключаться по этом
 const path = require('path');
 const hbs = require('hbs');
 const api = require('./api.js');
+const steam = require('steam-searcher');
 // const parser = require('./parser.js');
 
 // const request = require('request');
@@ -112,6 +113,14 @@ app.get('/', function(req, res) {
     }, function() {
         res.render('index', {title: 'Играй по своим правилам на playterest.'});
     });
+
+    console.log(req);
+
+    steam.find({ search: 'The witcher 3' }, function (err, game) {
+        if (err) console.log(err);
+        //game is the data as a JSON.
+        console.log(game.name)
+    });
 });
 
 app.get('/home', function (req, res) {
@@ -189,11 +198,3 @@ function ensureAuthenticated(req, res, next) {
     if (req.isAuthenticated()) return next();
     res.redirect('/');
 }
-
-const steam = require('steam-searcher');
-
-steam.find({ search: 'The witcher 3' }, function (err, game) {
-    if (err) console.log(err);
-    //game is the data as a JSON.
-    console.log(game)
-});
