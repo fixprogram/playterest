@@ -149,9 +149,7 @@ app.get('/register', function (req, res) {
 });
 
 app.post('/game', function (req, res) {
-    console.log(req);
-
-    let gameQuery = req.query['game-search'];
+    let gameQuery = req.body['game-search'];
 
     if(gameQuery) {
         steam.find({search: gameQuery}, function (err, game) {
