@@ -100,27 +100,19 @@ module.exports = app;
 //
 
 app.get('/profile', function (req, res) {
-    api.loadUser(req, res, function() {
+    api.loadUser(req, res, function () {
         res.render('profile');
-    }, function() {
+    }, function () {
         res.redirect('/login')
     })
 });
 
-app.get('/', function(req, res) {
-    api.loadUser(req, res, function() {
+app.get('/', function (req, res) {
+    api.loadUser(req, res, function () {
         res.redirect('/home');
-    }, function() {
+    }, function () {
         res.render('index', {title: 'Играй по своим правилам на playterest.'});
     });
-
-    if(req.query['game-search']) {
-        steam.find({ search: req.query['game-search'] }, function (err, game) {
-            if (err) console.log(err);
-            //game is the data as a JSON.
-            res.render('game', {data: game});
-        });
-    }
 });
 
 app.get('/home', function (req, res) {
@@ -154,6 +146,21 @@ app.get('/login', function (req, res) {
 
 app.get('/register', function (req, res) {
     res.render('register');
+});
+
+app.post('/game', function (req, res) {
+    let gameQuery = req.query['game-search'];
+
+    if(gameQuery) {
+        steam.find({search: gameQuery}, function (err, game) {
+            if (err) console.log(err);
+            //game is the data as a JSON.
+            res.render('game', {data: game});
+        });
+    } else {
+        res.rename('404');
+    }
+
 });
 
 // request('http://htmlbook.ru/', (error, response, body) => {
