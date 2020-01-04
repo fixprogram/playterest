@@ -8,7 +8,7 @@
     const parent = document.querySelector('.parent');
 
     let div = document.createElement('div');
-    let obj = JSON.parse(`{{data}}`)
+    let obj = JSON.parse('{{data}}')
     div.innerHTML = obj.detailed_description;
 
     parent.appendChild(div);
