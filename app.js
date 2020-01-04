@@ -157,6 +157,8 @@ app.post('/game', function (req, res) {
             //game is the data as a JSON.
             res.render('game', {data: game});
 
+            console.log(JSON.parse(game));
+
             console.log(game);
         });
     } else {
