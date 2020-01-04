@@ -70,7 +70,7 @@
             let list = document.createElement('ul');
             for(let i = 0; i < arr.length; i++) {
                 let item = document.createElement('li');
-                item.innerHTML = arr[i];
+                item.innerHTML = arr[i].description;
                 list.appendChild(item);
             }
             return list;
