@@ -93,7 +93,7 @@
         myJSONstring = JSON.parse(myJSONstring);
 
         document.querySelector('.about_the_game').innerHTML = myJSONstring.about_the_game;
-        document.querySelector('.categories').innerHTML = createList(myJSONstring.categories);
+        document.querySelector('.categories').appendChild(createList(myJSONstring.categories));
         document.querySelector('.detailed_description').innerHTML = myJSONstring.detailed_description;
         document.querySelector('.developers').innerHTML = myJSONstring.developers;
         document.querySelector('.genres').innerHTML = myJSONstring.genres;
