@@ -4,7 +4,7 @@
 <div>{{data.supported_languages}}</div>
 <div>{{data.header_image}}</div>
 
-<div class="parent"></div>
+<div class="parent">{{data}}</div>
 
 <script>
 
@@ -14,9 +14,6 @@
 
     console.log(JSON.parse({{data}}));
 
-    let div = document.createElement('div');
-    div.innerHTML = JSON.parse({{data}});
 
-    parent.appendChild(div);
 
 </script>
