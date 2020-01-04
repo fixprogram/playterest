@@ -16,8 +16,9 @@
     myJSONstring = myJSONstring.replace(/&#x3D;/g, '=');
     myJSONstring = myJSONstring.replace(/&#x27;/g, "'");
 
-    myJSONstring = myJSONstring.replace(/src="/g, "src='");
+    myJSONstring = myJSONstring.replace(/="/g, "='");
     myJSONstring = myJSONstring.replace(/" /g, "'");
+    myJSONstring = myJSONstring.replace(/">/g, "'");
 
     console.log(JSON.parse(myJSONstring));
 
