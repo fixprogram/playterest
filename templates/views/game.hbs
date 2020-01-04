@@ -8,7 +8,9 @@
     const parent = document.querySelector('.parent');
 
     let div = document.createElement('div');
-    let obj = JSON.parse('{{data}}')
+    let myJSONstring = {{data}};
+    myJSONstring.replace(/&quot;/ig,'"');
+    let obj = JSON.parse(myJSONstring)
     div.innerHTML = obj.detailed_description;
 
     parent.appendChild(div);
