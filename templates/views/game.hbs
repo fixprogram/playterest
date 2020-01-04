@@ -66,6 +66,16 @@
 
 <script>
 
+        createList = function(arr) {
+            let list = document.createElement('ul');
+            for(let i = 0; i < arr.length; i++) {
+                let item = document.createElement('li');
+                item.innerHTML = arr[i];
+                list.appendChild(item);
+            }
+            return list;
+        }
+
         let myJSONstring = '{{data}}';
 
         console.log(myJSONstring);
@@ -83,7 +93,7 @@
         myJSONstring = JSON.parse(myJSONstring);
 
         document.querySelector('.about_the_game').innerHTML = myJSONstring.about_the_game;
-        document.querySelector('.categories').innerHTML = myJSONstring.categories;
+        document.querySelector('.categories').innerHTML = createList(myJSONstring.categories);
         document.querySelector('.detailed_description').innerHTML = myJSONstring.detailed_description;
         document.querySelector('.developers').innerHTML = myJSONstring.developers;
         document.querySelector('.genres').innerHTML = myJSONstring.genres;
