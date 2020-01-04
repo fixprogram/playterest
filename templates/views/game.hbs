@@ -1,14 +1,89 @@
 
-<div class="parent"></div>
+<div>
+    <h2>about_the_game</h2>
+    <div class="about_the_game">
+
+    </div>
+</div>
+<div>
+    <h2>categories</h2>
+    <div class="categories">
+
+    </div>
+</div>
+<div>
+    <h2>detailed_description</h2>
+    <div class="detailed_description">
+
+    </div>
+</div>
+<div>
+    <h2>developers</h2>
+    <div class="developers">
+
+    </div>
+</div>
+<div>
+    <h2>genres</h2>
+    <div class="genres"></div>
+</div>
+<div>
+    <h2>header_image</h2>
+    <div class="header_image"></div>
+</div>
+<div>
+    <h2>legal_notice</h2>
+    <div class="legal_notice"></div>
+</div>
+<div>
+    <h2>name</h2>
+    <div class="name"></div>
+</div>
+<div>
+    <h2>pc_requirements</h2>
+    <div class="pc_requirements"></div>
+</div>
+<div>
+    <h2>reviews</h2>
+    <div class="reviews"></div>
+</div>
+<div>
+    <h2>screenshots</h2>
+    <div class="screenshots"></div>
+</div>
+<div>
+    <h2>short_description</h2>
+    <div class="short_description"></div>
+</div>
+<div>
+    <h2>supported_languages</h2>
+    <div class="supported_languages"></div>
+</div>
+<div>
+    <h2>website</h2>
+    <div class="website"></div>
+</div>
 
 <script>
 
-    const parent = document.querySelector('.parent');
+    const about_the_game = document.querySelector('.about_the_game');
+    const categories = document.querySelector('.categories');
+    const detailed_description = document.querySelector('.detailed_description');
+    const detailed_description = document.querySelector('.developers');
+    const genres = document.querySelector('.genres');
+    const header_image = document.querySelector('.header_image');
+    const legal_notice = document.querySelector('.legal_notice');
+    const name = document.querySelector('.name');
+    const pc_requirements = document.querySelector('.pc_requirements');
+    const reviews = document.querySelector('.reviews');
+    const screenshots = document.querySelector('.screenshots');
+    const short_description = document.querySelector('.short_description');
+    const supported_languages = document.querySelector('.supported_languages');
+    const website = document.querySelector('.website');
 
-    let div = document.createElement('div');
+
+
     let myJSONstring = '{{data}}';
-
-    console.log(myJSONstring);
 
     myJSONstring = myJSONstring.replace(/&lt;/g, '<');
     myJSONstring = myJSONstring.replace(/&gt;/g, '>');
@@ -22,8 +97,20 @@
 
     console.log(JSON.parse(myJSONstring));
 
-    div.innerHTML = myJSONstring;
+    about_the_game.innerHTML = myJSONstring.about_the_game;
+    categories.innerHTML = myJSONstring.categories;
+    detailed_description.innerHTML = myJSONstring.detailed_description;
+    developers.innerHTML = myJSONstring.developers;
+    genres.innerHTML = myJSONstring.genres;
+    header_image.innerHTML = '<img src='myJSONstring.header_image'>';
+    legal_notice.innerHTML = myJSONstring.legal_notice;
+    name.innerHTML = myJSONstring.name;
+    pc_requirements.innerHTML = myJSONstring.pc_requirements;
+    reviews.innerHTML = myJSONstring.reviews;
+    screenshots.innerHTML = myJSONstring.screenshots;
+    short_description.innerHTML = myJSONstring.short_description;
+    supported_languages.innerHTML = myJSONstring.supported_languages;
+    website.innerHTML = myJSONstring.website;
 
-    parent.appendChild(div);
 
 </script>
