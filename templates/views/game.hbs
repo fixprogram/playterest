@@ -1,21 +1,2 @@
 
 <div>{{data}}</div>
-
-<div class="parent"></div>
-
-<script>
-
-    const parent = document.querySelector('.parent');
-
-    let div = document.createElement('div');
-    let myJSONstring = '{{data}}';
-
-    myJSONstring = JSON.stringify(myJSONstring).replace(/&quot;/g,'"');
-
-    console.log(myJSONstring);
-
-    div.innerHTML = myJSONstring.detailed_description;
-
-    parent.appendChild(div);
-
-</script>
