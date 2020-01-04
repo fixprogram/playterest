@@ -66,20 +66,6 @@
 
 <script>
 
-   let about_the_game = document.querySelector('.about_the_game');
-   let categories = document.querySelector('.categories');
-   let detailed_description = document.querySelector('.detailed_description');
-   let detailed_description = document.querySelector('.developers');
-   let genres = document.querySelector('.genres');
-   let header_image = document.querySelector('.header_image');
-   let legal_notice = document.querySelector('.legal_notice');
-   let name = document.querySelector('.name');
-   let pc_requirements = document.querySelector('.pc_requirements');
-   let reviews = document.querySelector('.reviews');
-   let screenshots = document.querySelector('.screenshots');
-   let short_description = document.querySelector('.short_description');
-   let supported_languages = document.querySelector('.supported_languages');
-   let website = document.querySelector('.website');
 
 
 
@@ -97,20 +83,20 @@
 
     console.log(JSON.parse(myJSONstring));
 
-    about_the_game.innerHTML = myJSONstring.about_the_game;
-    categories.innerHTML = myJSONstring.categories;
-    detailed_description.innerHTML = myJSONstring.detailed_description;
-    developers.innerHTML = myJSONstring.developers;
-    genres.innerHTML = myJSONstring.genres;
-    header_image.innerHTML = '<img src='myJSONstring.header_image'>';
-    legal_notice.innerHTML = myJSONstring.legal_notice;
-    name.innerHTML = myJSONstring.name;
-    pc_requirements.innerHTML = myJSONstring.pc_requirements;
-    reviews.innerHTML = myJSONstring.reviews;
-    screenshots.innerHTML = myJSONstring.screenshots;
-    short_description.innerHTML = myJSONstring.short_description;
-    supported_languages.innerHTML = myJSONstring.supported_languages;
-    website.innerHTML = myJSONstring.website;
+    document.querySelector('.about_the_game').innerHTML = myJSONstring.about_the_game;
+    document.querySelector('.categories').innerHTML = myJSONstring.categories;
+    document.querySelector('.detailed_description').innerHTML = myJSONstring.detailed_description;
+    document.querySelector('.developers').innerHTML = myJSONstring.developers;
+    document.querySelector('.genres').innerHTML = myJSONstring.genres;
+    document.querySelector('.header_image').innerHTML = '<img src='myJSONstring.header_image'>';
+    document.querySelector('.legal_notice').innerHTML = myJSONstring.legal_notice;
+    document.querySelector('.name').innerHTML = myJSONstring.name;
+    document.querySelector('.pc_requirements').innerHTML = myJSONstring.pc_requirements;
+    document.querySelector('.reviews').innerHTML = myJSONstring.reviews;
+    document.querySelector('.screenshots').innerHTML = myJSONstring.screenshots;
+    document.querySelector('.short_description').innerHTML = myJSONstring.short_description;
+    document.querySelector('.supported_languages').innerHTML = myJSONstring.supported_languages;
+    document.querySelector('.website').innerHTML = myJSONstring.website;
 
 
 </script>
