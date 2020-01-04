@@ -78,9 +78,9 @@
 
         myJSONstring = myJSONstring.replace(/="/g, "='");
         myJSONstring = myJSONstring.replace(/" /g, "'");
-        myJSONstring = myJSONstring.replace(/">/g, "'");
+        myJSONstring = myJSONstring.replace(/">/g, "'>");
 
-        console.log(JSON.parse(myJSONstring));
+        myJSONstring = JSON.parse(myJSONstring);
 
         document.querySelector('.about_the_game').innerHTML = myJSONstring.about_the_game;
         document.querySelector('.categories').innerHTML = myJSONstring.categories;
