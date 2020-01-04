@@ -12,7 +12,10 @@
 
     console.log(myJSONstring);
 
+    myJSONstring.replace(/&lt;/g, "<");
+    myJSONstring.replace(/&gt;/g, ">");
 
+    console.log(myJSONstring);
 
     div.innerHTML = myJSONstring;
 
