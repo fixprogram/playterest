@@ -14,7 +14,9 @@
 
     console.log(myJSONstring);
 
-    div.innerHTML = myJSONstring;
+    let obj = JSON.parse(myJSONstring);
+
+    div.innerHTML = obj.detailed_description;
 
     parent.appendChild(div);
 
