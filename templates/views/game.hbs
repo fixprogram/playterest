@@ -10,11 +10,11 @@
     let div = document.createElement('div');
     let myJSONstring = '{{data}}';
 
-    myJSONstring = JSON.stringify(myJSONstring).replace(/&quot;/g,'"');
-
     console.log(myJSONstring);
 
-    div.innerHTML = myJSONstring.detailed_description;
+
+
+    div.innerHTML = myJSONstring;
 
     parent.appendChild(div);
 
