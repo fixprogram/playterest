@@ -10,8 +10,8 @@
     let div = document.createElement('div');
     let myJSONstring = {{data}};
     myJSONstring.replace(/&quot;/ig,'"');
-    let obj = JSON.parse(myJSONstring)
-    div.innerHTML = obj.detailed_description;
+    console.log(myJSONstring);
+
 
     parent.appendChild(div);
 
