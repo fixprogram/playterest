@@ -1,12 +1,13 @@
 
-
-<div class="parent">{{data}}</div>
+<div class="parent"></div>
 
 <script>
 
     const parent = document.querySelector('.parent');
 
+    let div = document.createElement('div');
+    div.innerHTML = JSON.parse({{data}});
 
-
+    parent.appendChild(div);
 
 </script>
