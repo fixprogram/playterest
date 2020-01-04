@@ -110,7 +110,7 @@
         document.querySelector('.pc_requirements .min').innerHTML = myJSONstring.pc_requirements.minimum;
         document.querySelector('.pc_requirements .rec').innerHTML = myJSONstring.pc_requirements.recommended;
         document.querySelector('.reviews').innerHTML = myJSONstring.reviews;
-        document.querySelector('.screenshots').appendChild(createList(myJSONstring.screenshots), true);
+        document.querySelector('.screenshots').appendChild(createList(myJSONstring.screenshots, true));
             document.querySelector('.short_description').innerHTML = myJSONstring.short_description;
             document.querySelector('.supported_languages').innerHTML = myJSONstring.supported_languages;
             document.querySelector('.website').innerHTML = myJSONstring.website;
