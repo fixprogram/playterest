@@ -10,7 +10,7 @@
     let div = document.createElement('div');
     let myJSONstring = '{{data}}';
 
-    myJSONstring.replace(/&quot;/ig,'"');
+    myJSONstring = JSON.stringify(myJSONstring).replace(/&quot;/g,'"');
 
     console.log(myJSONstring);
 
