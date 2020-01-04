@@ -8,7 +8,9 @@
     const parent = document.querySelector('.parent');
 
     let div = document.createElement('div');
-    let myJSONstring = {{data}}.replace(/\"([^(\")"]+)\":/g,"$1:");
+    let myJSONstring = '{{data}}';
+
+    myJSONstring.replace(/&quot;/ig,'"');
 
     console.log(myJSONstring);
 
