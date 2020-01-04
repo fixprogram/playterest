@@ -12,8 +12,10 @@
 
     console.log(myJSONstring);
 
-    myJSONstring = myJSONstring.replace(/&lt;/g, "<");
-    myJSONstring = myJSONstring.replace(/&gt;/g, ">");
+    myJSONstring = myJSONstring.replace(/&lt;/g, '<');
+    myJSONstring = myJSONstring.replace(/&gt;/g, '>');
+    myJSONstring = myJSONstring.replace(/&guot;/g, '"');
+    myJSONstring = myJSONstring.replace(/&#x3d;/g, '=');
 
     console.log(myJSONstring);
 
