@@ -41,7 +41,10 @@
 </div>
 <div>
     <h2>pc_requirements</h2>
-    <div class="pc_requirements"></div>
+    <div class="pc_requirements">
+        <div class="min"></div>
+        <div class="rec"></div>
+    </div>
 </div>
 <div>
     <h2>reviews</h2>
@@ -66,11 +69,15 @@
 
 <script>
 
-        createList = function(arr) {
+        createList = function(arr, screens) {
             let list = document.createElement('ul');
             for(let i = 0; i < arr.length; i++) {
                 let item = document.createElement('li');
-                item.innerHTML = arr[i].description;
+                if(screens) {
+                    item.innerHTML = '<img src=' + arr[i].path_thumbnail + '>';
+                } else {
+                    item.innerHTML = arr[i].description;
+                }
                 list.appendChild(item);
             }
             return list;
@@ -96,13 +103,14 @@
         document.querySelector('.categories').appendChild(createList(myJSONstring.categories));
         document.querySelector('.detailed_description').innerHTML = myJSONstring.detailed_description;
         document.querySelector('.developers').innerHTML = myJSONstring.developers;
-        document.querySelector('.genres').innerHTML = myJSONstring.genres;
+        document.querySelector('.genres').appendChild(createList(myJSONstring.genres));
         document.querySelector('.header_image').innerHTML = '<img src=' + myJSONstring.header_image + '>';
         document.querySelector('.legal_notice').innerHTML = myJSONstring.legal_notice;
         document.querySelector('.name').innerHTML = myJSONstring.name;
-        document.querySelector('.pc_requirements').innerHTML = myJSONstring.pc_requirements;
+        document.querySelector('.pc_requirements .min').innerHTML = myJSONstring.pc_requirements.minimum;
+        document.querySelector('.pc_requirements .rec').innerHTML = myJSONstring.pc_requirements.recommended;
         document.querySelector('.reviews').innerHTML = myJSONstring.reviews;
-        document.querySelector('.screenshots').innerHTML = myJSONstring.screenshots;
+        document.querySelector('.screenshots').appendChild(createList(myJSONstring.screenshots), true);
             document.querySelector('.short_description').innerHTML = myJSONstring.short_description;
             document.querySelector('.supported_languages').innerHTML = myJSONstring.supported_languages;
             document.querySelector('.website').innerHTML = myJSONstring.website;
