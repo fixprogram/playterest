@@ -66,24 +66,36 @@
 
 <script>
 
-    document.addEventListener('DOMContentLoaded', function() {
         let myJSONstring = '{{data}}';
 
         console.log(myJSONstring);
 
-            myJSONstring = myJSONstring.replace(/&lt;/g, '<');
-            myJSONstring = myJSONstring.replace(/&gt;/g, '>');
-            myJSONstring = myJSONstring.replace(/&quot;/g, '"');
-            myJSONstring = myJSONstring.replace(/&#x3D;/g, '=');
-            myJSONstring = myJSONstring.replace(/&#x27;/g, "'");
+        myJSONstring = myJSONstring.replace(/&lt;/g, '<');
+        myJSONstring = myJSONstring.replace(/&gt;/g, '>');
+        myJSONstring = myJSONstring.replace(/&quot;/g, '"');
+        myJSONstring = myJSONstring.replace(/&#x3D;/g, '=');
+        myJSONstring = myJSONstring.replace(/&#x27;/g, "'");
 
-            myJSONstring = myJSONstring.replace(/="/g, "='");
-            myJSONstring = myJSONstring.replace(/" /g, "'");
-            myJSONstring = myJSONstring.replace(/">/g, "'");
+        myJSONstring = myJSONstring.replace(/="/g, "='");
+        myJSONstring = myJSONstring.replace(/" /g, "'");
+        myJSONstring = myJSONstring.replace(/">/g, "'");
 
-            console.log(JSON.parse(myJSONstring));
+        console.log(JSON.parse(myJSONstring));
 
+        document.querySelector('.about_the_game').innerHTML = myJSONstring.about_the_game;
+        document.querySelector('.categories').innerHTML = myJSONstring.categories;
+        document.querySelector('.detailed_description').innerHTML = myJSONstring.detailed_description;
+        document.querySelector('.developers').innerHTML = myJSONstring.developers;
+        document.querySelector('.genres').innerHTML = myJSONstring.genres;
+        document.querySelector('.header_image').innerHTML = '<img src=' + myJSONstring.header_image + '>';
+        document.querySelector('.legal_notice').innerHTML = myJSONstring.legal_notice;
+        document.querySelector('.name').innerHTML = myJSONstring.name;
+        document.querySelector('.pc_requirements').innerHTML = myJSONstring.pc_requirements;
+        document.querySelector('.reviews').innerHTML = myJSONstring.reviews;
+        document.querySelector('.screenshots').innerHTML = myJSONstring.screenshots;
+            document.querySelector('.short_description').innerHTML = myJSONstring.short_description;
+            document.querySelector('.supported_languages').innerHTML = myJSONstring.supported_languages;
+            document.querySelector('.website').innerHTML = myJSONstring.website;
 
-    }, false);
 
 </script>
