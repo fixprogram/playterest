@@ -9,9 +9,10 @@
 
     let div = document.createElement('div');
     let myJSONstring = {{data}};
-    myJSONstring..replace(/\"([^(\")"]+)\":/g,"$1:");;
+    myJSONstring.replace(/\"([^(\")"]+)\":/g,"$1:");
     console.log(myJSONstring);
 
+    div.innerHTML = myJSONstring;
 
     parent.appendChild(div);
 
