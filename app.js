@@ -148,24 +148,41 @@ app.get('/register', function (req, res) {
     res.render('register');
 });
 
-app.post('/game', function (req, res) {
-    let gameQuery = req.body['game-search'];
+app.get('/games', function(req, res) {
+    res.send('Games page');
+});
+
+app.get('/games/:name', function(req,res) {
+    let gameQuery = req.params.name;
 
     if(gameQuery) {
         steam.find({search: gameQuery}, function (err, game) {
             if (err) console.log(err);
-            //game is the data as a JSON.
             res.render('game', {data: JSON.stringify(game)});
-
-            // console.log(JSON.stringify(game));
-
-            // console.log(game);
         });
     } else {
         res.render('404');
     }
-
 });
+
+// app.post('/game', function (req, res) {
+//     let gameQuery = req.body['game-search'];
+//
+//     if(gameQuery) {
+//         steam.find({search: gameQuery}, function (err, game) {
+//             if (err) console.log(err);
+//             //game is the data as a JSON.
+//             res.render('game', {data: JSON.stringify(game)});
+//
+//             // console.log(JSON.stringify(game));
+//
+//             // console.log(game);
+//         });
+//     } else {
+//         res.render('404');
+//     }
+//
+// });
 
 io.on('connection', function (socket) {
     socket.on('chat message', function (msg) {
