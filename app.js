@@ -150,6 +150,16 @@ app.get('/register', function (req, res) {
 
 app.get('/games', function(req, res) {
     res.send('Games page');
+
+    let query = req.query["game-search"];
+    if(query) {
+        steam.find({search: gameQuery}, function (err, game) {
+            if (err) res.render('404');
+            res.render('game', {data: JSON.stringify(game)});
+        });
+    } else {
+        res.render('404');
+    }
 });
 
 app.get('/games/:name', function(req,res) {
