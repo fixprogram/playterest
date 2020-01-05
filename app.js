@@ -8,11 +8,6 @@ const path = require('path');
 const hbs = require('hbs');
 const api = require('./api.js');
 const steam = require('steam-searcher');
-// const parser = require('./parser.js');
-
-// const request = require('request');
-// const cheerio = require('cheerio');
-// const fs = require('fs');
 
 const db = require('./db.js');
 db.getCollection(app);
@@ -175,7 +170,8 @@ app.get('/games/:name', function(req,res) {
 app.get('/room', function(req, res) {
     console.log(req);
     api.loadUser(req, res, function () {
-        res.send(req.session.user);
+        // res.send(req.session.user.name);
+        res.render('room', {port: port, user: req.session.user.name});
     }, function () {
         res.redirect('/login');
     });

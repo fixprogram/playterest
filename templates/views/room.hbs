@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <title>Room</title>
+    <link rel="icon" href="/favicon.ico" type="image/ico">
+    <link rel="stylesheet" href="/css/style.css">
+  </head>
+  <body>
+    <section class="container">
+
+      <section class="page-content">
+        <form action="" class="chat-form">
+          <input id="m" autocomplete="off" placeholder="Let's go playing guys"/>
+          <input type="submit" class="chat-form--submit" value="Send">
+        </form>
+        <ul id="messages" class="chat-list"></ul>
+      </section>
+
+      <div id="sockstat"></div>
+      <div id="alsohere"></div>
+
+    </section>
+
+    <script src="https://cdn.socket.io/socket.io-1.2.0.js"></script>
+    <script src="https://code.jquery.com/jquery-1.11.1.js"></script>
+    <script>
+
+    function lister(arr) {
+        var s = '';
+        $.each(arr, function(key, value) {
+            s += '<li><b>' + value.name + '</b> (login: ' + value.login +
+                 ', id: ' + value.user_id + ')</li>';
+        });
+        return s;
+    }
+
+    $(document).ready(function() {
+         var socket = io.connect("https://myappest.herokuapp.com/room:" + {{port}}); // пытаемся подключиться к серверу сокетов
+
+         socket.on("connect", function () { // подключившись, делаем следующее:
+             $("#sockstat").text("connected ok");
+                     // пишем в соответствующий элемент что связь установлена
+             socket.emit("iamhere", { location: document.URL } );
+                     // и посылаем серверу своё местоположение
+
+             socket.on("alsohere", function (alsohere) {
+                     // получив от него список просматривающих эту же страницу, выводим его:
+                 $("#alsohere").html('Эту страницу просматривают: <ul>' + lister(alsohere) + '</ul>');
+             });
+
+             socket.on("online", function (online) {
+                     // аналогично поступаем со списком всех онлайн-пользователей
+                 $("#online").html('Пользователи онлайн: <ul>' + lister(online) + '</ul>');
+             });
+
+             socket.on("disconnect", function () {
+                     // если связь потеряна - пишем об этом (почему спустя полсекунды, объясню чуть ниже)
+                 setTimeout(function () {
+                     $("#sockstat").text("connection lost!");
+                 }, 500);
+             });
+         });
+     });
+    </script>
+  </body>
+</html>
