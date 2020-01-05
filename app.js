@@ -168,7 +168,7 @@ app.get('/games/:name', function(req,res) {
 });
 
 app.get('/room', function(req, res) {
-    console.log(req);
+    console.log(io);
     api.loadUser(req, res, function () {
         // res.send(req.session.user.name);
         res.render('room', {port: port, user: req.session.user.name});
