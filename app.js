@@ -153,7 +153,7 @@ app.get('/games', function(req, res) {
 
     let query = req.query["game-search"];
     if(query) {
-        steam.find({search: gameQuery}, function (err, game) {
+        steam.find({search: query}, function (err, game) {
             if (err) res.render('404');
             res.render('game', {data: JSON.stringify(game)});
         });
