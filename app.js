@@ -179,14 +179,14 @@ app.get('/room', function(req, res) {
 
     console.log("io:" + io);
 
-    res.send(io);
+    res.send(io.sockets.connected);
 
-    api.loadUser(req, res, function () {
-        // res.send(req.session.user.name);
-        res.render('room', {port: port, user: req.session.user.name});
-    }, function () {
-        res.redirect('/login');
-    });
+    // api.loadUser(req, res, function () {
+    //     // res.send(req.session.user.name);
+    //     res.render('room', {port: port, user: req.session.user.name});
+    // }, function () {
+    //     res.redirect('/login');
+    // });
 });
 
 // app.post('/game', function (req, res) {
