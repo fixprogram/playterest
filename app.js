@@ -172,6 +172,15 @@ app.get('/games/:name', function(req,res) {
     }
 });
 
+app.get('/room', function(req, res) {
+    console.log(req);
+    api.loadUser(req, res, function () {
+        res.send(req.session.user);
+    }, function () {
+        res.redirect('/login');
+    });
+});
+
 // app.post('/game', function (req, res) {
 //     let gameQuery = req.body['game-search'];
 //
