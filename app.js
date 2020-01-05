@@ -171,7 +171,7 @@ app.get('/games/:name', function(req,res) {
 app.get('/room', function(req, res) {
     console.log(io.sockets.connected);
 
-    let socket = io.sockets.connected[socketId];
+    let socket = io.sockets.connected[0].id;
     console.log(socket);
 
     const room = uuid.v4();
