@@ -169,13 +169,15 @@ app.get('/games/:name', function(req,res) {
 });
 
 app.get('/room', function(req, res) {
-    console.log(io.sockets.connected);
+    // console.log(io.sockets.connected);
 
     // let socket = io.sockets.connected;
     // console.log(socket);
     //
     // const room = uuid.v4();
     // socket.join(room);
+
+    res.render('room');
 
     // api.loadUser(req, res, function () {
     //     // res.send(req.session.user.name);
