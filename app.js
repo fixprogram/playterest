@@ -171,7 +171,7 @@ app.get('/games/:name', function (req, res) {
 
 app.get('/room', function (req, res) {
 
-    console.log(req.session);
+    console.log('req: ' + req.session);
 
     res.render('room', {port: port});
 
