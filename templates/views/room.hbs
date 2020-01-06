@@ -3,7 +3,7 @@
 
 <script src="/socket.io/socket.io.js"></script>
 
-  <input id="nick" type="text" />
+  <input id="nick" type="text" value="{{nick}}"/>
   <button id="log" onclick="log()">Login</button>
 
   <div id="usrlist"></div>
@@ -59,7 +59,7 @@
          }
      }
      function log() {
-          nick= `{{nick}}`;
+          nick= document.getElementById('#nick');
           console.log(nick);
           socket.emit('login',nick);
           $('#nick').hide();
