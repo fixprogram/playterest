@@ -179,7 +179,8 @@ app.get('/room', function(req, res) {
 
     // res.sendFile('views/room.hbs', {nick: req.session.user.name});
 
-    res.render('room');
+    res.sendfile('room.hbs');
+
 
     // api.loadUser(req, res, function () {
     //     res.render('room', {nick: req.session.user.name});
