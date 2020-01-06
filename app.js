@@ -177,7 +177,7 @@ app.get('/room', function(req, res) {
     // const room = uuid.v4();
     // socket.join(room);
 
-    res.sendFile('room', {nick: req.session.user.name});
+    res.sendFile('views/room.hbs', {nick: req.session.user.name});
 
     // api.loadUser(req, res, function () {
     //     res.render('room', {nick: req.session.user.name});
