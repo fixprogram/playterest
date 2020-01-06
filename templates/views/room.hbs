@@ -59,7 +59,7 @@
          }
      }
      function log() {
-          nick= document.getElementById('#nick');
+          nick= document.getElementById('nick').value;
           console.log(nick);
           socket.emit('login',nick);
           $('#nick').hide();
