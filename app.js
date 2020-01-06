@@ -28,17 +28,22 @@ hbs.registerPartials(partialsPath);
 app.use(express.static(publicDirectoryPath));
 app.use("/assets", express.static(`${__dirname}/assets`));
 
-app.use(session({
+const sessionMiddleware = session({
     secret: 'my secret',
     name: 'name of session id',
     resave: true,
     saveUninitialized: true,
 
-        store: new MongoStore({
-            url: 'mongodb://heroku_969m2gr9:d0ljj3k0df4v7psa45cn26u376@ds129098.mlab.com:29098/heroku_969m2gr9'
-        })
+    store: new MongoStore({
+        url: 'mongodb://heroku_969m2gr9:d0ljj3k0df4v7psa45cn26u376@ds129098.mlab.com:29098/heroku_969m2gr9'
     })
-);
+});
+
+io.use(function(socket, next) {
+    sessionMiddleware(socket.request, socket.request.res, next);
+});
+
+app.use(sessionMiddleware);
 
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(bodyParser.json());
@@ -196,13 +201,13 @@ app.get('/room', function (req, res) {
 //
 // });
 
-io.use(sharedsession(session({
-    secret: 'my secret',
-    name: 'name of session id',
-    resave: true,
-    saveUninitialized: true
-})
-));
+// io.use(sharedsession(session({
+//     secret: 'my secret',
+//     name: 'name of session id',
+//     resave: true,
+//     saveUninitialized: true
+// })
+// ));
 
 io.on('connection', (socket) => {
 
@@ -226,6 +231,10 @@ io.on('connection', (socket) => {
     //     console.log(rooms); // [ <socket.id>, 'room 237' ]
     // })
 
+});
+
+io.sockets.on("connection", function(socket) {
+    socket.request.session // Now it's available from Socket.IO sockets too! Win!
 });
 
 http.listen(port, function () {
