@@ -6,6 +6,6 @@
 
     socket.on('getUser', (data) => {
       console.log(data);
-      socket.emit('room', {msg: '111'});
+      socket.emit('room', {msg: '111', id: socket.id});
     });
 </script>

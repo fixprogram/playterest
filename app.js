@@ -172,6 +172,12 @@ app.get('/room', function(req, res) {
 
     res.render('room', {port: port});
 
+    io.sockets.emit('getUser', {user: req.session.user.name});
+
+    io.sockets.on('room', function(data) {
+        console.log(data);
+    });
+
 });
 
 // app.post('/game', function (req, res) {
@@ -195,18 +201,14 @@ app.get('/room', function(req, res) {
 
 io.on('connection', (socket) => {
 
+    socket.request = request;
+
     socket.on('chat message', function (msg) {
         console.log(msg);
 
         db.writeMessage(msg.tag, msg.msg);
 
         socket.emit('chat message', msg);
-    });
-
-    socket.emit('getUser', {user: 'User'});
-
-    socket.on('room', function(data) {
-        console.log(data);
     });
 
     // socket.join('room 235', () => {
