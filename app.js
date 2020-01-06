@@ -9,6 +9,7 @@ const hbs = require('hbs');
 const api = require('./api.js');
 const steam = require('steam-searcher');
 const uuid = require('uuid');
+const sharedsession = require("express-socket.io-session");
 
 const db = require('./db.js');
 db.getCollection(app);
@@ -144,21 +145,21 @@ app.get('/register', function (req, res) {
     res.render('register');
 });
 
-app.get('/search/', function(req, res) {
+app.get('/search/', function (req, res) {
     res.send('Games page');
 
     let query = req.query.term;
-    if(query) {
+    if (query) {
         res.redirect('/games/' + query);
     } else {
         res.render('404');
     }
 });
 
-app.get('/games/:name', function(req,res) {
+app.get('/games/:name', function (req, res) {
     let gameQuery = req.params.name;
 
-    if(gameQuery) {
+    if (gameQuery) {
         steam.find({search: gameQuery}, function (err, game) {
             if (err) res.render('404');
             res.render('game', {data: JSON.stringify(game)});
@@ -168,19 +169,9 @@ app.get('/games/:name', function(req,res) {
     }
 });
 
-app.get('/room', function(req, res) {
+app.get('/room', function (req, res) {
 
     res.render('room', {port: port});
-
-    if(req.session.user) {
-        io.sockets.emit('getUser', {user: req.session.user.name});
-    } else {
-        io.sockets.emit('getUser', {user: 'Anon'});
-    }
-
-    io.sockets.on('room', function(data) {
-        console.log(data);
-    });
 
 });
 
@@ -211,6 +202,14 @@ io.on('connection', (socket) => {
         db.writeMessage(msg.tag, msg.msg);
 
         socket.emit('chat message', msg);
+    });
+
+    // io.sockets.emit('getUser', {user: req.session.user.name});
+
+    console.log(socket.handshake.session);
+
+    io.sockets.on('room', function (data) {
+        console.log(data);
     });
 
     // socket.join('room 235', () => {
