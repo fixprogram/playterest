@@ -2,7 +2,7 @@
 
 <script src="/socket.io/socket.io.js"></script>
 <script>
-    var socket = io('https://myappest.herokuapp.com');
+    var socket = io('https://myappest.herokuapp.com/room');
 
     socket.on('getUser', (data) => {
       console.log(data);
