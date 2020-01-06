@@ -58,7 +58,7 @@
          }
      }
      function log() {
-          nick= {{nick}};
+          nick= `{{nick}}`;
           console.log(nick);
           socket.emit('login',nick);
           $('#nick').hide();
