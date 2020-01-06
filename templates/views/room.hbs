@@ -1,28 +1,14 @@
-<html>
 
-<head>
-<style type="text/css">
-
-  li{cursor: pointer;}
-  .chat{position: relative; width:20%; margin: 10px }
-  .chatcont{
-    margin:10px;
-  }
-  #chats{width: 100%; margin-top: 20px; display: -webkit-inline-box;}
- .btnclose{ margin-left: 15px}
-  .chats input{width: 70%}
-</style>
-</head>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.0.0-beta1/jquery.js"></script>
 
 <script src="/socket.io/socket.io.js"></script>
-  <body>
+
   <input id="nick" type="text" />
   <button id="log" onclick="log()">Login</button>
 
   <div id="usrlist"></div>
   <div id="chats"></div>
-</body>
+
 
   <script>
       var userlistdiv=$('#usrlist');
@@ -98,4 +84,3 @@
       }
     }
   </script>
-</html>
