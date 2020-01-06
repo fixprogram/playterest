@@ -57,13 +57,13 @@
 
          }
      }
-     (function log() {
+     function log() {
           nick= {{nick}};
           console.log(nick);
           socket.emit('login',nick);
           $('#nick').hide();
           $('#log').hide();
-    })();
+    }
     function sendmsg(user) {
       var msg=document.getElementById(user).value;
          socket.emit('send', {usr:user, msg:msg});
