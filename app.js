@@ -223,7 +223,7 @@ io.on('connection', (socket) => {
 
     socket.on('room', function (data) {
         console.log(data);
-        console.log(socket.handshake.session);
+        console.log(socket.request.session);
     });
 
     // socket.join('room 235', () => {
