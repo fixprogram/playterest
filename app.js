@@ -172,9 +172,7 @@ app.get('/room', function(req, res) {
 
     res.render('room', {port: port});
 
-    let user = req.session.user.name;
-
-    if(user) {
+    if(req.session.user) {
         io.sockets.emit('getUser', {user: req.session.user.name});
     } else {
         io.sockets.emit('getUser', {user: 'Anon'});
