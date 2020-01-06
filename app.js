@@ -169,24 +169,9 @@ app.get('/games/:name', function(req,res) {
 });
 
 app.get('/room', function(req, res) {
-    // console.log(io.sockets.connected);
 
-    // let socket = io.sockets.connected;
-    // console.log(socket);
-    //
-    // const room = uuid.v4();
-    // socket.join(room);
+    res.render('room', {port: port});
 
-    // res.sendFile('views/room.hbs', {nick: req.session.user.name});
-
-    res.render('room');
-
-
-    // api.loadUser(req, res, function () {
-    //     res.render('room', {nick: req.session.user.name});
-    // }, function () {
-    //     res.redirect('/login');
-    // });
 });
 
 // app.post('/game', function (req, res) {
@@ -208,9 +193,7 @@ app.get('/room', function(req, res) {
 //
 // });
 
-var users=[];
-var idsnicks={};
-io.on('connection', function (socket) {
+io.on('connection', (socket) => {
 
     socket.on('chat message', function (msg) {
         console.log(msg);
@@ -220,33 +203,10 @@ io.on('connection', function (socket) {
         socket.emit('chat message', msg);
     });
 
-    socket.on('login', function  (nick) {
-        users.push(nick);
-        socket.nick=nick;
-        idsnicks[nick]=socket.id;
-        io.emit('userlist', users);
-    });
-
-    socket.on('send', function  (data) {
-        if (io.sockets.connected[idsnicks[data.usr]]!==undefined) {
-            io.sockets.connected[idsnicks[data.usr]].emit('sendmsg', {msg:data.msg, usr:socket.nick});
-        }
-    });
-
-    socket.on('startchat', function  (data) {
-        if (io.sockets.connected[idsnicks[data]]!==undefined) {
-            io.sockets.connected[idsnicks[data]].emit('openchat', socket.nick);
-        }
-    });
-
-    socket.on('disconnect', function () {
-        console.log('disc');
-        users.splice( users.indexOf(socket.nick), 1 );
-        delete idsnicks[socket.nick];
-        io.emit('discon', {usr:socket.nick, list:users});
-
-
-    });
+    socket.join('room 235', () => {
+        let rooms = Object.keys(socket.rooms);
+        console.log(rooms); // [ <socket.id>, 'room 237' ]
+    })
 
 });
 
