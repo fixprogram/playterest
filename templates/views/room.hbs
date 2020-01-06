@@ -1,33 +1,19 @@
-<html>
 
-<head>
-<style type="text/css">
-  
-  li{cursor: pointer;}
-  .chat{position: relative; width:20%; margin: 10px }
-  .chatcont{
-    margin:10px;
-  }
-  #chats{width: 100%; margin-top: 20px; display: -webkit-inline-box;}
- .btnclose{ margin-left: 15px}
-  .chats input{width: 70%}
-</style>
-</head>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.0.0-beta1/jquery.js"></script> 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.0.0-beta1/jquery.js"></script>
 
-<script src="/socket.io/socket.io.js"></script>	
-  <body>
-  <input id="nick" type="text" />
+<script src="/socket.io/socket.io.js"></script>
+
+  <input id="nick" type="text"/>
   <button id="log" onclick="log()">Login</button>
 
   <div id="usrlist"></div>
   <div id="chats"></div>
-</body>
+
 
   <script>
       var userlistdiv=$('#usrlist');
       var chatdiv=$('#chats');
-    
+
      var socket=io();
      evts();
      function evts () {
@@ -35,6 +21,7 @@
         console.log(data);
       })
       socket.on('userlist', function  (arrayusers) {
+        console.log(arrayusers);
         if (nick!='') {
         updatelist(arrayusers);
         }
@@ -66,13 +53,14 @@
        userlistdiv.empty();
        userlistdiv.append('CLICK AN USER TO START A CHAT');
         for (var i = arrayusers.length - 1; i >= 0; i--) {
-          
+
          userlistdiv.append('<li onClick="start(\'' + arrayusers[i] + '\')">'+arrayusers[i] + '</li>');
-       
+
          }
      }
      function log() {
           nick= document.getElementById('nick').value;
+          console.log(nick);
           socket.emit('login',nick);
           $('#nick').hide();
           $('#log').hide();
@@ -97,4 +85,3 @@
       }
     }
   </script>
-</html>
