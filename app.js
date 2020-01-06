@@ -194,7 +194,13 @@ app.get('/room', function (req, res) {
 //
 // });
 
-io.use(sharedsession(session));
+io.use(sharedsession(session({
+    secret: 'myy secret',
+    name: 'namee of session id',
+    resave: true,
+    saveUninitialized: true
+})
+));
 
 io.on('connection', (socket) => {
 
