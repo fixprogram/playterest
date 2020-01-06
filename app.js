@@ -204,7 +204,7 @@ io.on('connection', (socket) => {
         socket.emit('chat message', msg);
     });
 
-    // io.sockets.emit('getUser', {user: req.session.user.name});
+    socket.emit('getUser', {user: "User"});
 
     socket.on('room', function (data) {
         console.log(data);
