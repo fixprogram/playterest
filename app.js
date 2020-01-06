@@ -15,7 +15,16 @@ const db = require('./db.js');
 db.getCollection(app);
 
 const mongoose = require('mongoose');
-const session = require('express-session');
+const session = require('express-session')({
+    secret: 'my secret',
+    name: 'name of session id',
+    resave: true,
+    saveUninitialized: true,
+
+    store: new MongoStore({
+        url: 'mongodb://heroku_969m2gr9:d0ljj3k0df4v7psa45cn26u376@ds129098.mlab.com:29098/heroku_969m2gr9'
+    })
+});
 const MongoStore = require('connect-mongo')(session);
 
 const views = path.join(__dirname, 'templates/views');
@@ -28,17 +37,7 @@ hbs.registerPartials(partialsPath);
 app.use(express.static(publicDirectoryPath));
 app.use("/assets", express.static(`${__dirname}/assets`));
 
-app.use(session({
-        secret: 'your secret',
-        name: 'name of session id',
-        resave: false,
-        saveUninitialized: false,
-
-        store: new MongoStore({
-            url: 'mongodb://heroku_969m2gr9:d0ljj3k0df4v7psa45cn26u376@ds129098.mlab.com:29098/heroku_969m2gr9'
-        })
-    })
-);
+app.use(session);
 
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(bodyParser.json());
