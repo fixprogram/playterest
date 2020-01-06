@@ -7,7 +7,8 @@
     var socket = io('https://myappest.herokuapp.com/room');
 
     socket.on('connect', () => {
-      console.log(socket); // true
+      console.log(socket.connected); // true
+      if(socket.connected) console.log('1');
     });
   });
 </script>
