@@ -1,67 +1,100 @@
-<!DOCTYPE html>
-
 <html>
-  <head>
-    <title>Room</title>
-    <link rel="icon" href="/favicon.ico" type="image/ico">
-    <link rel="stylesheet" href="/css/style.css">
-  </head>
+
+<head>
+<style type="text/css">
+
+  li{cursor: pointer;}
+  .chat{position: relative; width:20%; margin: 10px }
+  .chatcont{
+    margin:10px;
+  }
+  #chats{width: 100%; margin-top: 20px; display: -webkit-inline-box;}
+ .btnclose{ margin-left: 15px}
+  .chats input{width: 70%}
+</style>
+</head>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.0.0-beta1/jquery.js"></script>
+
+<script src="/socket.io/socket.io.js"></script>
   <body>
-    <section class="container">
+  <input id="nick" type="text" />
+  <button id="log" onclick="log()">Login</button>
 
-      <section class="page-content">
-        <form action="" class="chat-form">
-          <input id="m" autocomplete="off" placeholder="Let's go playing guys"/>
-          <input type="submit" class="chat-form--submit" value="Send">
-        </form>
-        <ul id="messages" class="chat-list"></ul>
-      </section>
+  <div id="usrlist"></div>
+  <div id="chats"></div>
+</body>
 
-      <div id="sockstat"></div>
-      <div id="alsohere"></div>
+  <script>
+      var userlistdiv=$('#usrlist');
+      var chatdiv=$('#chats');
 
-    </section>
-
-    <script src="https://cdn.socket.io/socket.io-1.2.0.js"></script>
-    <script src="https://code.jquery.com/jquery-1.11.1.js"></script>
-    <script>
-
-    function lister(arr) {
-        var s = '';
-        $.each(arr, function(key, value) {
-            s += '<li><b>' + value.name + '</b> (login: ' + value.login +
-                 ', id: ' + value.user_id + ')</li>';
-        });
-        return s;
+     var socket=io();
+     evts();
+     function evts () {
+      socket.on('evt', function  (data) {
+        console.log(data);
+      })
+      socket.on('userlist', function  (arrayusers) {
+        if (nick!='') {
+        updatelist(arrayusers);
+        }
+      })
+      socket.on('sendmsg', function  (data) {
+        console.log(data);
+        var chat=$('#'+data.usr).prev();
+         console.log(chat);
+         chat.append(data.msg+'<br>');
+      })
+      socket.on('discon', function  (data) {
+        if (nick!='') {
+          data.list.splice( data.list.indexOf(data), 1 );
+          updatelist(data.list);
+          if ($('#'+data.usr).length!=0) {
+            //do something when a user you were chatting disconnect
+          }
     }
+      })
+      socket.on('openchat', function  (user) {
+        if ($('#'+user).length==0) {
+        chatdiv.append('<div class="chat">'+ user +'<button class="btnclose" onClick="closechat(\'' + user + '\')">Close</button><hr><div class="chatcont"></div><input id="'+user+'" type="text"/><button onClick="sendmsg(\'' + user + '\')">Send</button></div>');
+      }
+      })
+     }
+     var nick='';
+     function updatelist (arrayusers) {
+         arrayusers.splice( arrayusers.indexOf(nick), 1 );
+       userlistdiv.empty();
+       userlistdiv.append('CLICK AN USER TO START A CHAT');
+        for (var i = arrayusers.length - 1; i >= 0; i--) {
 
-    $(document).ready(function() {
-         var socket = io.connect("https://myappest.herokuapp.com/room:" + {{port}}); // пытаемся подключиться к серверу сокетов
+         userlistdiv.append('<li onClick="start(\'' + arrayusers[i] + '\')">'+arrayusers[i] + '</li>');
 
-         socket.on("connect", function () { // подключившись, делаем следующее:
-             $("#sockstat").text("connected ok");
-                     // пишем в соответствующий элемент что связь установлена
-             socket.emit("iamhere", { location: document.URL } );
-                     // и посылаем серверу своё местоположение
-
-             socket.on("alsohere", function (alsohere) {
-                     // получив от него список просматривающих эту же страницу, выводим его:
-                 $("#alsohere").html('Эту страницу просматривают: <ul>' + lister(alsohere) + '</ul>');
-             });
-
-             socket.on("online", function (online) {
-                     // аналогично поступаем со списком всех онлайн-пользователей
-                 $("#online").html('Пользователи онлайн: <ul>' + lister(online) + '</ul>');
-             });
-
-             socket.on("disconnect", function () {
-                     // если связь потеряна - пишем об этом (почему спустя полсекунды, объясню чуть ниже)
-                 setTimeout(function () {
-                     $("#sockstat").text("connection lost!");
-                 }, 500);
-             });
-         });
-     });
-    </script>
-  </body>
+         }
+     }
+     function log() {
+          nick= document.getElementById('nick').value;
+          socket.emit('login',nick);
+          $('#nick').hide();
+          $('#log').hide();
+    }
+    function sendmsg(user) {
+      var msg=document.getElementById(user).value;
+         socket.emit('send', {usr:user, msg:msg});
+         console.log(document.getElementById(user))
+         var chat=$('#'+user).prev();
+         console.log(chat);
+         chat.append(You: '+msg+'<br>');
+    }
+    function closechat(user) {
+      console.log('close');
+      console.log($('#'+user));
+     $('#'+user).parent().remove();
+    }
+     function start(user) {
+      if ($('#'+user).length==0) {
+        socket.emit('startchat',user);
+        chatdiv.append('<div class="chat">'+ user +'<button class="btnclose" onClick="closechat(\'' + user + '\')">Close</button><hr><div class="chatcont"></div><input id="'+user+'" type="text"/><button onClick="sendmsg(\'' + user + '\')">Send</button></div>');
+      }
+    }
+  </script>
 </html>
