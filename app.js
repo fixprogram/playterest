@@ -206,10 +206,9 @@ io.on('connection', (socket) => {
 
     // io.sockets.emit('getUser', {user: req.session.user.name});
 
-    console.log(socket.handshake.session);
-
-    io.sockets.on('room', function (data) {
+    socket.on('room', function (data) {
         console.log(data);
+        console.log(socket.handshake.session);
     });
 
     // socket.join('room 235', () => {
