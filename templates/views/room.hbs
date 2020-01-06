@@ -1,14 +1,11 @@
 <div>{{port}}</div>
 
 <script src="/socket.io/socket.io.js"></script>
-<script src="https://code.jquery.com/jquery-1.11.1.js"></script>
 <script>
-  $(function () {
-    var socket = io('https://myappest.herokuapp.com/room');
+    var socket = io('https://myappest.herokuapp.com');
 
     socket.on('getUser', (data) => {
       console.log(data);
       socket.emit('room', {msg: '111'});
     });
-  });
 </script>
