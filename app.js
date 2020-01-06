@@ -180,7 +180,6 @@ app.get('/room', function(req, res) {
     // res.render('room', {nick: req.session.user.name});
 
     api.loadUser(req, res, function () {
-        res.send(req.session.user.name);
         res.render('room', {nick: req.session.user.name});
     }, function () {
         res.redirect('/login');
