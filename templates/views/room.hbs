@@ -6,9 +6,9 @@
   $(function () {
     var socket = io('https://myappest.herokuapp.com/room');
 
-    socket.on('connect', () => {
-      console.log(socket.connected); // true
-      if(socket.connected) console.log('1');
+    socket.on('getUser', (data) => {
+      console.log(data);
+      socket.emit('room', {msg: '111'});
     });
   });
 </script>

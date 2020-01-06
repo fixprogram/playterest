@@ -203,10 +203,16 @@ io.on('connection', (socket) => {
         socket.emit('chat message', msg);
     });
 
-    socket.join('room 235', () => {
-        let rooms = Object.keys(socket.rooms);
-        console.log(rooms); // [ <socket.id>, 'room 237' ]
-    })
+    socket.emit('getUser', {user: 'User'});
+
+    socket.on('room', function(data) {
+        console.log(data);
+    });
+
+    // socket.join('room 235', () => {
+    //     let rooms = Object.keys(socket.rooms);
+    //     console.log(rooms); // [ <socket.id>, 'room 237' ]
+    // })
 
 });
 
