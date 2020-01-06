@@ -181,7 +181,7 @@ app.get('/room', function(req, res) {
 
     api.loadUser(req, res, function () {
         res.send(req.session.user.name);
-        res.render('room', {user: nick.session.user.name});
+        res.render('room', {nick: req.session.user.name});
     }, function () {
         res.redirect('/login');
     });
