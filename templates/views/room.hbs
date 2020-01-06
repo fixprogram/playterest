@@ -2,8 +2,7 @@
 
 <script src="/socket.io/socket.io.js"></script>
 <script>
-    var portNum = {{port}};
-    var socket = io('https://myappest.herokuapp.com/room', {port: portNum});
+    var socket = io('https://myappest.herokuapp.com');
 
     socket.on('getUser', (data) => {
       console.log(data);
