@@ -177,14 +177,14 @@ app.get('/room', function(req, res) {
     // const room = uuid.v4();
     // socket.join(room);
 
-    res.render('room');
+    // res.render('room', {nick: req.session.user.name});
 
-    // api.loadUser(req, res, function () {
-    //     // res.send(req.session.user.name);
-    //     res.render('room', {port: port, user: req.session.user.name});
-    // }, function () {
-    //     res.redirect('/login');
-    // });
+    api.loadUser(req, res, function () {
+        res.send(req.session.user.name);
+        res.render('room', {user: nick.session.user.name});
+    }, function () {
+        res.redirect('/login');
+    });
 });
 
 // app.post('/game', function (req, res) {
