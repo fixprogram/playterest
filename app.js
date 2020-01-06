@@ -221,6 +221,7 @@ io.on('connection', function (socket) {
         users.push(nick);
         socket.nick=nick;
         idsnicks[nick]=socket.id;
+        console.log(users);
         io.emit('userlist', users);
     });
 

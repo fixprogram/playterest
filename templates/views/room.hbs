@@ -21,6 +21,7 @@
         console.log(data);
       })
       socket.on('userlist', function  (arrayusers) {
+        console.log(arrayusers);
         if (nick!='') {
         updatelist(arrayusers);
         }
