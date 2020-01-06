@@ -201,8 +201,6 @@ app.get('/room', function(req, res) {
 
 io.on('connection', (socket) => {
 
-    socket.request = request;
-
     socket.on('chat message', function (msg) {
         console.log(msg);
 
