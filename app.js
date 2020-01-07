@@ -15,8 +15,9 @@ db.getCollection(app);
 
 const mongoose = require('mongoose');
 const session = require('express-session');
-const sharedsession = require("express-socket.io-session");
 const MongoStore = require('connect-mongo')(session);
+
+const { addUser, removeUser, getUser, getUsersInRoom } = require('./users');
 
 const views = path.join(__dirname, 'templates/views');
 const partialsPath = path.join(__dirname, 'templates/partials');
@@ -47,13 +48,6 @@ app.use(sessionMiddleware);
 
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(bodyParser.json());
-
-// app.use(session({
-//     secret: 'your secret',
-//     name: 'name of session id',
-//     resave: true,
-//     saveUninitialized: true
-// }));
 
 // Create a user
 
@@ -176,38 +170,9 @@ app.get('/games/:name', function (req, res) {
 
 app.get('/room', function (req, res) {
 
-    console.log('req: ' + req.session);
-
-    res.render('room', {port: port});
+    res.render('room', {name: req.query.name, room: req.query.room, userName: req.session.user.name});
 
 });
-
-// app.post('/game', function (req, res) {
-//     let gameQuery = req.body['game-search'];
-//
-//     if(gameQuery) {
-//         steam.find({search: gameQuery}, function (err, game) {
-//             if (err) console.log(err);
-//             //game is the data as a JSON.
-//             res.render('game', {data: JSON.stringify(game)});
-//
-//             // console.log(JSON.stringify(game));
-//
-//             // console.log(game);
-//         });
-//     } else {
-//         res.render('404');
-//     }
-//
-// });
-
-// io.use(sharedsession(session({
-//     secret: 'my secret',
-//     name: 'name of session id',
-//     resave: true,
-//     saveUninitialized: true
-// })
-// ));
 
 io.on('connection', (socket) => {
 
@@ -219,22 +184,30 @@ io.on('connection', (socket) => {
         socket.emit('chat message', msg);
     });
 
-    socket.emit('getUser', {user: "User"});
+    socket.on('join', ({ userName, name, room }, callback) => {
+        const { error, user } = addUser({ id: socket.id, userName, name, room });
 
-    socket.on('room', function (data) {
-        console.log(data);
-        console.log(socket.request.session);
+        if(error) return callback(error);
+
+        socket.join(user.room);
+
+        socket.emit('message', { user: 'admin', text: `${user.name}, welcome to room ${user.room}.`});
+        socket.broadcast.to(user.room).emit('message', { user: 'admin', text: `${user.name} has joined!` });
+
+        io.to(user.room).emit('roomData', { room: user.room, users: getUsersInRoom(user.room) });
+
+        callback();
     });
 
-    // socket.join('room 235', () => {
-    //     let rooms = Object.keys(socket.rooms);
-    //     console.log(rooms); // [ <socket.id>, 'room 237' ]
-    // })
+    socket.on('disconnect', () => {
+        const user = removeUser(socket.id);
 
-});
+        if(user) {
+            io.to(user.room).emit('message', { user: 'Admin', text: `${user.name} has left.` });
+            io.to(user.room).emit('roomData', { room: user.room, users: getUsersInRoom(user.room)});
+        }
+    })
 
-io.sockets.on("connection", function(socket) {
-    socket.request.session // Now it's available from Socket.IO sockets too! Win!
 });
 
 http.listen(port, function () {

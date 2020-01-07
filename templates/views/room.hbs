@@ -1,13 +1,37 @@
-<div>{{port}}</div>
+<div>{{room}}</div>
+
+<div>{{name}}</div>
+
+<div class="users"></div>
 
 <script src="/socket.io/socket.io.js"></script>
 <script>
-    var socket = io('https://myappest.herokuapp.com');
+    const socket = io('https://myappest.herokuapp.com/'); // http://localhost:3000
 
-    socket.on('getUser', (data) => {
+    let usersList = document.querySelector('.users');
+
+    function renderUsers(users) {
+        usersList.innerHTML = '';
+        for(let i = 0; i < users.length; i++) {
+            let item = document.createElement('p');
+            item.innerHTML = users[i].userName;
+            usersList.appendChild(item);
+        }
+    }
+
+    const userName = '{{userName}}';
+    const name = '{{name}}';
+    const room = '{{room}}';
+
+    socket.emit('join', { userName, name, room }, (error) => {
+          if(error) {
+            alert(error);
+          }
+        });
+
+    socket.on('roomData', (data) => {
       console.log(data);
-      socket.emit('room', {msg: '111', id: socket.id});
+      renderUsers(data.users);
     });
 
-    socket.emit('connection');
 </script>
