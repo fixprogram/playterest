@@ -1,29 +1,57 @@
-<div>{{room}}</div>
-
 <div>{{name}}</div>
 
-<div class="users"></div>
+<div class="users">
+    <b>Список пользователей</b>
+</div>
+
+<div class="chat" style="border: 1px solid #000;">
+    <div class="messages"></div>
+    <div>
+        <input type="text" id="messageText">
+        <button id="send" type="submit">Send</button>
+    </div>
+</div>
 
 <script src="/socket.io/socket.io.js"></script>
 <script>
-    const socket = io('https://myappest.herokuapp.com/'); // http://localhost:3000
+    const socket = io('http://localhost:3000'); // http://localhost:3000
 
     let usersList = document.querySelector('.users');
+    let messagesList = document.querySelector('.messages');
+    let messageText = document.getElementById('messageText');
+    let sendBtn = document.getElementById('send');
+
+    sendBtn.addEventListener('click', () => {
+        let message = messageText.value;
+        messageText.value = '';
+
+        if(message) {
+            socket.emit('sendMessage', message, () => console.log('1'));
+        }
+    });
+
+    function renderMessage(data) {
+        let item = document.createElement('p');
+        item.innerHTML = data.user + ': ' + data.text;
+        messagesList.appendChild(item);
+    }
 
     function renderUsers(users) {
         usersList.innerHTML = '';
         for(let i = 0; i < users.length; i++) {
             let item = document.createElement('p');
+            console.log(users[i]);
             item.innerHTML = users[i].userName;
             usersList.appendChild(item);
         }
     }
 
+    const userID = '{{userID}}';
     const userName = '{{userName}}';
     const name = '{{name}}';
     const room = '{{room}}';
 
-    socket.emit('join', { userName, name, room }, (error) => {
+    socket.emit('join', { userID, userName, name, room }, (error) => {
           if(error) {
             alert(error);
           }
@@ -32,6 +60,10 @@
     socket.on('roomData', (data) => {
       console.log(data);
       renderUsers(data.users);
+    });
+
+    socket.on('message', (data) => {
+        renderMessage(data);
     });
 
 </script>

@@ -60,11 +60,14 @@ app.post('/login', function (req, res, next) {
             req.session.user = {id: user._id, name: user.username};
             res.redirect('/')
         } else {
-            return next(error)
+            // return next(error)
+            console.log(error);
+            res.redirect('/login?error=true')
         }
     })
         .catch(function (error) {
-            return next(error)
+            // return next(error)
+            res.redirect('/login?error=true')
         })
 
 });
@@ -115,8 +118,6 @@ app.get('/home', function (req, res) {
     let collection = app.locals.collection;
     let game = req.query.game;
 
-    console.log('req.session.user: ' + req.session.user);
-
     if (game === undefined) game = 'index';
 
     collection.find({tag: game}).toArray((error, content) => {
@@ -129,7 +130,7 @@ app.get('/home', function (req, res) {
         });
 
         if (req.session.user) {
-            res.render('home', {data: messages, tag: game, user: req.session.user.name});
+            res.render('home', {data: messages, tag: game, user: req.session.user.name, userID: req.session.user.id});
         } else {
             res.render('home', {data: messages, tag: game, user: false});
         }
@@ -137,6 +138,11 @@ app.get('/home', function (req, res) {
 });
 
 app.get('/login', function (req, res) {
+
+    let errorBool = req.query.error;
+
+    if(errorBool) return res.render('login', {error: 'Неверный логин или пароль'});
+
     res.render('login');
 });
 
@@ -170,7 +176,7 @@ app.get('/games/:name', function (req, res) {
 
 app.get('/room', function (req, res) {
 
-    res.render('room', {name: req.query.name, room: req.query.room, userName: req.session.user.name});
+    res.render('room', {name: req.query.name, room: req.query.room, userName: req.session.user.name, userID: req.session.user.id});
 
 });
 
@@ -184,15 +190,25 @@ io.on('connection', (socket) => {
         socket.emit('chat message', msg);
     });
 
-    socket.on('join', ({ userName, name, room }, callback) => {
-        const { error, user } = addUser({ id: socket.id, userName, name, room });
+    socket.on('sendMessage', (message, callback) => {
+        const user = getUser(socket.id);
+
+        io.to(user.room).emit('message', { user: user.userName, text: message });
+
+        // callback();
+    });
+
+    socket.on('join', ({ userID, userName, name, room }, callback) => {
+        // const { error, user } = addUser({ id: socket.id, userName, name, room });
+
+        const { error, user } = addUser({ id: userID, userName, name, room });
 
         if(error) return callback(error);
 
         socket.join(user.room);
 
-        socket.emit('message', { user: 'admin', text: `${user.name}, welcome to room ${user.room}.`});
-        socket.broadcast.to(user.room).emit('message', { user: 'admin', text: `${user.name} has joined!` });
+        socket.emit('message', { user: 'admin', text: `${user.userName}, welcome to room ${user.room}.`});
+        socket.broadcast.to(user.room).emit('message', { user: 'admin', text: `${user.userName} has joined!` });
 
         io.to(user.room).emit('roomData', { room: user.room, users: getUsersInRoom(user.room) });
 
@@ -203,7 +219,7 @@ io.on('connection', (socket) => {
         const user = removeUser(socket.id);
 
         if(user) {
-            io.to(user.room).emit('message', { user: 'Admin', text: `${user.name} has left.` });
+            io.to(user.room).emit('message', { user: 'admin', text: `${user.userName} has left.` });
             io.to(user.room).emit('roomData', { room: user.room, users: getUsersInRoom(user.room)});
         }
     })
@@ -213,8 +229,3 @@ io.on('connection', (socket) => {
 http.listen(port, function () {
     console.log('listening on *:' + port);
 });
-
-function ensureAuthenticated(req, res, next) {
-    if (req.isAuthenticated()) return next();
-    res.redirect('/');
-}
