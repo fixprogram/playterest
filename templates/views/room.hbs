@@ -26,7 +26,7 @@
         messageText.value = '';
 
         if(message) {
-            socket.emit('sendMessage', message, () => console.log('1'));
+            socket.emit('sendMessage', {message, userID}, () => console.log('1'));
         }
     });
 

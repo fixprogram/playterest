@@ -190,8 +190,8 @@ io.on('connection', (socket) => {
         socket.emit('chat message', msg);
     });
 
-    socket.on('sendMessage', (message, callback) => {
-        const user = getUser(socket.id);
+    socket.on('sendMessage', ({message, userID}, callback) => {
+        const user = getUser(userID);
 
         io.to(user.room).emit('message', { user: user.userName, text: message });
 
@@ -200,8 +200,7 @@ io.on('connection', (socket) => {
 
     socket.on('join', ({ userID, userName, name, room }, callback) => {
         // const { error, user } = addUser({ id: socket.id, userName, name, room });
-
-        const { error, user } = addUser({ id: userID, userName, name, room });
+        const { error, user } = addUser({ socketID: socket.id, id: userID, userName, name, room });
 
         if(error) return callback(error);
 
@@ -215,7 +214,7 @@ io.on('connection', (socket) => {
         callback();
     });
 
-    socket.on('disconnect', () => {
+    socket.on('disconnect', (callback) => {
         const user = removeUser(socket.id);
 
         if(user) {
