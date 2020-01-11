@@ -1,16 +1,83 @@
-<section class="page-games">
-    <ul>
-        <li><a href="?game=borderlands">Arma 2: operation arrowhead</a></li>
-        <li><a href="?game=counter_strike">Assasin's Creed IV Black Flag</a></li>
-        <li><a href="?game=grid">Borderlands: The Pre-Sequel</a></li>
-        <li><a href="?game=the_witcher">Darksiders</a></li>
-        <li><a href="?game=province">Darksiders 2: Enchanted Edition</a></li>
-        <li><a href="?game=the_witcher">Dota 2</a></li>
-        <li><a href="?game=the_witcher">Grand Theft Auto V</a></li>
-        <li><a href="?game=the_witcher">GRID Autosport</a></li>
-        <li><a href="?game=the_witcher">GRID</a></li>
-        <li><a href="?game=the_witcher">Left 4 Dead 2</a></li>
-        <li><a href="?game=the_witcher">Outlast</a></li>
-        <li><a href="?game=the_witcher">Rocket League</a></li>
-    </ul>
-</section>
+<form action="home" method="get" class="search-team">
+    <input class="gameName" type="text">
+    <button type="submit" id="start-searching">Начать поиск</button>
+</form>
+
+<div>{{searchInfo.name}}</div>
+
+<div class="users">
+    <b>Список пользователей</b>
+</div>
+
+<div class="chat" style="border: 1px solid #000;background:white;width:25%;">
+    <div class="messages"></div>
+    <div>
+        <input type="text" id="messageText">
+        <button id="send" type="submit">Send</button>
+    </div>
+</div>
+
+<script src="/socket.io/socket.io.js"></script>
+<script>
+    const socket = io('https://myappest.herokuapp.com/'); // http://localhost:3000
+
+    let usersList = document.querySelector('.users');
+    let messagesList = document.querySelector('.messages');
+    let messageText = document.getElementById('messageText');
+    let sendBtn = document.getElementById('send');
+
+    sendBtn.addEventListener('click', () => {
+        let message = messageText.value;
+        messageText.value = '';
+
+        if(message) {
+            socket.emit('sendMessage', {message, userID}, () => console.log('1'));
+        }
+    });
+
+    function renderMessage(data) {
+        let item = document.createElement('p');
+        item.innerHTML = data.user + ': ' + data.text;
+        messagesList.appendChild(item);
+    }
+
+    function renderUsers(users) {
+        usersList.innerHTML = '';
+        for(let i = 0; i < users.length; i++) {
+            let item = document.createElement('a');
+            console.log(users[i]);
+            item.href = '/profile?id=' + users[i].id;
+            item.innerHTML = users[i].userName;
+            usersList.appendChild(item);
+        }
+    }
+
+    const userID = '{{searchInfo.userID}}';
+    const userName = '{{searchInfo.userName}}';
+    const name = '{{searchInfo.name}}';
+    const room = '{{searchInfo.room}}';
+
+    if(room) {
+        socket.emit('join', { userID, userName, name, room }, (error) => {
+            if(error) {
+                alert(error);
+            }
+        });
+    }
+
+    socket.on('roomData', (data) => {
+        console.log(data);
+        renderUsers(data.users);
+    });
+
+    socket.on('message', (data) => {
+        renderMessage(data);
+    });
+
+    const searchForm = document.querySelector('.search-team');
+    const gameName = searchForm.querySelector('.gameName');
+    const startSearching = searchForm.querySelector('#start-searching');
+
+
+
+</script>

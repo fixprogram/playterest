@@ -4,7 +4,7 @@
     <b>Список пользователей</b>
 </div>
 
-<div class="chat" style="border: 1px solid #000;">
+<div class="chat" style="border: 1px solid #000;backround:white;">
     <div class="messages"></div>
     <div>
         <input type="text" id="messageText">
@@ -14,7 +14,7 @@
 
 <script src="/socket.io/socket.io.js"></script>
 <script>
-    const socket = io('http://localhost:3000'); // http://localhost:3000
+    const socket = io('https://myappest.herokuapp.com/'); // http://localhost:3000
 
     let usersList = document.querySelector('.users');
     let messagesList = document.querySelector('.messages');
@@ -39,8 +39,9 @@
     function renderUsers(users) {
         usersList.innerHTML = '';
         for(let i = 0; i < users.length; i++) {
-            let item = document.createElement('p');
+            let item = document.createElement('a');
             console.log(users[i]);
+            item.href = '/profile?id=' + users[i].id;
             item.innerHTML = users[i].userName;
             usersList.appendChild(item);
         }

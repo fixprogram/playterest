@@ -100,7 +100,7 @@ module.exports = app;
 
 app.get('/profile', function (req, res) {
     api.loadUser(req, res, function () {
-        res.render('profile');
+        res.render('profile', {name: req.session.user.name});
     }, function () {
         res.redirect('/login')
     })
@@ -128,13 +128,20 @@ app.get('/home', function (req, res) {
         content.forEach((item) => {
             messages += item.text + ', ';
         });
-
-        if (req.session.user) {
-            res.render('home', {data: messages, tag: game, user: req.session.user.name, userID: req.session.user.id});
-        } else {
-            res.render('home', {data: messages, tag: game, user: false});
-        }
     });
+
+    const searchInfo = {
+        name: req.query.name,
+        room: req.query.room,
+        userName: req.session.user.name,
+        userID: req.session.user.id
+    };
+
+    if (req.session.user) {
+        res.render('home', {tag: game, user: req.session.user.name, userID: req.session.user.id, searchInfo});
+    } else {
+        res.render('home', {tag: game, user: false});
+    }
 });
 
 app.get('/login', function (req, res) {
@@ -150,17 +157,6 @@ app.get('/register', function (req, res) {
     res.render('register');
 });
 
-app.get('/search/', function (req, res) {
-    res.send('Games page');
-
-    let query = req.query.term;
-    if (query) {
-        res.redirect('/games/' + query);
-    } else {
-        res.render('404');
-    }
-});
-
 app.get('/games/:name', function (req, res) {
     let gameQuery = req.params.name;
 
@@ -169,6 +165,15 @@ app.get('/games/:name', function (req, res) {
             if (err) res.render('404');
             res.render('game', {data: JSON.stringify(game)});
         });
+    } else {
+        res.render('404');
+    }
+});
+
+app.get('/search', function (req, res) {
+    let query = req.query.term;
+    if (query) {
+        res.redirect('/games/' + query);
     } else {
         res.render('404');
     }
