@@ -70,13 +70,11 @@
             let params = getFilters(filtersBlock.querySelectorAll('input[type="checkbox"]'));
             let link = '/home?params=';
             params.forEach((param) => link += param + ';');
-            // this.href = link;
-            // window.open(link)
             window.location.href = link;
         });
 
 
-        const socket = io('http://localhost:3000'); // http://localhost:3000
+        const socket = io('https://myappest.herokuapp.com/'); // http://localhost:3000
 
         let usersList = document.querySelector('.users-list');
         let messagesList = document.querySelector('.messages');
