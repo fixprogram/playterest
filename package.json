@@ -16,15 +16,18 @@
     "mongo": "^0.1.0",
     "mongodb": "^2.2.36",
     "mongoose": "^5.8.3",
-    "passport": "^0.4.0",
     "passport-openid": "^0.4.0",
-    "passport-steam": "^1.0.11",
+    "passport-steam": "^1.0.12",
     "path": "^0.12.7",
     "pg": "^7.12.1",
     "request": "^2.87.0",
     "socket.io": "^1.7.4",
+    "steam": "^1.4.1",
     "steam-searcher": "^1.0.3",
+    "steam-user": "^4.12.5",
+    "steam-userinfo": "^1.1.5",
     "steam-web": "0.4.0",
+    "steamapi": "^2.0.7",
     "util": "^0.12.1",
     "uuid": "^3.3.3"
   },
@@ -34,7 +37,7 @@
     "ejs": "^2.4.2",
     "express": "^4.14.0",
     "express-session": "^1.13.0",
-    "passport": "^0.3.2"
+    "passport": "^0.4.1"
   },
   "scripts": {
     "start": "node app.js"

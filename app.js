@@ -7,8 +7,13 @@ const port = process.env.PORT || 3000; // Подключаться по этом
 const path = require('path');
 const hbs = require('hbs');
 const api = require('./api.js');
-const steam = require('steam-searcher');
+const steamSearch = require('steam-searcher');
 const uuid = require('uuid');
+const passport = require('passport');
+const SteamStrategy = require('passport-steam/lib/passport-steam').Strategy;
+const steamUser = require('steam-user');
+const steamAPI = require('steamapi');
+const steam = new steamAPI('CFB0BB3EDA8D5FD2342384380B442CC9');
 
 const db = require('./db.js');
 db.getCollection(app);
@@ -22,6 +27,27 @@ const { addUser, removeUser, getUser, getUsersInRoom } = require('./users');
 const views = path.join(__dirname, 'templates/views');
 const partialsPath = path.join(__dirname, 'templates/partials');
 const publicDirectoryPath = path.join(__dirname, 'templates/assets');
+
+passport.serializeUser(function(user, done) {
+    done(null, user);
+});
+
+passport.deserializeUser(function(obj, done) {
+    done(null, obj);
+});
+
+passport.use(new SteamStrategy({
+        returnURL: 'http://localhost:3000/auth/steam/return',
+        realm: 'http://localhost:3000/',
+        apiKey: 'CFB0BB3EDA8D5FD2342384380B442CC9'
+    },
+    function(identifier, profile, done) {
+        process.nextTick(function () {
+            profile.identifier = identifier;
+            return done(null, profile);
+        });
+    }
+));
 
 app.set('view engine', 'hbs');
 app.set('views', views);
@@ -48,6 +74,8 @@ app.use(sessionMiddleware);
 
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(bodyParser.json());
+app.use(passport.initialize());
+app.use(passport.session());
 
 // Create a user
 
@@ -156,7 +184,7 @@ app.get('/games/:name', function (req, res) {
     let gameQuery = req.params.name;
 
     if (gameQuery) {
-        steam.find({search: gameQuery}, function (err, game) {
+        steamSearch.find({search: gameQuery}, function (err, game) {
             if (err) res.render('404');
             res.render('game', {data: JSON.stringify(game)});
         });
@@ -178,6 +206,25 @@ app.get('/room', function (req, res) {
 
     res.render('room', {name: req.query.name, room: req.query.room, userName: req.session.user.name, userID: req.session.user.id});
 
+});
+
+app.get('/auth/steam',
+    passport.authenticate('steam', { failureRedirect: '/' }),
+    function(req, res) {
+        res.redirect('/');
+    });
+
+app.get('/auth/steam/return',
+    passport.authenticate('steam', { failureRedirect: '/' }),
+    function(req, res) {
+        res.redirect('/');
+    });
+
+app.get('/account', function(req, res) {
+    steam.getUserOwnedGames('76561198047924663').then(summary => {
+        // console.log(summary);
+        res.send(summary);
+    });
 });
 
 io.on('connection', (socket) => {
