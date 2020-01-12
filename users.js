@@ -1,6 +1,6 @@
 const users = [];
 
-const addUser = ({ socketID, id, userName, name, room }) => {
+const addUser = ({ socketID, id, userName, room }) => {
 
     userName = userName.trim().toLowerCase();
     room = room.trim().toLowerCase();
@@ -11,6 +11,7 @@ const addUser = ({ socketID, id, userName, name, room }) => {
     const existingUser = users.find((user) => user.room === room && user.id === id);
 
     if(!userName || !room) return { error: 'Username and room are required.' };
+    // if(!userName) return { error: 'Username required.' };
     // if(existingUser) return { error: 'Username is taken.' };
     if(!existingUser) users.push(user);
 

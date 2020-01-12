@@ -17,29 +17,30 @@
       {{>blocks}}
 
       <button class="search-team">Search team</button>
-      <button class="start-searching">Start searching</button>
 
       <div class="filters">
 
           <div>
-              <input type="checkbox" name="online" id="online-game">
+              <input type="checkbox" name="online-game" id="online-game">
               <label for="online-game">Online games</label>
           </div>
           <div>
-              <input type="checkbox" name="online" id="cooperative-game">
+              <input type="checkbox" name="cooperative-game" id="cooperative-game">
               <label for="cooperative-game">Cooperative games</label>
           </div>
 
           <hr>
 
           <div>
-              <input type="checkbox" name="online" id="fast-searching">
+              <input type="checkbox" name="fast-searching" id="fast-searching">
               <label for="fast-searching">Fast searching</label>
           </div>
           <div>
-              <input type="checkbox" name="online" id="search-favorite">
+              <input type="checkbox" name="search-favorite" id="search-favorite">
               <label for="search-favorite">Search by favorite games</label>
           </div>
+
+          <button class="start-searching">Start searching</button>
 
       </div>
 
@@ -51,9 +52,80 @@
     <script>
     $(function () {
 
-        function createID() {
+        let searchTeamBtn = document.querySelector('.search-team');
+        let filtersBlock = document.querySelector('.filters');
+        let startSearchBtn = filtersBlock.querySelector('.start-searching');
 
+        function getFilters(checkboxes) {
+            let checked = [];
+            checkboxes.forEach((item) => {
+                if(item.checked) checked.push(item.name);
+            });
+            return checked;
         }
+
+        searchTeamBtn.addEventListener('click', () => filtersBlock.classList.toggle('active'));
+        startSearchBtn.addEventListener('click', () => {
+            filtersBlock.classList.toggle('active');
+            let params = getFilters(filtersBlock.querySelectorAll('input[type="checkbox"]'));
+            let link = '/home?params=';
+            params.forEach((param) => link += param + ';');
+            // this.href = link;
+            // window.open(link)
+            window.location.href = link;
+        });
+
+
+        const socket = io('http://localhost:3000'); // http://localhost:3000
+
+        let usersList = document.querySelector('.users-list');
+        let messagesList = document.querySelector('.messages');
+        let messageText = document.getElementById('messageText');
+        let sendBtn = document.getElementById('send');
+
+        sendBtn.addEventListener('click', () => {
+            let message = messageText.value;
+            messageText.value = '';
+
+            if(message) {
+                socket.emit('sendMessage', {message, userID}, () => console.log('1'));
+            }
+        });
+
+        function renderMessage(data) {
+            let item = document.createElement('p');
+            item.innerHTML = data.user + ': ' + data.text;
+            messagesList.appendChild(item);
+        }
+
+        function renderUsers(users) {
+            usersList.innerHTML = '';
+            for(let i = 0; i < users.length; i++) {
+                let item = document.createElement('a');
+                console.log(users[i]);
+                item.href = '/profile?id=' + users[i].id;
+                item.innerHTML = users[i].userName;
+                usersList.appendChild(item);
+            }
+        }
+
+        const userID = '{{userID}}';
+        const userName = '{{userName}}';
+
+        socket.emit('join', { userID, userName }, (error) => {
+            if(error) {
+                alert(error);
+            }
+        });
+
+        socket.on('roomData', (data) => {
+            console.log(data);
+            renderUsers(data.users);
+        });
+
+        socket.on('message', (data) => {
+            renderMessage(data);
+        });
 
     });
     </script>

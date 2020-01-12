@@ -142,7 +142,7 @@ app.get('/home', function (req, res) {
     };
 
     if (req.session.user) {
-        res.render('home', {tag: game, user: req.session.user.name, userID: req.session.user.id, searchInfo});
+        res.render('home', {tag: game, userName: req.session.user.name, userID: req.session.user.id, searchInfo});
     } else {
         res.render('home', {tag: game, user: false});
     }
@@ -198,9 +198,9 @@ io.on('connection', (socket) => {
         // callback();
     });
 
-    socket.on('join', ({ userID, userName, name, room }, callback) => {
+    socket.on('join', ({ userID, userName, room = 'home' }, callback) => {
         // const { error, user } = addUser({ id: socket.id, userName, name, room });
-        const { error, user } = addUser({ socketID: socket.id, id: userID, userName, name, room });
+        const { error, user } = addUser({ socketID: socket.id, id: userID, userName, room });
 
         if(error) return callback(error);
 

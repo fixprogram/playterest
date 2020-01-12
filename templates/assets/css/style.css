@@ -117,6 +117,14 @@ h1, h2, h3, h4, h5, h6 {
     border-bottom: 1px solid #000;
 }
 
+.menu-list {
+    display: flex;
+    width: 40%;
+    justify-content: space-between;
+    margin-right: auto;
+    margin-left: 100px;
+}
+
 .page-sidebar,
 .page-games {
     width: 20%;
@@ -200,12 +208,13 @@ h1, h2, h3, h4, h5, h6 {
     width: calc(50% - 20px);
 }
 
-.user-profile {
-    width: 25%;
+.user-block {
+    width: 28.5%;
+    border: 1px solid;
 }
 
 .app-blocks {
-    width: 75%;
+    width: 70%;
 }
 
 .app-blocks ul {
@@ -216,23 +225,92 @@ h1, h2, h3, h4, h5, h6 {
 
 .app-blocks ul li {
     width: 32%;
-    margin-bottom: 1.3%;
+    margin-bottom: 2%;
     border: 1px solid white;
-    min-height: 150px;
+    min-height: 130px;
 }
 
 .home-page {
     position: relative;
     height: 100vh;
+    max-width: 1280px;
+    margin: 0 auto;
 }
 
-.search-team {
+.search-team,
+.start-searching {
     position: absolute;
     right: 40px;
     bottom: 40px;
+    width: 160px;
+    height: 40px;
+    text-transform: uppercase;
 }
 
-.start-searching,
 .filters {
     display: none;
 }
+
+.filters.active {
+    display: block;
+    position: absolute;
+    right: 0;
+    z-index: 999;
+    background:
+            #111;
+    padding: 20px;
+    height: 100%;
+}
+
+.world-chat {
+    max-height: 200px;
+    border: 1px solid white;
+    width: 66%;
+    height: 100%;
+    display: flex;
+    position: relative;
+    padding-bottom: 24px;
+    text-align: left;
+}
+
+.world-chat .messages {
+    width: 80%;
+    overflow-y: auto;
+    height: 175px;
+}
+
+.world-chat .messages p {
+    margin: 5px;
+}
+
+.world-chat .users-list {
+    width: 20%;
+    border-left: 1px solid white;
+}
+
+.world-chat .users-list a {
+    color: white;
+}
+
+.world-chat .text-form {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+}
+
+.world-chat .text-form input {
+    width: 100%;
+}
+
+.world-chat .text-form button {
+    position: absolute;
+    right: 0;
+}
+
+.user-profile {
+    max-height: 200px;
+    height: 100%;
+    border-bottom: 1px solid;
+}
+
