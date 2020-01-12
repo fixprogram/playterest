@@ -51,7 +51,7 @@ app.use(bodyParser.json());
 
 // Create a user
 
-app.post('/login', function (req, res, next) {
+app.post('/', function (req, res, next) {
 
     console.log(req.body.username + ' ' + req.body.password);
 
@@ -62,12 +62,12 @@ app.post('/login', function (req, res, next) {
         } else {
             // return next(error)
             console.log(error);
-            res.redirect('/login?error=true')
+            res.redirect('/?error=true')
         }
     })
         .catch(function (error) {
             // return next(error)
-            res.redirect('/login?error=true')
+            res.redirect('/?error=true')
         })
 
 });
@@ -110,6 +110,10 @@ app.get('/', function (req, res) {
     api.loadUser(req, res, function () {
         res.redirect('/home');
     }, function () {
+        let errorBool = req.query.error;
+
+        if(errorBool) return res.render('index', {error: 'Неверный логин или пароль', title: 'Играй по своим правилам на playterest.'});
+
         res.render('index', {title: 'Играй по своим правилам на playterest.'});
     });
 });
@@ -142,15 +146,6 @@ app.get('/home', function (req, res) {
     } else {
         res.render('home', {tag: game, user: false});
     }
-});
-
-app.get('/login', function (req, res) {
-
-    let errorBool = req.query.error;
-
-    if(errorBool) return res.render('login', {error: 'Неверный логин или пароль'});
-
-    res.render('login');
 });
 
 app.get('/register', function (req, res) {

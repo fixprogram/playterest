@@ -1,20 +1,32 @@
-<header class='page-header'>
+<header class="page-header" style="margin-bottom: 20px;">
 
     <a href="/" class="page-header--logo">
         <img src="../assets/img/logo.png" width="65" height="35">
     </a>
 
-    <form method="get" action="/search/">
-        <input type="search" name="term">
-        <input type="submit" value="Poisk">
-    </form>
+    <!--    <form method="get" action="/search/">-->
+    <!--        <input type="search" name="term">-->
+    <!--        <input type="submit" value="Poisk">-->
+    <!--    </form>-->
 
-    <div class="user-block">
-      {{#if user}}
-        <a href="/profile?id={{userID}}">{{user}}</a>
-        <a href='/logout'>Logout</a></h2>
-      {{else}}
-        <a href="/login">Log in</a>
-      {{/if}}
-    </div>
+    <ul style="display: flex;
+width: 40%;
+justify-content: space-between;
+margin-right: auto;
+margin-left: 100px;">
+        <li><a href="/guides">Guides</a></li>
+        <li><a href="/streams">Streams</a></li>
+        <li><a href="/clans">Clans</a></li>
+        <li><a href="/forum">Forum</a></li>
+        <li><a href="/news">News</a></li>
+    </ul>
+
+    <!--    <div class="user-block">-->
+        <!--      {{#if user}}-->
+    <!--        <a href="/profile?id={{userID}}">{{user}}</a>-->
+    <!--        <a href='/logout'>Logout</a></h2>-->
+        <!--      {{else}}-->
+    <!--        <a href="/login">Log in</a>-->
+        <!--      {{/if}}-->
+    <!--    </div>-->
 </header>

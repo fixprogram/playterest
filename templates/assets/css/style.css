@@ -199,3 +199,40 @@ h1, h2, h3, h4, h5, h6 {
     margin-right: 20px;
     width: calc(50% - 20px);
 }
+
+.user-profile {
+    width: 25%;
+}
+
+.app-blocks {
+    width: 75%;
+}
+
+.app-blocks ul {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
+.app-blocks ul li {
+    width: 32%;
+    margin-bottom: 1.3%;
+    border: 1px solid white;
+    min-height: 150px;
+}
+
+.home-page {
+    position: relative;
+    height: 100vh;
+}
+
+.search-team {
+    position: absolute;
+    right: 40px;
+    bottom: 40px;
+}
+
+.start-searching,
+.filters {
+    display: none;
+}

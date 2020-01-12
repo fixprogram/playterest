@@ -7,23 +7,44 @@
     <link rel="stylesheet" href="/css/style.css">
   </head>
   <body>
+  <section class="home-page">
     <section class="container">
 
       {{>header}}
 
-<!--      {{>sidebar}}-->
+      {{>profile}}
 
+      {{>blocks}}
 
+      <button class="search-team">Search team</button>
+      <button class="start-searching">Start searching</button>
 
-            <a href="/home?name=borderlands&room=123">
-                <img src="../assets/img/games/first.jpg" width="325" height="150" alt="">
-            </a>
+      <div class="filters">
 
+          <div>
+              <input type="checkbox" name="online" id="online-game">
+              <label for="online-game">Online games</label>
+          </div>
+          <div>
+              <input type="checkbox" name="online" id="cooperative-game">
+              <label for="cooperative-game">Cooperative games</label>
+          </div>
 
-      {{>games}}
+          <hr>
 
-<!--      {{>footer}}-->
+          <div>
+              <input type="checkbox" name="online" id="fast-searching">
+              <label for="fast-searching">Fast searching</label>
+          </div>
+          <div>
+              <input type="checkbox" name="online" id="search-favorite">
+              <label for="search-favorite">Search by favorite games</label>
+          </div>
+
+      </div>
+
     </section>
+  </section>
 
     <script src="https://cdn.socket.io/socket.io-1.2.0.js"></script>
     <script src="https://code.jquery.com/jquery-1.11.1.js"></script>
