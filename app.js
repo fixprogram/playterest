@@ -11,7 +11,6 @@ const steamSearch = require('steam-searcher');
 const uuid = require('uuid');
 const passport = require('passport');
 const SteamStrategy = require('passport-steam/lib/passport-steam').Strategy;
-const steamUser = require('steam-user');
 const steamAPI = require('steamapi');
 const steam = new steamAPI('CFB0BB3EDA8D5FD2342384380B442CC9');
 
