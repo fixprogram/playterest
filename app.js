@@ -166,6 +166,8 @@ app.get('/home', function (req, res) {
     //     });
     // });
 
+    const games = req.session.user.games;
+
     const searchInfo = {
         name: req.query.name,
         room: req.query.room,
@@ -174,7 +176,7 @@ app.get('/home', function (req, res) {
     };
 
     if (req.session.user) {
-        res.render('home', {userName: req.session.user.name, userID: req.session.user.id, searchInfo});
+        res.render('home', {userName: req.session.user.name, userID: req.session.user.id, gamesList: games, searchInfo});
     } else {
         res.render('home', {user: false});
     }
@@ -226,18 +228,11 @@ app.get('/auth/steam/return',
 
 app.get('/account', function(req, res) {
     steam.getUserOwnedGames('76561197987987066').then(games => {
-        // console.log(summary);
         res.send(games);
 
         api.updateUser(req.session.user.name, games).then(function(games) {
-            // console.log(games);
             if(games) req.session.user.games = games.games;
         });
-
-        // db.writeGames(req.session.user.name, games);
-        // summary.forEach((game) => {
-        //     db.writeGames(game.name);
-        // })
     });
 });
 

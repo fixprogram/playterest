@@ -21,3 +21,23 @@
 
     <section class="games-list"></section>
 </section>
+
+<script>
+    <!--let gamesList = {{gamesList}};-->
+
+    const gamesList = document.querySelector('.games-list');
+    const games = {{games}};
+
+    function renderGame(game, list) {
+        let item = document.createElement('p');
+        item.innerHTML = game.name;
+        list.appendChild(item);
+    }
+
+    if(games) {
+        games.forEach((game) => {
+            renderGame(game, gamesList);
+        });
+    }
+
+</script>
