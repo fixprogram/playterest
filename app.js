@@ -147,20 +147,25 @@ app.get('/', function (req, res) {
 });
 
 app.get('/home', function (req, res) {
-    let collection = app.locals.collection;
-    let game = req.query.game;
+    // let collection = app.locals.collection;
+    // let game = req.query.game;
+    let searchParams = req.query.params;
+    if(searchParams) {
+         let params = searchParams.split(';');
+         console.log(params);
+    }
 
-    if (game === undefined) game = 'index';
+    // if (game === undefined) game = 'index';
 
-    collection.find({tag: game}).toArray((error, content) => {
-        if (error) return console.log(error);
-
-        let messages = [];
-
-        content.forEach((item) => {
-            messages += item.text + ', ';
-        });
-    });
+    // collection.find({tag: game}).toArray((error, content) => {
+    //     if (error) return console.log(error);
+    //
+    //     let messages = [];
+    //
+    //     content.forEach((item) => {
+    //         messages += item.text + ', ';
+    //     });
+    // });
 
     const searchInfo = {
         name: req.query.name,
@@ -170,9 +175,9 @@ app.get('/home', function (req, res) {
     };
 
     if (req.session.user) {
-        res.render('home', {tag: game, userName: req.session.user.name, userID: req.session.user.id, searchInfo});
+        res.render('home', {userName: req.session.user.name, userID: req.session.user.id, searchInfo});
     } else {
-        res.render('home', {tag: game, user: false});
+        res.render('home', {user: false});
     }
 });
 
@@ -224,6 +229,9 @@ app.get('/account', function(req, res) {
     steam.getUserOwnedGames('76561198047924663').then(summary => {
         // console.log(summary);
         res.send(summary);
+        summary.forEach((game) => {
+            db.writeMessage(game.name);
+        })
     });
 });
 
@@ -246,7 +254,6 @@ io.on('connection', (socket) => {
     });
 
     socket.on('join', ({ userID, userName, room = 'home' }, callback) => {
-        // const { error, user } = addUser({ id: socket.id, userName, name, room });
         const { error, user } = addUser({ socketID: socket.id, id: userID, userName, room });
 
         if(error) return callback(error);
