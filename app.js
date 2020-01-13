@@ -183,7 +183,12 @@ app.get('/home', function (req, res) {
         console.log('user' + req.session.user.games);
         console.log('user' + req.session.user.name);
         console.log('user' + req.session.user.id);
-        res.render('home', {userName: req.session.user.name, userID: req.session.user.id, gamesList: req.session.user.games, searchInfo});
+        res.render('home', {
+            userName: req.session.user.name,
+            userID: req.session.user.id,
+            gamesList: JSON.stringify(req.session.user.games),
+            searchInfo
+        });
     } else {
         res.render('home', {user: false});
     }
