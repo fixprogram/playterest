@@ -90,6 +90,17 @@
             }
         });
 
+        messageText.addEventListener('keyup', function(evt) {
+           if(evt.code === 'Enter') {
+               let message = messageText.value;
+               messageText.value = '';
+
+               if(message) {
+                   socket.emit('sendMessage', {message, userID}, () => console.log('1'));
+               }
+           }
+        });
+
         function renderMessage(data) {
             let item = document.createElement('p');
             item.innerHTML = data.user + ': ' + data.text;
