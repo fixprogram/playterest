@@ -54,6 +54,10 @@
 
         let myJSONstring = '{{gamesList}}';
 
+        myJSONstring = myJSONstring.replace(/&quot;/g, '"');
+
+        myJSONstring = JSON.parse(myJSONstring);
+
         console.log(myJSONstring);
 
         let searchTeamBtn = document.querySelector('.search-team');
