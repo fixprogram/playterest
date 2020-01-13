@@ -84,7 +84,7 @@ app.post('/', function (req, res, next) {
 
     api.checkUser(req.body).then(function (user) {
         if (user) {
-            req.session.user = {id: user._id, name: user.username};
+            req.session.user = {id: user._id, name: user.username, games: user.games};
             res.redirect('/')
         } else {
             // return next(error)
@@ -174,12 +174,13 @@ app.get('/home', function (req, res) {
     };
 
     if (req.session.user) {
-        console.log('id: ' + req.session.user.name);
-        let user = api.getUser(req.session.user.name).then(function(user) {
-          // console.log('user: ' + user);
-          return user;
-        });
-        console.log('user: ' + user.games);
+        // console.log('id: ' + req.session.user.name);
+        // let user = api.getUser(req.session.user.name).then(function(user) {
+        //   // console.log('user: ' + user);
+        //   return user;
+        // });
+        // console.log('user: ' + user.games);
+        console.log('user' + req.session.user);
         res.render('home', {userName: req.session.user.name, userID: req.session.user.id, gamesList: user.games, searchInfo});
     } else {
         res.render('home', {user: false});
