@@ -14,6 +14,9 @@ const User = new mongoose.Schema({
         type: String,
         unique: true,
         required: true
+    },
+    games: {
+        type: Array
     }
 });
 
