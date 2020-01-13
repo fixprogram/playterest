@@ -15,6 +15,20 @@ exports.createUser = function(userData) {
     return new User(user).save()
 };
 
+exports.updateUser = function(userData, games) {
+    return User.findOne({username:userData.username}).then(function(doc) {
+        doc.games = games;
+        console.log('doc is: ' + doc);
+        if ( doc.password == hash(userData.password) ) {
+            console.log('The password is okay');
+            return Promise.resolve(doc)
+        } else {
+            console.log('The password is Wrong');
+            return Promise.reject('Reject Wrong')
+        }
+    })
+};
+
 exports.getUser = function(id) {
     return User.findOne(id)
 };
@@ -50,18 +64,4 @@ exports.loadUser = function(req, res, next, previous) {
     } else {
         previous();
     }
-};
-
-exports.updateUser = function(userData, games) {
-    return User.findOne({username:userData.username}).then(function(doc) {
-        doc.games = games;
-        console.log('doc is: ' + doc);
-        if ( doc.password == hash(userData.password) ) {
-            console.log('The password is okay');
-            return Promise.resolve(doc)
-        } else {
-            console.log('The password is Wrong');
-            return Promise.reject('Reject Wrong')
-        }
-    })
 };
