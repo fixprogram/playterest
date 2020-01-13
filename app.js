@@ -175,7 +175,9 @@ app.get('/home', function (req, res) {
 
     if (req.session.user) {
         console.log('id: ' + req.session.user.name);
-        let user = api.getUser(req.session.user.name);
+        let user = api.getUser(req.session.user.name).then(function(user) {
+          console.log(user);
+        });
         console.log(user.games);
         res.render('home', {userName: req.session.user.name, userID: req.session.user.id, gamesList: user.games, searchInfo});
     } else {

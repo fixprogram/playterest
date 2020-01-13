@@ -25,7 +25,9 @@ exports.updateUser = function(userName, games) {
 };
 
 exports.getUser = function(name) {
-    return User.findOne({username: name})
+    return User.findOne({username: name}).then(function(user) {
+       return Promise.resolve(user);
+    });
 };
 
 exports.checkUser = function(userData) {
