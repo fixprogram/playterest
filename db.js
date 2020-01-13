@@ -33,7 +33,7 @@ module.exports = dataBase = {
         })
     },
 
-    writeGames: function(games) {
+    writeGames: function(user, games) {
         dataBase.mongodb.connect(dataBase.connectionUrl, (error, client) => {
             if (error) console.log('Unable to connect to the database');
 
