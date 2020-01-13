@@ -241,6 +241,7 @@ app.get('/auth/steam/return',
     });
 
 app.get('/account', function(req, res) {
+    // steam.getUserOwnedGames('76561197987987066').then(games => {
     steam.getUserOwnedGames('76561197987987066').then(games => {
         res.send(games);
 
@@ -251,14 +252,6 @@ app.get('/account', function(req, res) {
 });
 
 io.on('connection', (socket) => {
-
-    socket.on('chat message', function (msg) {
-        console.log(msg);
-
-        db.writeMessage(msg.tag, msg.msg);
-
-        socket.emit('chat message', msg);
-    });
 
     socket.on('sendMessage', ({message, userID}, callback) => {
         const user = getUser(userID);

@@ -19,20 +19,6 @@ module.exports = dataBase = {
         });
     },
 
-    writeMessage: function(messageTag, messageContent) {
-        dataBase.mongodb.connect(dataBase.connectionUrl, (error, client) => {
-            if (error) console.log('Unable to connect to the database');
-        
-            const db = client.db(dataBase.dbName);
-            const dbMessages = db.collection('messages');
-            
-            dbMessages.insertOne({
-                tag: messageTag,
-                text: messageContent
-            })
-        })
-    },
-
     writeGames: function(user, games) {
         dataBase.mongodb.connect(dataBase.connectionUrl, (error, client) => {
             if (error) console.log('Unable to connect to the database');
