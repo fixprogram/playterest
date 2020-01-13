@@ -180,7 +180,9 @@ app.get('/home', function (req, res) {
         //   return user;
         // });
         // console.log('user: ' + user.games);
-        console.log('user' + req.session.user);
+        console.log('user' + req.session.user.games);
+        console.log('user' + req.session.user.name);
+        console.log('user' + req.session.user.id);
         res.render('home', {userName: req.session.user.name, userID: req.session.user.id, gamesList: req.session.user.games, searchInfo});
     } else {
         res.render('home', {user: false});
