@@ -25,7 +25,7 @@ exports.updateUser = function(userName, games) {
 };
 
 exports.getUser = function(id) {
-    return User.findOne(id)
+    return User.findOne({id})
 };
 
 exports.checkUser = function(userData) {
