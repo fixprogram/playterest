@@ -166,13 +166,6 @@ app.get('/home', function (req, res) {
     //     });
     // });
 
-    const searchInfo = {
-        name: req.query.name,
-        room: req.query.room,
-        userName: req.session.user.name,
-        userID: req.session.user.id
-    };
-
     if (req.session.user) {
         // console.log('id: ' + req.session.user.name);
         // let user = api.getUser(req.session.user.name).then(function(user) {
@@ -180,6 +173,14 @@ app.get('/home', function (req, res) {
         //   return user;
         // });
         // console.log('user: ' + user.games);
+
+        const searchInfo = {
+            name: req.query.name,
+            room: req.query.room,
+            userName: req.session.user.name,
+            userID: req.session.user.id
+        };
+
         console.log('user' + req.session.user.games);
         console.log('user' + req.session.user.name);
         console.log('user' + req.session.user.id);
@@ -190,7 +191,8 @@ app.get('/home', function (req, res) {
             searchInfo
         });
     } else {
-        res.render('home', {user: false});
+        // res.render('home', {user: false});
+        res.redirect('/');
     }
 });
 
