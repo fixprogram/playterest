@@ -166,9 +166,6 @@ app.get('/home', function (req, res) {
     //     });
     // });
 
-    const games = req.session.user.games;
-    console.log('games: ' + games);
-
     const searchInfo = {
         name: req.query.name,
         room: req.query.room,
@@ -177,6 +174,8 @@ app.get('/home', function (req, res) {
     };
 
     if (req.session.user) {
+        let user = api.getUser(req.session.user.id);
+        console.log(user);
         res.render('home', {userName: req.session.user.name, userID: req.session.user.id, gamesList: games, searchInfo});
     } else {
         res.render('home', {user: false});
