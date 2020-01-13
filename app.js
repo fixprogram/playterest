@@ -228,7 +228,7 @@ app.get('/account', function(req, res) {
     steam.getUserOwnedGames('76561198047924663').then(games => {
         // console.log(summary);
         res.send(games);
-        db.writeGames(games);
+        db.writeGames(req.session.user.name, games);
         // summary.forEach((game) => {
         //     db.writeGames(game.name);
         // })
