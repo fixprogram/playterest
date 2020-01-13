@@ -15,8 +15,8 @@ exports.createUser = function(userData) {
     return new User(user).save()
 };
 
-exports.updateUser = function(userData, games) {
-    return User.findOne({username:userData.username}).then(function(user) {
+exports.updateUser = function(userName, games) {
+    return User.findOne({username:userName}).then(function(user) {
         console.log(user);
         user.games = games;
         User(user).save();
