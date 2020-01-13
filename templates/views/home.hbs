@@ -52,14 +52,6 @@
     <script>
     $(function () {
 
-        let myJSONstring = '{{gamesList}}';
-
-        myJSONstring = myJSONstring.replace(/&quot;/g, '"');
-
-        myJSONstring = JSON.parse(myJSONstring);
-
-        console.log(myJSONstring);
-
         let searchTeamBtn = document.querySelector('.search-team');
         let filtersBlock = document.querySelector('.filters');
         let startSearchBtn = filtersBlock.querySelector('.start-searching');

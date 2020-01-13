@@ -24,7 +24,14 @@
 
 <script>
     const gamesList = document.querySelector('.games-list');
-    const games = {{gamesList}};
+
+    let games = '{{gamesList}}';
+
+    games = games.replace(/&quot;/g, '"');
+
+    games = JSON.parse(games);
+
+    console.log(games);
 
     function renderGame(game, list) {
         let item = document.createElement('p');
