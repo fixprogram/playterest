@@ -225,12 +225,13 @@ app.get('/auth/steam/return',
     });
 
 app.get('/account', function(req, res) {
-    steam.getUserOwnedGames('76561198047924663').then(summary => {
+    steam.getUserOwnedGames('76561198047924663').then(games => {
         // console.log(summary);
-        res.send(summary);
-        summary.forEach((game) => {
-            db.writeGames(game.name);
-        })
+        res.send(games);
+        db.writeGames(games);
+        // summary.forEach((game) => {
+        //     db.writeGames(game.name);
+        // })
     });
 });
 

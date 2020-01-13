@@ -33,18 +33,20 @@ module.exports = dataBase = {
         })
     },
 
-    writeGames: function(game) {
+    writeGames: function(games) {
         dataBase.mongodb.connect(dataBase.connectionUrl, (error, client) => {
             if (error) console.log('Unable to connect to the database');
 
             const db = client.db(dataBase.dbName);
-            const dbUsers = db.collection('users');
+            // const dbUsers = db.collection('users');
 
-            console.log(dbUsers);
+            db.updateUser(user, {games: games});
 
-            dbUsers.insertOne({
-                gameName: game
-            })
+            // console.log(dbUsers);
+
+            // dbUsers.insertOne({
+            //     gameName: game
+            // })
         })
     }
 };
