@@ -40,8 +40,10 @@ body {
     font-family: SF UI Display;
     color: #fff;
 
-    background: #10191D url('../assets/img/site-bg.jpg') no-repeat center 0;
-    background-attachment: fixed;
+    background-color: #10191D;
+
+    /*background: #10191D url('../assets/img/site-bg.jpg') no-repeat center 0;*/
+    /*background-attachment: fixed;*/
 }
 
 a {
@@ -247,6 +249,7 @@ h1, h2, h3, h4, h5, h6 {
     height: 100vh;
     max-width: 1280px;
     margin: 0 auto;
+    background: linear-gradient(90deg, #10191D 0%, #233A4A 50.01%, #10191D 100%);
 }
 
 .search-team,
