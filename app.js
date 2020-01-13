@@ -36,8 +36,8 @@ passport.deserializeUser(function(obj, done) {
 });
 
 passport.use(new SteamStrategy({
-        returnURL: 'http://localhost:3000/auth/steam/return',
-        realm: 'http://localhost:3000/',
+        returnURL: 'https://myappest.herokuapp.com/auth/steam/return', // http://localhost:3000/auth/steam/return
+        realm: 'https://myappest.herokuapp.com', // http://localhost:3000
         apiKey: 'CFB0BB3EDA8D5FD2342384380B442CC9'
     },
     function(identifier, profile, done) {
