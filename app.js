@@ -230,7 +230,7 @@ app.get('/account', function(req, res) {
         res.send(games);
 
         api.updateUser(req.session.user, games).then(function(games) {
-            console.log(games);
+            // console.log(games);
             if(games) req.session.user.games = games.games;
         });
 
