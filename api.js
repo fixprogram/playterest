@@ -18,13 +18,7 @@ exports.createUser = function(userData) {
 exports.updateUser = function(userData, games) {
     return User.findOne({username:userData.username}).then(function(doc) {
         doc.games = games;
-        if ( doc.password == hash(userData.password) ) {
-            console.log('The password is okay');
-            return Promise.resolve(doc)
-        } else {
-            console.log('The password is Wrong');
-            return Promise.reject('Reject Wrong')
-        }
+        return Promise.resolve(doc);
     })
 };
 
