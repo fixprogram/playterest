@@ -167,6 +167,7 @@ app.get('/home', function (req, res) {
     // });
 
     const games = req.session.user.games;
+    console.log('games: ' + games);
 
     const searchInfo = {
         name: req.query.name,
