@@ -181,9 +181,6 @@ app.get('/home', function (req, res) {
             userID: req.session.user.id
         };
 
-        console.log('user' + req.session.user.games);
-        console.log('user' + req.session.user.name);
-        console.log('user' + req.session.user.id);
         res.render('home', {
             userName: req.session.user.name,
             userID: req.session.user.id,
@@ -240,8 +237,11 @@ app.get('/auth/steam/return',
         res.redirect('/');
     });
 
-app.get('/account', function(req, res) {
+app.get('/account', ensureAuthenticated, function(req, res) {
     // steam.getUserOwnedGames('76561197987987066').then(games => {
+
+    console.log(req.user);
+
     steam.getUserOwnedGames('76561197987987066').then(games => {
         res.send(games);
 
@@ -286,6 +286,11 @@ io.on('connection', (socket) => {
     })
 
 });
+
+function ensureAuthenticated(req, res, next) {
+    if (req.isAuthenticated()) { return next(); }
+    res.redirect('/');
+}
 
 http.listen(port, function () {
     console.log('listening on *:' + port);
