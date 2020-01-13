@@ -16,9 +16,10 @@ exports.createUser = function(userData) {
 };
 
 exports.updateUser = function(userData, games) {
-    return User.findOne({username:userData.username}).then(function(doc) {
-        doc.games = games;
-        return Promise.resolve(doc);
+    return User.findOne({username:userData.username}).then(function(user) {
+        user.games = games;
+        User(user).save();
+        return Promise.resolve(user);
     })
 };
 
