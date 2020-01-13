@@ -240,9 +240,7 @@ app.get('/auth/steam/return',
 app.get('/account', ensureAuthenticated, function(req, res) {
     // steam.getUserOwnedGames('76561197987987066').then(games => {
 
-    console.log(req.user);
-
-    steam.getUserOwnedGames('76561197987987066').then(games => {
+    steam.getUserOwnedGames(req.user.id).then(games => {
         res.send(games);
 
         api.updateUser(req.session.user.name, games).then(function(games) {
