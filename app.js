@@ -225,7 +225,7 @@ app.get('/auth/steam/return',
     });
 
 app.get('/account', function(req, res) {
-    steam.getUserOwnedGames('76561198047924663').then(games => {
+    steam.getUserOwnedGames('76561197987987066').then(games => {
         // console.log(summary);
         res.send(games);
 
