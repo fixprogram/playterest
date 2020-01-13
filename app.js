@@ -229,7 +229,7 @@ app.get('/account', function(req, res) {
         // console.log(summary);
         res.send(summary);
         summary.forEach((game) => {
-            db.writeMessage(game.name);
+            db.writeGames(game.name);
         })
     });
 });
