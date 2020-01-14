@@ -21,8 +21,10 @@ exports.updateUser = function(userName, games) {
     return User.findOne({username:userName}).then(function(user) {
         console.log(user);
         games.forEach((game) => {
+            console.log('game: ' + game);
+            console.log('game id ' + game._id);
             getGame(game.name).then(function(game) {
-                user.games += game._id;
+                user.games.push(game._id);
             });
         });
         console.log(user.games);
