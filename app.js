@@ -243,9 +243,10 @@ app.get('/account', ensureAuthenticated, function (req, res) {
             api.createGame(game.name);
         });
 
-        // api.updateUser(req.session.user.name, games).then(function (games) {
-        //     if (games) req.session.user.games = games.games;
-        // });
+        api.updateUser(req.session.user.name, games).then(function (user) {
+            // if (games) req.session.user.games = games.games;
+            if (user) console.log(user.games)
+        });
     });
 });
 

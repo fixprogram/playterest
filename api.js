@@ -20,7 +20,12 @@ exports.createUser = function(userData) {
 exports.updateUser = function(userName, games) {
     return User.findOne({username:userName}).then(function(user) {
         console.log(user);
-        user.games = games;
+        games.forEach((game) => {
+            getGame(game.name).then(function(game) {
+                user.games += game._id;
+            });
+        });
+        console.log(user.games);
         User(user).save();
         return Promise.resolve(user);
     })
@@ -71,6 +76,16 @@ exports.createGame = function(name) {
     };
     mongoose.connection.collections['games'].insertOne(game);
     return new Game(game).save()
+};
+
+exports.getGame = function(name) {
+    return Game.findOne({name: name}).then(function(game) {
+        return Promise.resolve(game);
+    });
+};
+
+exports.getUserGames = function(user) {
+
 };
 
 exports.createRoom = function(params) {
