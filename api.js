@@ -3,6 +3,8 @@ const crypto = require('crypto');
 
 let db = mongoose.connect('mongodb://heroku_969m2gr9:d0ljj3k0df4v7psa45cn26u376@ds129098.mlab.com:29098/heroku_969m2gr9');
 let User = require('./models/User.js');
+let Room = require('./models/Room.js');
+let Game = require('./models/Game.js');
 
 exports.createUser = function(userData) {
     let user = {
@@ -61,4 +63,27 @@ exports.loadUser = function(req, res, next, previous) {
     } else {
         previous();
     }
+};
+
+exports.createGame = function(name) {
+    let game = {
+        name: name
+    };
+    mongoose.connection.collections['games'].insertOne(game);
+    return new Game(game).save()
+};
+
+exports.createRoom = function(params) {
+    let room = {
+        username: userData.username,
+        email: userData.email,
+        password: hash(userData.password)
+    };
+    mongoose.connection.collections['rooms'].insertOne(room);
+    console.log(room);
+    return new Room(room).save()
+};
+
+exports.getRooms = function(params) {
+
 };

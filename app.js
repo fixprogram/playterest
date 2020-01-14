@@ -156,7 +156,7 @@ app.get('/home', function (req, res) {
             let params = searchParams.split(';');
             console.log(params);
 
-
+            api.getRooms()
 
             // res.render('home', {
             //     userName: req.session.user.name,
@@ -236,12 +236,16 @@ app.get('/auth/steam/return',
 app.get('/account', ensureAuthenticated, function (req, res) {
     // steam.getUserOwnedGames('76561197987987066').then(games => {
 
-    steam.getUserOwnedGames(req.user.id).then(games => {
+    steam.getUserOwnedGames('76561197987987066').then(games => { // req.user.id
         res.send(games);
 
-        api.updateUser(req.session.user.name, games).then(function (games) {
-            if (games) req.session.user.games = games.games;
+        games.forEach((game) => {
+            api.createGame(game.name);
         });
+
+        // api.updateUser(req.session.user.name, games).then(function (games) {
+        //     if (games) req.session.user.games = games.games;
+        // });
     });
 });
 
