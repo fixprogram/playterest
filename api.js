@@ -17,9 +17,9 @@ exports.createUser = function(userData) {
     return new User(user).save()
 };
 
-exports.getGameID = function(name) {
+exports.getGame = function(name) {
     return Game.findOne({name: name}).then(function(game) {
-        return Promise.resolve(game._id);
+        return Promise.resolve(game);
     });
 };
 
