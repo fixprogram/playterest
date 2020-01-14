@@ -154,7 +154,7 @@ app.get('/home', function (req, res) {
         let searchParams = req.query.params;
         if (searchParams) {
             let params = searchParams.split(';');
-            console.log(params.splice(-1, 1));
+            console.log(params);
 
 
 
