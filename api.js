@@ -78,7 +78,7 @@ exports.createGame = function(name) {
     return new Game(game).save()
 };
 
-exports.getGame = function(name) {
+getGame = function(name) {
     return Game.findOne({name: name}).then(function(game) {
         return Promise.resolve(game);
     });
