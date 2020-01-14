@@ -242,6 +242,9 @@ app.get('/account', ensureAuthenticated, function (req, res) {
 
         games.forEach((game) => {
             api.createGame(game.name);
+        });
+
+        games.forEach((game) => {
             api.getGame(game.name).then(function(gameItem) {
                 gamesList.push(gameItem._id);
             })
