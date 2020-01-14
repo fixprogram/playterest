@@ -19,7 +19,6 @@ exports.createUser = function(userData) {
 
 getGame = function(name) {
     return Game.findOne({name: name}).then(function(game) {
-        console.log('game' + game);
         return Promise.resolve(game);
     });
 };
@@ -28,7 +27,7 @@ exports.updateUser = function(userName, games) {
     return User.findOne({username:userName}).then(function(user) {
         games.forEach((game) => {
             getGame(game.name).then(function(gameItem) {
-                console.log(gameItem);
+                console.log(gameItem._id);
                 user.games.push(gameItem._id);
             });
         });
