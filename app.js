@@ -21,17 +21,17 @@ const mongoose = require('mongoose');
 const session = require('express-session');
 const MongoStore = require('connect-mongo')(session);
 
-const { addUser, removeUser, getUser, getUsersInRoom } = require('./users');
+const {addUser, removeUser, getUser, getUsersInRoom} = require('./users');
 
 const views = path.join(__dirname, 'templates/views');
 const partialsPath = path.join(__dirname, 'templates/partials');
 const publicDirectoryPath = path.join(__dirname, 'templates/assets');
 
-passport.serializeUser(function(user, done) {
+passport.serializeUser(function (user, done) {
     done(null, user);
 });
 
-passport.deserializeUser(function(obj, done) {
+passport.deserializeUser(function (obj, done) {
     done(null, obj);
 });
 
@@ -40,7 +40,7 @@ passport.use(new SteamStrategy({
         realm: 'https://myappest.herokuapp.com', // http://localhost:3000
         apiKey: 'CFB0BB3EDA8D5FD2342384380B442CC9'
     },
-    function(identifier, profile, done) {
+    function (identifier, profile, done) {
         process.nextTick(function () {
             profile.identifier = identifier;
             return done(null, profile);
@@ -65,7 +65,7 @@ const sessionMiddleware = session({
     })
 });
 
-io.use(function(socket, next) {
+io.use(function (socket, next) {
     sessionMiddleware(socket.request, socket.request.res, next);
 });
 
@@ -139,40 +139,32 @@ app.get('/', function (req, res) {
     }, function () {
         let errorBool = req.query.error;
 
-        if(errorBool) return res.render('index', {error: 'Неверный логин или пароль', title: 'Играй по своим правилам на playterest.'});
+        if (errorBool) return res.render('index', {
+            error: 'Неверный логин или пароль',
+            title: 'Играй по своим правилам на playterest.'
+        });
 
         res.render('index', {title: 'Играй по своим правилам на playterest.'});
     });
 });
 
 app.get('/home', function (req, res) {
-    // let collection = app.locals.collection;
-    // let game = req.query.game;
-    let searchParams = req.query.params;
-    if(searchParams) {
-         let params = searchParams.split(';');
-         console.log(params);
-    }
-
-    // if (game === undefined) game = 'index';
-
-    // collection.find({tag: game}).toArray((error, content) => {
-    //     if (error) return console.log(error);
-    //
-    //     let messages = [];
-    //
-    //     content.forEach((item) => {
-    //         messages += item.text + ', ';
-    //     });
-    // });
-
     if (req.session.user) {
-        // console.log('id: ' + req.session.user.name);
-        // let user = api.getUser(req.session.user.name).then(function(user) {
-        //   // console.log('user: ' + user);
-        //   return user;
-        // });
-        // console.log('user: ' + user.games);
+
+        let searchParams = req.query.params;
+        if (searchParams) {
+            let params = searchParams.split(';').splice(-1, 1);
+            console.log(params);
+
+
+
+            // res.render('home', {
+            //     userName: req.session.user.name,
+            //     userID: req.session.user.id,
+            //     gamesList: JSON.stringify(req.session.user.games),
+            //     myRoom: ''
+            // });
+        }
 
         const searchInfo = {
             name: req.query.name,
@@ -188,7 +180,6 @@ app.get('/home', function (req, res) {
             searchInfo
         });
     } else {
-        // res.render('home', {user: false});
         res.redirect('/');
     }
 });
@@ -221,30 +212,35 @@ app.get('/search', function (req, res) {
 
 app.get('/room', function (req, res) {
 
-    res.render('room', {name: req.query.name, room: req.query.room, userName: req.session.user.name, userID: req.session.user.id});
+    res.render('room', {
+        name: req.query.name,
+        room: req.query.room,
+        userName: req.session.user.name,
+        userID: req.session.user.id
+    });
 
 });
 
 app.get('/auth/steam',
-    passport.authenticate('steam', { failureRedirect: '/' }),
-    function(req, res) {
+    passport.authenticate('steam', {failureRedirect: '/'}),
+    function (req, res) {
         res.redirect('/');
     });
 
 app.get('/auth/steam/return',
-    passport.authenticate('steam', { failureRedirect: '/' }),
-    function(req, res) {
+    passport.authenticate('steam', {failureRedirect: '/'}),
+    function (req, res) {
         res.redirect('/');
     });
 
-app.get('/account', ensureAuthenticated, function(req, res) {
+app.get('/account', ensureAuthenticated, function (req, res) {
     // steam.getUserOwnedGames('76561197987987066').then(games => {
 
     steam.getUserOwnedGames(req.user.id).then(games => {
         res.send(games);
 
-        api.updateUser(req.session.user.name, games).then(function(games) {
-            if(games) req.session.user.games = games.games;
+        api.updateUser(req.session.user.name, games).then(function (games) {
+            if (games) req.session.user.games = games.games;
         });
     });
 });
@@ -254,22 +250,22 @@ io.on('connection', (socket) => {
     socket.on('sendMessage', ({message, userID}, callback) => {
         const user = getUser(userID);
 
-        io.to(user.room).emit('message', { user: user.userName, text: message });
+        io.to(user.room).emit('message', {user: user.userName, text: message});
 
         // callback();
     });
 
-    socket.on('join', ({ userID, userName, room = 'home' }, callback) => {
-        const { error, user } = addUser({ socketID: socket.id, id: userID, userName, room });
+    socket.on('join', ({userID, userName, room = 'home'}, callback) => {
+        const {error, user} = addUser({socketID: socket.id, id: userID, userName, room});
 
-        if(error) return callback(error);
+        if (error) return callback(error);
 
         socket.join(user.room);
 
-        socket.emit('message', { user: 'admin', text: `${user.userName}, welcome to room ${user.room}.`});
-        socket.broadcast.to(user.room).emit('message', { user: 'admin', text: `${user.userName} has joined!` });
+        socket.emit('message', {user: 'admin', text: `${user.userName}, welcome to room ${user.room}.`});
+        socket.broadcast.to(user.room).emit('message', {user: 'admin', text: `${user.userName} has joined!`});
 
-        io.to(user.room).emit('roomData', { room: user.room, users: getUsersInRoom(user.room) });
+        io.to(user.room).emit('roomData', {room: user.room, users: getUsersInRoom(user.room)});
 
         callback();
     });
@@ -277,16 +273,18 @@ io.on('connection', (socket) => {
     socket.on('disconnect', (callback) => {
         const user = removeUser(socket.id);
 
-        if(user) {
-            io.to(user.room).emit('message', { user: 'admin', text: `${user.userName} has left.` });
-            io.to(user.room).emit('roomData', { room: user.room, users: getUsersInRoom(user.room)});
+        if (user) {
+            io.to(user.room).emit('message', {user: 'admin', text: `${user.userName} has left.`});
+            io.to(user.room).emit('roomData', {room: user.room, users: getUsersInRoom(user.room)});
         }
     })
 
 });
 
 function ensureAuthenticated(req, res, next) {
-    if (req.isAuthenticated()) { return next(); }
+    if (req.isAuthenticated()) {
+        return next();
+    }
     res.redirect('/');
 }
 
