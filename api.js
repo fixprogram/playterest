@@ -17,20 +17,21 @@ exports.createUser = function(userData) {
     return new User(user).save()
 };
 
-getGame = function(name) {
+exports.getGameID = function(name) {
     return Game.findOne({name: name}).then(function(game) {
-        return Promise.resolve(game);
+        return Promise.resolve(game._id);
     });
 };
 
 exports.updateUser = function(userName, games) {
     return User.findOne({username:userName}).then(function(user) {
-        games.forEach((game) => {
-            getGame(game.name).then(function(gameItem) {
-                console.log(gameItem._id);
-                user.games.push(gameItem._id);
-            });
-        });
+        // games.forEach((game) => {
+        //     getGame(game.name).then(function(gameItem) {
+        //         console.log(gameItem._id);
+        //         user.games.push(gameItem._id);
+        //     });
+        // });
+        user.games = games;
         console.log(user.games);
         User(user).save();
         return Promise.resolve(user);
