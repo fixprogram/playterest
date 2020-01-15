@@ -151,10 +151,16 @@ app.get('/', function (req, res) {
 app.get('/home', function (req, res) {
     if (req.session.user) {
 
-        let userData;
+        // let userData = {};
+        let gamesList = [];
 
         api.getUser(req.session.user.name).then((user) => {
-            userData = user;
+            // userData = user;
+            user.games.forEach((id) => {
+                api.getGame(id).then((game) => {
+                    gamesList.push(game);
+                })
+            });
         });
 
         let searchParams = req.query.params;
@@ -179,22 +185,14 @@ app.get('/home', function (req, res) {
             userID: req.session.user.id
         };
 
-        let gamesList = [];
-
-        userData.games.forEach((id) => {
-            api.getGame(id).then((game) => {
-                gamesList.push(game);
-            })
-        });
-
         console.log('games listsss' + gamesList);
-        console.log('req.session.user.games ' + userData);
+        // console.log('req.session.user.games ' + userData);
 
         res.render('home', {
             userName: req.session.user.name,
             userID: req.session.user.id,
-            // gamesList: JSON.stringify(gamesList),
-            gamesList: JSON.stringify(userData),
+            gamesList: JSON.stringify(gamesList),
+            // gamesList: JSON.stringify(userData),
             searchInfo
         });
     } else {
