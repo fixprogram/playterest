@@ -236,23 +236,19 @@ app.get('/auth/steam/return',
 app.get('/account', ensureAuthenticated, function (req, res) {
     // steam.getUserOwnedGames('76561197987987066').then(games => {
 
-    steam.getUserOwnedGames(req.user.id).then(games => { // req.user.id
+    steam.getUserOwnedGames('76561197987987066').then(games => { // req.user.id
         res.send(games);
         let gamesList = [];
 
         games.forEach((game) => {
-            api.createGame(game.name).then(function() {
-                api.getGame(game.name).then(function(gameItem) {
-                    gamesList.push(gameItem._id);
-                })
+            api.createGame(game.name).api.getGame(game.name).then(function(gameItem) {
+                gamesList.push(gameItem._id);
             });
         });
 
-        // games.forEach((game) => {
-        //     api.getGame(game.name).then(function(gameItem) {
-        //         gamesList.push(gameItem._id);
-        //     })
-        // });
+        games.forEach((game) => {
+
+        });
 
         api.updateUser(req.session.user.name, gamesList).then(function (user) {
             if (games) req.session.user.games = games.games;
