@@ -182,6 +182,7 @@ app.get('/home', function (req, res) {
         });
 
         console.log('games listsss' + gamesList);
+        console.log('req.session.user.games ' + req.session.user.games);
 
         res.render('home', {
             userName: req.session.user.name,
