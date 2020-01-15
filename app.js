@@ -173,6 +173,8 @@ app.get('/home', function (req, res) {
             userID: req.session.user.id
         };
 
+        console.log('games listsss' + req.session.user.games);
+
         res.render('home', {
             userName: req.session.user.name,
             userID: req.session.user.id,
@@ -252,7 +254,6 @@ app.get('/account', ensureAuthenticated, function (req, res) {
 
         api.updateUser(req.session.user.name, gamesID).then(function (user) {
             if (user) req.session.user.games = gamesList;
-            console.log(req.session.user.games);
         });
     });
 });
