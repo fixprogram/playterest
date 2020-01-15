@@ -167,35 +167,39 @@ app.get('/home', function (req, res) {
             // });
         }
 
-        api.getUser(req.session.user.name).then((user) => {
+        let getUserGames = new Promise((resolve, reject) => {
+            api.getUser(req.session.user.name).then((user) => {
 
-            let gamesList = [];
-            user.games.forEach(function (id) {
-                api.getGame(id).then(function (game) {
-                    // console.log('game' + game);
-                    gamesList.push(game);
+                let gamesList = [];
+                user.games.forEach(function (id) {
+                    api.getGame(id).then(function (game) {
+                        gamesList.push(game);
+                    });
                 });
+
+                return gamesList;
             });
-
-            console.log(gamesList);
         });
 
-        const searchInfo = {
-            name: req.query.name,
-            room: req.query.room,
-            userName: req.session.user.name,
-            userID: req.session.user.id
-        };
+        getUserGames.then((gameList) => {
+            const searchInfo = {
+                name: req.query.name,
+                room: req.query.room,
+                userName: req.session.user.name,
+                userID: req.session.user.id
+            };
 
-        // console.log('req.session.user.games ' + userData);
+            console.log(gameList);
 
-        res.render('home', {
-            userName: req.session.user.name,
-            userID: req.session.user.id,
-            // gamesList: JSON.stringify(gamesList),
-            // gamesList: JSON.stringify(userData),
-            searchInfo
+            res.render('home', {
+                userName: req.session.user.name,
+                userID: req.session.user.id,
+                gamesList: JSON.stringify(gamesList),
+                // gamesList: JSON.stringify(userData),
+                searchInfo
+            });
         });
+
     } else {
         res.redirect('/');
     }
