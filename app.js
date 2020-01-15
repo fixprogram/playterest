@@ -241,10 +241,16 @@ app.get('/account', ensureAuthenticated, function (req, res) {
         let gamesList = [];
 
         games.forEach((game) => {
-            api.createGame(game.name).api.getGame(game.name).then(function(gameItem) {
+            api.createGame(game.name).getGame(game.name).then(function(gameItem) {
                 gamesList.push(gameItem._id);
             });
         });
+
+        // games.forEach((game) => {
+        //     api.createGame(game.name).then(function(gameItem) {
+        //         gamesList.push(gameItem._id);
+        //     });
+        // });
 
         games.forEach((game) => {
 
