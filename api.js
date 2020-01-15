@@ -19,8 +19,6 @@ exports.createUser = function(userData) {
 
 exports.getGame = function(id) {
     return Game.findOne({gameID: id}).then(function(game) {
-        console.log('typeof' + typeof(id));
-        console.log('gameee: ' + game);
         return Promise.resolve(game);
     });
 };
