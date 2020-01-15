@@ -250,9 +250,11 @@ app.get('/account', ensureAuthenticated, function (req, res) {
             // });
             console.log("game" + game);
             console.log("game name" + game.name);
-            steamSearch.find({search: game.name}, function (err, game) {
+            steamSearch.find({search: game.name}, function (err, gameItem) {
                 // if (err) res.render('404');
-                gamesList.push(game.appID);
+                console.log(gameItem);
+                console.log('gameItem.appID' + gameItem.appID);
+                gamesList.push(gameItem.appID);
                 // res.render('game', {data: JSON.stringify(game)});
             });
         });
