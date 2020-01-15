@@ -175,11 +175,13 @@ app.get('/home', function (req, res) {
             let gamesList = [];
 
 
-            console.log('user.games' + user.games);
-            console.log('user' + user);
+            // console.log('user.games' + user.games);
+            // console.log('user' + user);
 
             user.games.forEach((id) => {
+                console.log('id' + id);
                 api.getGame(id).then((game) => {
+                    console.log('game' + game);
                     gamesList.push(game);
                 })
             });
