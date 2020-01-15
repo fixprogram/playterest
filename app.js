@@ -180,7 +180,7 @@ app.get('/home', function (req, res) {
 
             user.games.forEach((id) => {
                 console.log('id' + id);
-                api.getGame(id).then((game) => {
+                api.getGame(id).then(function (game) {
                     console.log('game' + game);
                     gamesList.push(game);
                 })
