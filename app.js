@@ -148,7 +148,7 @@ app.get('/', function (req, res) {
     });
 });
 
-app.get('/home', async function (req, res) {
+app.get('/home', function (req, res) {
     if (req.session.user) {
 
         // let userData = {};
@@ -178,10 +178,10 @@ app.get('/home', async function (req, res) {
             // console.log('user.games' + user.games);
             // console.log('user' + user);
 
-            user.games.forEach((id) => {
+            user.games.forEach(async function(id) {
                 await api.getGame(id).then(function (game) {
                     // console.log('game' + game);
-                   return gamesList.push(game);
+                   gamesList.push(game);
                 });
             });
 
