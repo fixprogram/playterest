@@ -152,56 +152,56 @@ app.get('/home', function (req, res) {
     if (req.session.user) {
 
         // let userData = {};
+        let searchParams = req.query.params;
+        if (searchParams) {
+            let params = searchParams.split(';');
+            console.log(params);
 
-        api.getUser(req.session.user.name).then((user) => {
+            api.getRooms()
 
-            let searchParams = req.query.params;
-            if (searchParams) {
-                let params = searchParams.split(';');
-                console.log(params);
+            // res.render('home', {
+            //     userName: req.session.user.name,
+            //     userID: req.session.user.id,
+            //     gamesList: JSON.stringify(req.session.user.games),
+            //     myRoom: ''
+            // });
+        }
 
-                api.getRooms()
+        async function getGames() {
 
-                // res.render('home', {
-                //     userName: req.session.user.name,
-                //     userID: req.session.user.id,
-                //     gamesList: JSON.stringify(req.session.user.games),
-                //     myRoom: ''
-                // });
-            }
+            await api.getUser(req.session.user.name).then((user) => {
 
-            // userData = user;
-
-            let gamesList = [];
-
-
-            // console.log('user.games' + user.games);
-            // console.log('user' + user);
-
-            user.games.forEach(async function(id) {
-                await api.getGame(id).then(function (game) {
-                    // console.log('game' + game);
-                   gamesList.push(game);
+                let gamesList = [];
+                user.games.forEach(async function(id) {
+                    await api.getGame(id).then(function (game) {
+                        // console.log('game' + game);
+                        gamesList.push(game);
+                    });
                 });
+
+                return gamesList;
             });
 
-            const searchInfo = {
-                name: req.query.name,
-                room: req.query.room,
-                userName: req.session.user.name,
-                userID: req.session.user.id
-            };
+        }
 
-            console.log('games listsss' + gamesList);
-            // console.log('req.session.user.games ' + userData);
+        let gamesList = getGames();
 
-            res.render('home', {
-                userName: req.session.user.name,
-                userID: req.session.user.id,
-                gamesList: JSON.stringify(gamesList),
-                // gamesList: JSON.stringify(userData),
-                searchInfo
-            });
+        const searchInfo = {
+            name: req.query.name,
+            room: req.query.room,
+            userName: req.session.user.name,
+            userID: req.session.user.id
+        };
+
+        console.log('games listsss' + gamesList);
+        // console.log('req.session.user.games ' + userData);
+
+        res.render('home', {
+            userName: req.session.user.name,
+            userID: req.session.user.id,
+            gamesList: JSON.stringify(gamesList),
+            // gamesList: JSON.stringify(userData),
+            searchInfo
         });
     } else {
         res.redirect('/');
