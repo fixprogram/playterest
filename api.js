@@ -17,8 +17,8 @@ exports.createUser = function(userData) {
     return new User(user).save()
 };
 
-exports.getGame = function(name) {
-    return Game.findOne({name: name}).then(function(game) {
+exports.getGame = function(id) {
+    return Game.findOne({gameID: id}).then(function(game) {
         return Promise.resolve(game);
     });
 };
@@ -77,9 +77,11 @@ exports.loadUser = function(req, res, next, previous) {
     }
 };
 
-exports.createGame = function(name) {
+exports.createGame = function(id, name, icon) {
     let game = {
-        name: name
+        gameID: id,
+        name: name,
+        iconURL: icon
     };
     mongoose.connection.collections['games'].insertOne(game);
     return new Game(game).save()

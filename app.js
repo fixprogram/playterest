@@ -173,12 +173,20 @@ app.get('/home', function (req, res) {
             userID: req.session.user.id
         };
 
-        console.log('games listsss' + req.session.user.games);
+        let gamesList = [];
+
+        req.session.user.games.forEach((id) => {
+            api.getGame(id).then((game) => {
+                gamesList.push(game);
+            })
+        });
+
+        console.log('games listsss' + gamesList);
 
         res.render('home', {
             userName: req.session.user.name,
             userID: req.session.user.id,
-            gamesList: JSON.stringify(req.session.user.games),
+            gamesList: JSON.stringify(gamesList),
             searchInfo
         });
     } else {
@@ -246,13 +254,18 @@ app.get('/account', ensureAuthenticated, function (req, res) {
         games.forEach((gameItem) => {
             gamesID.push(gameItem.appID);
             let game = {
+                appID: gameItem.appID,
                 name: gameItem.name,
                 iconUrl: gameItem.iconURL
             };
             gamesList.push(game);
         });
 
-        req.session.user.games = gamesList;
+        // req.session.user.games = gamesList;
+
+        games.forEach((gameItem) => {
+            api.createGame(gameItem.appID, gameItem.name, gameItem.iconURL)
+        });
 
         api.updateUser(req.session.user.name, gamesID)
     });
