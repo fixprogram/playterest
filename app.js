@@ -184,7 +184,9 @@ app.get('/home', function (req, res) {
 
         }
 
-        let gamesList = getGames();
+        let games = getGames().then(function(gamesList) {
+            console.log('games listsss' + gamesList);
+        });
 
         const searchInfo = {
             name: req.query.name,
@@ -193,13 +195,12 @@ app.get('/home', function (req, res) {
             userID: req.session.user.id
         };
 
-        console.log('games listsss' + gamesList);
         // console.log('req.session.user.games ' + userData);
 
         res.render('home', {
             userName: req.session.user.name,
             userID: req.session.user.id,
-            gamesList: JSON.stringify(gamesList),
+            // gamesList: JSON.stringify(gamesList),
             // gamesList: JSON.stringify(userData),
             searchInfo
         });
