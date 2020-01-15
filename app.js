@@ -151,6 +151,12 @@ app.get('/', function (req, res) {
 app.get('/home', function (req, res) {
     if (req.session.user) {
 
+        let userData;
+
+        api.getUser(req.session.user.name).then((user) => {
+            userData = user;
+        });
+
         let searchParams = req.query.params;
         if (searchParams) {
             let params = searchParams.split(';');
@@ -175,20 +181,20 @@ app.get('/home', function (req, res) {
 
         let gamesList = [];
 
-        req.session.user.games.forEach((id) => {
+        userData.games.forEach((id) => {
             api.getGame(id).then((game) => {
                 gamesList.push(game);
             })
         });
 
         console.log('games listsss' + gamesList);
-        console.log('req.session.user.games ' + req.session.user);
+        console.log('req.session.user.games ' + userData);
 
         res.render('home', {
             userName: req.session.user.name,
             userID: req.session.user.id,
             // gamesList: JSON.stringify(gamesList),
-            gamesList: JSON.stringify(req.session.user),
+            gamesList: JSON.stringify(userData),
             searchInfo
         });
     } else {
