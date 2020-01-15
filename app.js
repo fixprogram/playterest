@@ -248,10 +248,10 @@ app.get('/account', ensureAuthenticated, function (req, res) {
             // api.getGame(game.name).then(function (gameItem) {
             //     gamesList.push(gameItem._id);
             // });
-            steamSearch.find({search: 'Counter Strike'}, function (err, gameItem) {
+            steamSearch.find({search: 'Dota'}, function (err, gameItem) {
                 // if (err) res.render('404');
                 console.log(gameItem);
-                console.log('gameItem.appID' + gameItem.appID);
+                console.log('gameItem.appID' + gameItem.steam_appid);
                 gamesList.push(gameItem.appID);
                 // res.render('game', {data: JSON.stringify(game)});
             });
