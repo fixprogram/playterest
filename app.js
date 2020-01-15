@@ -252,10 +252,9 @@ app.get('/account', ensureAuthenticated, function (req, res) {
             gamesList.push(game);
         });
 
-        api.updateUser(req.session.user.name, gamesID).then(function (user) {
-            if (user) req.session.user.games = gamesList;
-            console.log(req.session.user.games)
-        });
+        req.session.user.games = gamesList;
+
+        api.updateUser(req.session.user.name, gamesID)
     });
 });
 
