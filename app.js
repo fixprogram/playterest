@@ -167,27 +167,17 @@ app.get('/home', function (req, res) {
             // });
         }
 
-        async function getGames() {
+        api.getUser(req.session.user.name).then((user) => {
 
-            const gameList = await api.getUser(req.session.user.name).then((user) => {
-
-                let gamesList = [];
-                user.games.forEach(async function(id) {
-                    await api.getGame(id).then(function (game) {
-                        // console.log('game' + game);
-                        gamesList.push(game);
-                    });
+            let gamesList = [];
+            user.games.forEach(function (id) {
+                api.getGame(id).then(function (game) {
+                    // console.log('game' + game);
+                    gamesList.push(game);
                 });
-
-                return gamesList;
             });
 
-            return gameList;
-
-        }
-
-        let games = getGames().then(function(gameList) {
-            console.log('games listsss' + gameList);
+            console.log(gamesList);
         });
 
         const searchInfo = {
