@@ -240,29 +240,13 @@ app.get('/account', ensureAuthenticated, function (req, res) {
         res.send(games);
         let gamesList = [];
 
-        // games.forEach((game) => {
-        //     api.createGame(game.name);
-        // });
-
         games.forEach((game) => {
-            // api.getGame(game.name).then(function (gameItem) {
-            //     gamesList.push(gameItem._id);
-            // });
-
             gamesList.push(game.appID);
-
-            // steamSearch.find({search: game.name}, function (err, gameItem) {
-            //     if (err) console.log(err);
-            //     // console.log(gameItem);
-            //     console.log('gameItem.appID ' + gameItem.steam_appid);
-            //     gamesList.push(gameItem.appID);
-            //     // res.render('game', {data: JSON.stringify(game)});
-            // });
         });
 
         api.updateUser(req.session.user.name, gamesList).then(function (user) {
-            if (games) req.session.user.games = games.games;
-            // if (user) console.log(user.games)
+            if (user) req.session.user.games = games;
+            if (user) console.log(req.session.user.games)
         });
     });
 });
