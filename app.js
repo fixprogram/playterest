@@ -183,7 +183,7 @@ app.get('/home', function (req, res) {
                 api.getGame(id).then(function (game) {
                     console.log('game' + game);
                     gamesList.push(game);
-                })
+                });
             });
 
             const searchInfo = {
