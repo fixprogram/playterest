@@ -148,7 +148,7 @@ app.get('/', function (req, res) {
     });
 });
 
-app.get('/home', function (req, res) {
+app.get('/home', async function (req, res) {
     if (req.session.user) {
 
         // let userData = {};
@@ -179,9 +179,9 @@ app.get('/home', function (req, res) {
             // console.log('user' + user);
 
             user.games.forEach((id) => {
-                api.getGame(id).then(function (game) {
+                await api.getGame(id).then(function (game) {
                     // console.log('game' + game);
-                    gamesList.push(game);
+                   return gamesList.push(game);
                 });
             });
 
