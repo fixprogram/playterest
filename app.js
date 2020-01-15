@@ -169,7 +169,7 @@ app.get('/home', function (req, res) {
 
         async function getGames() {
 
-            await api.getUser(req.session.user.name).then((user) => {
+            const gameList = await api.getUser(req.session.user.name).then((user) => {
 
                 let gamesList = [];
                 user.games.forEach(async function(id) {
@@ -182,10 +182,12 @@ app.get('/home', function (req, res) {
                 return gamesList;
             });
 
+            return gameList;
+
         }
 
-        let games = getGames().then(function(gamesList) {
-            console.log('games listsss' + gamesList);
+        let games = getGames().then(function(gameList) {
+            console.log('games listsss' + gameList);
         });
 
         const searchInfo = {
