@@ -174,6 +174,10 @@ app.get('/home', function (req, res) {
 
             let gamesList = [];
 
+
+            console.log('user.games' + user.games);
+            console.log('user' + user);
+
             user.games.forEach((id) => {
                 api.getGame(id).then((game) => {
                     gamesList.push(game);
