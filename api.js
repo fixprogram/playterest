@@ -96,6 +96,7 @@ exports.createGame = function(id, name, icon) {
 };
 
 exports.createRoom = function(id, games) {
+    console.log('id  ' + id);
     let room = { id, games };
     mongoose.connection.collections['rooms'].insertOne(room);
     console.log(room);

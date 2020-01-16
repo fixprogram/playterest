@@ -172,9 +172,9 @@ app.get('/home', function (req, res) {
                         let searchGames = [];
                         if (param) {
                             searchGames = user.games;
-                            if (param === 'search-favorite') {
-                                searchGames = user.games;
-                            }
+                            // if (param === 'search-favorite') {
+                            //     searchGames = user.games;
+                            // }
                             api.createRoom(uuid(), searchGames);
                         }
                     });
