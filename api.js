@@ -95,10 +95,9 @@ exports.createGame = function(id, name, icon) {
     return new Game(game).save()
 };
 
-exports.createRoom = function(id, games) {
-    console.log('id  ' + id);
+exports.createRoom = function(users, games) {
     let room = {
-        id: id,
+        userNames: users,
         games: games
     };
     mongoose.connection.collections['rooms'].insertOne(room);

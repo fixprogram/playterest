@@ -166,6 +166,8 @@ app.get('/home', function (req, res) {
                 let searchParams = req.query.params;
                 if (searchParams) {
                     let params = searchParams.split(';');
+                    let users = [];
+                    users.push(user.username);
                     console.log(params);
 
                     params.forEach((param) => {
@@ -175,7 +177,7 @@ app.get('/home', function (req, res) {
                             // if (param === 'search-favorite') {
                             //     searchGames = user.games;
                             // }
-                            api.createRoom(uuid(), searchGames);
+                            api.createRoom(users, searchGames);
                         }
                     });
 
