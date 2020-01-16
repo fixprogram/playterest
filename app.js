@@ -166,10 +166,10 @@ app.get('/home', function (req, res) {
                 let searchParams = req.query.params;
                 if (searchParams) {
                     let params = searchParams.split(';');
-                    let users = [user.username];
+                    // let users = [user.username];
                     // users.push(user.username);
                     console.log(params);
-                    let searchGames = [user.games];
+                    let searchGames = user.games;
 
                     // params.forEach((param) => {
                     //     if (param) {
@@ -180,7 +180,7 @@ app.get('/home', function (req, res) {
                     //     }
                     // });
 
-                    api.createRoom(users, searchGames);
+                    api.createRoom(user.username, searchGames);
 
                     api.getRooms(user.games).then((rooms) => {
                         // console.log('rooms' + rooms);
