@@ -23,11 +23,13 @@ exports.getGame = function(id) {
     });
 };
 
-exports.getGames = function(arr) {
-    return Game.find({gameID: arr}).then(function(games) {
-        return Promise.resolve(games);
-    });
-};
+// exports.getGames = function(arr) {
+//     return Game.find({gameID: arr}).then(function(games) {
+//         return Promise.resolve(games);
+//     });
+// };
+
+exports.getGames = (arr) => Game.find({ gameID: arr }).then((games) => Promise.resolve(games));
 
 exports.updateUser = function(userName, games) {
     return User.findOne({username:userName}).then(function(user) {
