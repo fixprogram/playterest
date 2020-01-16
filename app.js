@@ -166,26 +166,19 @@ app.get('/home', function (req, res) {
                 let searchParams = req.query.params;
                 if (searchParams) {
                     let params = searchParams.split(';');
-                    // let users = [user.username];
-                    // users.push(user.username);
-                    console.log(params);
-                    let searchGames = user.games;
 
-                    // params.forEach((param) => {
-                    //     if (param) {
-                    //         searchGames = user.games;
-                    //         // if (param === 'search-favorite') {
-                    //         //     searchGames = user.games;
-                    //         // }
-                    //     }
+                    api.createRoom(req.session.user);
+
+                    // res.render('home', {
+                    //     userName: req.session.user.name,
+                    //     userID: req.session.user.id,
+                    //     gamesList: JSON.stringify(games),
+                    //     // rooms: JSON.stringify(rooms),
+                    //     searchInfo
                     // });
 
-                    api.createRoom(user.username, searchGames);
-
                     api.getRooms(user.games).then((rooms) => {
-                        // console.log('rooms' + rooms);
-                        // roomsList = rooms;
-
+                        console.log(rooms);
                         res.render('home', {
                             userName: req.session.user.name,
                             userID: req.session.user.id,

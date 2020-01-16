@@ -1,16 +1,13 @@
 const mongoose = require('mongoose');
 const Room = new mongoose.Schema({
-    user: {
+    username: {
         type: String,
         unique: true,
         required: true
     },
     games: {
-        type: Array,
+        type: String,
         required: true
-    },
-    users: {
-        type: Array
     }
 });
 

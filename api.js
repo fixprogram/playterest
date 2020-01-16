@@ -6,6 +6,16 @@ let User = require('./models/User.js');
 let Room = require('./models/Room.js');
 let Game = require('./models/Game.js');
 
+exports.createRoom = function(user) {
+    let room = {
+        username: user.name,
+        games: user.games
+    };
+    mongoose.connection.collections['rooms'].insertOne(room);
+    console.log(room);
+    return new Room(room).save()
+};
+
 exports.createUser = function(userData) {
     let user = {
         username: userData.username,
@@ -93,20 +103,6 @@ exports.createGame = function(id, name, icon) {
     };
     mongoose.connection.collections['games'].insertOne(game);
     return new Game(game).save()
-};
-
-exports.createRoom = function(user, games) {
-    console.log('users: ' + typeof(user));
-    console.log('games: ' + typeof(games));
-    let usersList = [user];
-    let room = {
-        user: user,
-        games: games,
-        users: usersList
-    };
-    mongoose.connection.collections['rooms'].insertOne(room);
-    console.log(room);
-    return new Room(room).save()
 };
 
 exports.getRoom = (id) => Room.find({id}).then((room) => Promise.resolve(room));
