@@ -183,14 +183,14 @@ app.get('/home', function (req, res) {
                     api.createRoom(users, searchGames);
 
                     api.getRooms(user.games).then((rooms) => {
-                        console.log('rooms' + rooms);
-                        roomsList = rooms;
+                        // console.log('rooms' + rooms);
+                        // roomsList = rooms;
 
                         res.render('home', {
                             userName: req.session.user.name,
                             userID: req.session.user.id,
                             gamesList: JSON.stringify(games),
-                            rooms: JSON.stringify(roomsList),
+                            rooms: JSON.stringify(rooms),
                             searchInfo
                         });
                     });

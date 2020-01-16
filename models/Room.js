@@ -2,6 +2,7 @@ const mongoose = require('mongoose');
 const Room = new mongoose.Schema({
     userNames: {
         type: Array,
+        unique: true,
         required: true
     },
     games: {

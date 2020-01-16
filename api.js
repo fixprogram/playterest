@@ -96,6 +96,8 @@ exports.createGame = function(id, name, icon) {
 };
 
 exports.createRoom = function(users, games) {
+    console.log('users: ' + users);
+    console.log('games: ' + games);
     let room = {
         userNames: users,
         games: games
