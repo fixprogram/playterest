@@ -171,6 +171,7 @@ app.get('/home', function (req, res) {
                     params.forEach((param) => {
                         let searchGames = [];
                         if (param) {
+                            searchGames = user.games;
                             if (param === 'search-favorite') {
                                 searchGames = user.games;
                             }
