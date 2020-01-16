@@ -166,19 +166,19 @@ app.get('/home', function (req, res) {
                 let searchParams = req.query.params;
                 if (searchParams) {
                     let params = searchParams.split(';');
-                    let users = [];
-                    users.push(user.username);
+                    let users = [user.username];
+                    // users.push(user.username);
                     console.log(params);
-                    let searchGames = [];
+                    let searchGames = [user.games];
 
-                    params.forEach((param) => {
-                        if (param) {
-                            searchGames = user.games;
-                            // if (param === 'search-favorite') {
-                            //     searchGames = user.games;
-                            // }
-                        }
-                    });
+                    // params.forEach((param) => {
+                    //     if (param) {
+                    //         searchGames = user.games;
+                    //         // if (param === 'search-favorite') {
+                    //         //     searchGames = user.games;
+                    //         // }
+                    //     }
+                    // });
 
                     api.createRoom(users, searchGames);
 
