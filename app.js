@@ -167,21 +167,8 @@ app.get('/home', function (req, res) {
             // });
         }
 
-        let getUserGames = new Promise((resolve, reject) => {
-            api.getUser(req.session.user.name).then((user) => {
+        api.getUser(req.session.user.name).then((user) => {
 
-                let gamesList = [];
-                user.games.forEach(function (id) {
-                    api.getGame(id).then(function (game) {
-                        gamesList.push(game);
-                    });
-                });
-
-                return gamesList;
-            });
-        });
-
-        getUserGames.then((gameList) => {
             const searchInfo = {
                 name: req.query.name,
                 room: req.query.room,
@@ -189,16 +176,48 @@ app.get('/home', function (req, res) {
                 userID: req.session.user.id
             };
 
-            console.log(gameList);
+            // console.log(user);
 
-            res.render('home', {
-                userName: req.session.user.name,
-                userID: req.session.user.id,
-                gamesList: JSON.stringify(gamesList),
-                // gamesList: JSON.stringify(userData),
-                searchInfo
+            api.getGames(user.games).then((games) => {
+                console.log(games);
+
+                // let gamesList = [];
+                // console.log(gamesList);
+
+                res.render('home', {
+                    userName: req.session.user.name,
+                    userID: req.session.user.id,
+                    gamesList: JSON.stringify(games),
+                    // gamesList: JSON.stringify(userData),
+                    searchInfo
+                });
             });
-        });
+            });
+
+            // const getGames = (user) => {
+            //     let gamesList = [];
+            //     user.games.forEach(async function (id) {
+            //         await api.getGame(id).then((game) => {
+            //             gamesList.push(game);
+            //         });
+            //     });
+            //     console.log('gg ' + gamesList);
+            // };
+
+            // getGames(user);
+
+            // let fun = new Promise((resolve, reject) => {
+            //     let gamesList = [];
+            //     user.games.forEach(function (id) {
+            //         api.getGame(id).then(function (game) {
+            //             gamesList.push(game);
+            //             // console.log(gamesList);
+            //         });
+            //     });
+            //     return Promise.all(gamesList);
+            //     // if(gamesList.length > 1) resolve(gamesList);
+            // });
+
 
     } else {
         res.redirect('/');

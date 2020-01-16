@@ -23,6 +23,12 @@ exports.getGame = function(id) {
     });
 };
 
+exports.getGames = function(arr) {
+    return Game.find({gameID: arr}).then(function(games) {
+        return Promise.resolve(games);
+    });
+};
+
 exports.updateUser = function(userName, games) {
     return User.findOne({username:userName}).then(function(user) {
         // games.forEach((game) => {
@@ -40,6 +46,13 @@ exports.updateUser = function(userName, games) {
 
 exports.getUser = function(name) {
     return User.findOne({username: name}).then(function(user) {
+       // let userGames = [];
+       // user.games.forEach((id) => {
+       //     Game.findOne({gameID: id}).then(function(game) {
+       //         userGames.push(game);
+       //     });
+       // });
+       // console.log('userGames: ' + userGames);
        return Promise.resolve(user);
     });
 };
