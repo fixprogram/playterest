@@ -1,12 +1,13 @@
 const mongoose = require('mongoose');
 const Room = new mongoose.Schema({
-    params: {
+    id: {
         type: String,
         unique: true,
         required: true
     },
     games: {
-        type: Array
+        type: Array,
+        required: true
     }
 });
 

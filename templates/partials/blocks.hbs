@@ -25,12 +25,15 @@
 <script>
     const gamesList = document.querySelector('.games-list');
 
+    let rooms = '{{rooms}}';
+    rooms = rooms.replace(/&#x27;/g, "'");
+    rooms = rooms.replace(/&quot;/g, '"');
+    rooms = JSON.parse(rooms);
+    console.log('rooms' + rooms);
+
     let games = '{{gamesList}}';
-
     games = games.replace(/&quot;/g, '"');
-
     games = JSON.parse(games);
-
     console.log(games);
 
     function renderGame(game, list) {

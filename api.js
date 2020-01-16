@@ -48,13 +48,6 @@ exports.updateUser = function(userName, games) {
 
 exports.getUser = function(name) {
     return User.findOne({username: name}).then(function(user) {
-       // let userGames = [];
-       // user.games.forEach((id) => {
-       //     Game.findOne({gameID: id}).then(function(game) {
-       //         userGames.push(game);
-       //     });
-       // });
-       // console.log('userGames: ' + userGames);
        return Promise.resolve(user);
     });
 };
@@ -102,21 +95,13 @@ exports.createGame = function(id, name, icon) {
     return new Game(game).save()
 };
 
-exports.getUserGames = function(user) {
-
-};
-
-exports.createRoom = function(params) {
-    let room = {
-        username: userData.username,
-        email: userData.email,
-        password: hash(userData.password)
-    };
+exports.createRoom = function(id, games) {
+    let room = { id, games };
     mongoose.connection.collections['rooms'].insertOne(room);
     console.log(room);
     return new Room(room).save()
 };
 
-exports.getRooms = function(params) {
+exports.getRoom = (id) => Room.find({id}).then((room) => Promise.resolve(room));
 
-};
+exports.getRooms = (games) => Room.find({ games }).then((rooms) => Promise.resolve(rooms));

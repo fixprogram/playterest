@@ -151,22 +151,6 @@ app.get('/', function (req, res) {
 app.get('/home', function (req, res) {
     if (req.session.user) {
 
-        // let userData = {};
-        let searchParams = req.query.params;
-        if (searchParams) {
-            let params = searchParams.split(';');
-            console.log(params);
-
-            api.getRooms()
-
-            // res.render('home', {
-            //     userName: req.session.user.name,
-            //     userID: req.session.user.id,
-            //     gamesList: JSON.stringify(req.session.user.games),
-            //     myRoom: ''
-            // });
-        }
-
         api.getUser(req.session.user.name).then((user) => {
 
             const searchInfo = {
@@ -176,48 +160,47 @@ app.get('/home', function (req, res) {
                 userID: req.session.user.id
             };
 
-            // console.log(user);
+            let roomsList = [];
 
             api.getGames(user.games).then((games) => {
-                console.log(games);
+                let searchParams = req.query.params;
+                if (searchParams) {
+                    let params = searchParams.split(';');
+                    console.log(params);
 
-                // let gamesList = [];
-                // console.log(gamesList);
+                    params.forEach((param) => {
+                        let searchGames = [];
+                        if (param) {
+                            if (param === 'search-favorite') {
+                                searchGames = user.games;
+                            }
+                            api.createRoom(uuid(), searchGames);
+                        }
+                    });
 
-                res.render('home', {
-                    userName: req.session.user.name,
-                    userID: req.session.user.id,
-                    gamesList: JSON.stringify(games),
-                    // gamesList: JSON.stringify(userData),
-                    searchInfo
-                });
+                    api.getRooms(user.games).then((rooms) => {
+                        console.log('rooms' + rooms);
+                        roomsList = rooms;
+
+                        res.render('home', {
+                            userName: req.session.user.name,
+                            userID: req.session.user.id,
+                            gamesList: JSON.stringify(games),
+                            rooms: JSON.stringify(roomsList),
+                            searchInfo
+                        });
+                    });
+
+                } else {
+                    res.render('home', {
+                        userName: req.session.user.name,
+                        userID: req.session.user.id,
+                        gamesList: JSON.stringify(games),
+                        searchInfo
+                    });
+                }
             });
-            });
-
-            // const getGames = (user) => {
-            //     let gamesList = [];
-            //     user.games.forEach(async function (id) {
-            //         await api.getGame(id).then((game) => {
-            //             gamesList.push(game);
-            //         });
-            //     });
-            //     console.log('gg ' + gamesList);
-            // };
-
-            // getGames(user);
-
-            // let fun = new Promise((resolve, reject) => {
-            //     let gamesList = [];
-            //     user.games.forEach(function (id) {
-            //         api.getGame(id).then(function (game) {
-            //             gamesList.push(game);
-            //             // console.log(gamesList);
-            //         });
-            //     });
-            //     return Promise.all(gamesList);
-            //     // if(gamesList.length > 1) resolve(gamesList);
-            // });
-
+        });
 
     } else {
         res.redirect('/');
@@ -276,7 +259,7 @@ app.get('/auth/steam/return',
 app.get('/account', ensureAuthenticated, function (req, res) {
     // steam.getUserOwnedGames('76561197987987066').then(games => {
 
-    steam.getUserOwnedGames(req.user.id).then(games => { // req.user.id
+    steam.getUserOwnedGames('76561197987987066').then(games => { // req.user.id
         res.send(games);
         let gamesID = [];
         let gamesList = [];
