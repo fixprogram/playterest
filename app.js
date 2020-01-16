@@ -169,17 +169,18 @@ app.get('/home', function (req, res) {
                     let users = [];
                     users.push(user.username);
                     console.log(params);
+                    let searchGames = [];
 
                     params.forEach((param) => {
-                        let searchGames = [];
                         if (param) {
                             searchGames = user.games;
                             // if (param === 'search-favorite') {
                             //     searchGames = user.games;
                             // }
-                            api.createRoom(users, searchGames);
                         }
                     });
+
+                    api.createRoom(users, searchGames);
 
                     api.getRooms(user.games).then((rooms) => {
                         console.log('rooms' + rooms);
