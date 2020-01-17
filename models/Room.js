@@ -6,7 +6,7 @@ const Room = new mongoose.Schema({
         required: true
     },
     games: {
-        type: String,
+        type: Array,
         required: true
     }
 });
