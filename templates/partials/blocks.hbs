@@ -1,11 +1,23 @@
 <section class="app-blocks">
-    <ul>
+    <ul class="home-blocks">
         <li>Developers news</li>
         <li>Last game</li>
         <li>Favorite games</li>
         <li>Another block</li>
         <li>Another block</li>
         <li>Another block</li>
+    </ul>
+
+    <div class="user-room" style="border: 1px solid">
+        <b>My room</b>
+    </div>
+
+    <ul class="home-blocks home-blocks__search">
+        <li>Last game</li>
+        <li>
+            <b>Rooms</b>
+            <div class="rooms-list"></div>
+        </li>
     </ul>
 
     <section class="world-chat">
@@ -24,6 +36,7 @@
 
 <script>
     const gamesList = document.querySelector('.games-list');
+    const roomsList = document.querySelector('.rooms-list');
 
     let rooms = '{{rooms}}';
     if(rooms) {
@@ -31,6 +44,8 @@
         rooms = rooms.replace(/&quot;/g, '"');
         rooms = JSON.parse(rooms);
         console.log(rooms);
+
+        rooms.forEach((room) => renderGame(room._id, roomsList));
     }
 
     let games = '{{gamesList}}';
@@ -38,16 +53,32 @@
     games = JSON.parse(games);
     console.log(games);
 
+    function changeTemplate(search) {
+        if(search) {
+            let homeBlocks = document.querySelector('.home-blocks');
+            let homeBlocksSearch = document.querySelector('.home-blocks__search');
+            let userRoom = document.querySelector('.user-room');
+
+            homeBlocks.style.display = 'none';
+            homeBlocksSearch.style.display = 'flex';
+            userRoom.style.display = 'block';
+        }
+        else {
+            return;
+        }
+    }
     function renderGame(game, list) {
         let item = document.createElement('p');
-        item.innerHTML = game.name;
+        item.innerHTML = game;
         list.appendChild(item);
     }
 
     if(games) {
         games.forEach((game) => {
-            renderGame(game, gamesList);
+            renderGame(game.name, gamesList);
         });
     }
+
+    changeTemplate({{searching}});
 
 </script>

@@ -169,21 +169,13 @@ app.get('/home', function (req, res) {
 
                     api.createRoom(req.session.user);
 
-                    // res.render('home', {
-                    //     userName: req.session.user.name,
-                    //     userID: req.session.user.id,
-                    //     gamesList: JSON.stringify(games),
-                    //     // rooms: JSON.stringify(rooms),
-                    //     searchInfo
-                    // });
-
                     api.getRooms(user.games).then((rooms) => {
-                        console.log('rooms: ' + rooms);
                         res.render('home', {
                             userName: req.session.user.name,
                             userID: req.session.user.id,
                             gamesList: JSON.stringify(games),
                             rooms: JSON.stringify(rooms),
+                            searching: true,
                             searchInfo
                         });
                     });
@@ -196,6 +188,7 @@ app.get('/home', function (req, res) {
                         searchInfo
                     });
                 }
+
             });
         });
 

@@ -219,18 +219,27 @@ h1, h2, h3, h4, h5, h6 {
     justify-content: space-between;
 }
 
-.app-blocks ul {
+.home-blocks {
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
     width: 100%;
 }
 
-.app-blocks ul li {
+.home-blocks__search {
+    width: 33%;
+    display: none;
+}
+
+.home-blocks li {
     width: 32%;
     margin-bottom: 2%;
     border: 1px solid white;
     min-height: 130px;
+}
+
+.home-blocks__search li {
+    width: 100%;
 }
 
 .games-list {
@@ -326,3 +335,7 @@ h1, h2, h3, h4, h5, h6 {
     border-bottom: 1px solid;
 }
 
+.user-room {
+    width: 66%;
+    display: none;
+}
