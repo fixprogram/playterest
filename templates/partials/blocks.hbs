@@ -4,8 +4,6 @@
         <li>Last game</li>
         <li>Favorite games</li>
         <li>Another block</li>
-        <li>Another block</li>
-        <li>Another block</li>
     </ul>
 
     <div class="user-room" style="border: 1px solid">
@@ -20,65 +18,34 @@
         </li>
     </ul>
 
-    <section class="world-chat">
-        <div class="messages"></div>
-        <div class="users-list">
-            <b>Users</b>
+    <section class="home-chat">
+        <div class="chat-tabs">
+            <a class="tab tab-link tab--world active">Общий</a>
+            <a class="tab tab-link tab--room">Комната</a>
         </div>
-        <div class="text-form">
-            <input type="text" id="messageText">
-            <button id="send" type="submit">Send</button>
-        </div>
+        <article>
+            <div class="tab-content chat--world active">
+                <div class="messages"></div>
+                <div class="chat-users">
+                    <b class="tab active">Пользователи</b>
+                    <ul class="users-list"></ul>
+                </div>
+                <div class="text-form">
+                    <input type="text" id="messageWorldText">
+                    <button id="sendWorld" type="submit">icon</button>
+                </div>
+            </div>
+            <div class="tab-content chat--room">
+                <div class="messages"></div>
+                <div class="users-list">
+                    <b>Users</b>
+                </div>
+                <div class="text-form">
+                    <input type="text" id="messageRoomText">
+                    <button id="sendRoom" type="submit">icon</button>
+                </div>
+            </div>
+        </article>
     </section>
 
-    <section class="games-list"></section>
 </section>
-
-<script>
-    const gamesList = document.querySelector('.games-list');
-    const roomsList = document.querySelector('.rooms-list');
-
-    let rooms = '{{rooms}}';
-    if(rooms) {
-        rooms = rooms.replace(/&#x27;/g, "'");
-        rooms = rooms.replace(/&quot;/g, '"');
-        rooms = JSON.parse(rooms);
-        console.log(rooms);
-
-        rooms.forEach((room) => renderGame(room._id, roomsList));
-    }
-
-    let games = '{{gamesList}}';
-    games = games.replace(/&quot;/g, '"');
-    games = JSON.parse(games);
-    console.log(games);
-
-    function changeTemplate(search) {
-        if(search) {
-            let homeBlocks = document.querySelector('.home-blocks');
-            let homeBlocksSearch = document.querySelector('.home-blocks__search');
-            let userRoom = document.querySelector('.user-room');
-
-            homeBlocks.style.display = 'none';
-            homeBlocksSearch.style.display = 'flex';
-            userRoom.style.display = 'block';
-        }
-        else {
-            return;
-        }
-    }
-    function renderGame(game, list) {
-        let item = document.createElement('p');
-        item.innerHTML = game;
-        list.appendChild(item);
-    }
-
-    if(games) {
-        games.forEach((game) => {
-            renderGame(game.name, gamesList);
-        });
-    }
-
-    changeTemplate({{searching}});
-
-</script>

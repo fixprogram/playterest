@@ -112,18 +112,6 @@ h1, h2, h3, h4, h5, h6 {
     align-items: center;
 }
 
-.page-header {
-    border-bottom: 1px solid #000;
-}
-
-.menu-list {
-    display: flex;
-    width: 40%;
-    justify-content: space-between;
-    margin-right: auto;
-    margin-left: 100px;
-}
-
 .page-sidebar,
 .page-games {
     width: 20%;
@@ -207,13 +195,16 @@ h1, h2, h3, h4, h5, h6 {
     width: calc(50% - 20px);
 }
 
+.gamesList {
+    width: 24%;
+}
+
 .user-block {
-    width: 28.5%;
-    border: 1px solid;
+    width: 24%;
 }
 
 .app-blocks {
-    width: 70%;
+    width: 50%;
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
@@ -232,10 +223,10 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .home-blocks li {
-    width: 32%;
+    width: 49%;
     margin-bottom: 2%;
-    border: 1px solid white;
-    min-height: 130px;
+    background: linear-gradient(0deg, rgba(16, 25, 29, 0.25), rgba(16, 25, 29, 0.25));
+    min-height: 170px;
 }
 
 .home-blocks__search li {
@@ -243,11 +234,21 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .games-list {
-    width: 33%;
     text-align: left;
     padding-left: 10px;
     overflow-y: auto;
-    max-height: 200px;
+    max-height: 610px;
+}
+
+.games-list li {
+    display: flex;
+    align-items: center;
+}
+
+.games-list li p {
+    font-size: 14px;
+    color: #DCDEDF;
+    margin-left: 10px;
 }
 
 .home-page {
@@ -258,84 +259,149 @@ h1, h2, h3, h4, h5, h6 {
     background: linear-gradient(90deg, #10191D 0%, #233A4A 50.01%, #10191D 100%);
 }
 
+.searching-block {
+    padding: 16px;
+    background: linear-gradient(0deg, rgba(16, 25, 29, 0.25), rgba(16, 25, 29, 0.25));
+}
+
 .search-team,
 .start-searching {
-    position: absolute;
-    right: 40px;
-    bottom: 40px;
-    width: 160px;
-    height: 40px;
-    text-transform: uppercase;
+    width: 245px;
+    height: 36px;
+    background: linear-gradient(90deg, #10191D 0%, #233A4A 50.01%, #10191D 100%);
+    border-radius: 5px;
+    font-weight: 500;
+    font-size: 18px;
+    line-height: 21px;
+    letter-spacing: 0.05em;
+    color: #fff;
+    border: 1px solid #79B8F1;
+    cursor: pointer;
 }
 
 .filters {
-    display: none;
+    background: linear-gradient(118.07deg, #233A4A -109.79%, #10191D 148.04%);
+    min-height: 140px;
 }
 
-.filters.active {
-    display: block;
-    position: absolute;
-    right: 0;
-    z-index: 999;
-    background:
-            #111;
-    padding: 20px;
-    height: 100%;
-}
-
-.world-chat {
+.home-chat {
     max-height: 200px;
-    border: 1px solid white;
-    width: 66%;
+    width: 100%;
     height: 100%;
-    display: flex;
     position: relative;
     padding-bottom: 24px;
     text-align: left;
+    background: linear-gradient(0deg, rgba(16, 25, 29, 0.25), rgba(16, 25, 29, 0.25));
 }
 
-.world-chat .messages {
+.home-chat .messages {
     width: 80%;
     overflow-y: auto;
     height: 175px;
+    padding-top: 49px;
+    padding-left: 15px;
 }
 
-.world-chat .messages p {
-    margin: 5px;
+.home-chat .messages p {
+    margin: 1px 0;
+    font-size: 14px;
+    line-height: 17px;
+    color: #8C949A;
 }
 
-.world-chat .users-list {
-    width: 20%;
-    border-left: 1px solid white;
+.home-chat .users-list {
+    height: 100%;
+    background: rgba(23, 38, 47, 0.25);
+    padding: 15px 0 0 16px;
 }
 
-.world-chat .users-list a {
-    color: white;
+.home-chat .users-list a {
+    font-size: 14px;
+    line-height: 17px;
+    margin: 1px 0;
+    color: #8C949A;
 }
 
-.world-chat .text-form {
+.home-chat .text-form {
     position: absolute;
     bottom: 0;
     left: 0;
     width: 100%;
 }
 
-.world-chat .text-form input {
+.home-chat .text-form input {
     width: 100%;
+    background: rgba(16, 25, 29, 0.5);
+    border: 1px solid rgba(16, 25, 29, 0.75);
+    padding: 7px 0 8px 14px;
+    font-size: 14px;
+    line-height: 17px;
+    color: #DCDEDF;
 }
 
-.world-chat .text-form button {
+.home-chat .text-form button {
     position: absolute;
     right: 0;
+    width: 33px;
+    height: 33px;
+    background: #3F4B51;
+    border: 1px solid #3F4B51;
+    cursor: pointer;
 }
 
 .user-profile {
-    max-height: 200px;
+    max-height: 400px;
     height: 100%;
-    border-bottom: 1px solid;
+    background: linear-gradient(0deg, rgba(16, 25, 29, 0.25), rgba(16, 25, 29, 0.25));
 }
 
 .user-room {
     width: 66%;
     display: none;
+}
+
+.chat-tabs {
+    display: flex;
+    position: absolute;
+    width: 80%;
+}
+
+/*.tab-link {*/
+/*    cursor: pointer;*/
+/*    padding: 5px 10px;*/
+/*}*/
+
+/*.tab-link.active {*/
+/*    background: red;*/
+/*}*/
+
+.tab-content {
+    display: none;
+}
+
+.tab-content.active {
+    display: flex;
+}
+
+.games-tabs {
+    display: flex;
+    margin-bottom: 8px;
+}
+
+.tab {
+    font-size: 14px;
+    line-height: 17px;
+    color: #10191D;
+    background-color: #3F4B51;
+    text-align: left;
+    padding: 6px 0 7px 14px;
+    width: 50%;
+    cursor: pointer;
+}
+
+.tab.active {
+    font-size: 16px;
+    line-height: 19px;
+    color: #E7E9EA;
+    background-color: #17262F;
 }

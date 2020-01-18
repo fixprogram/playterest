@@ -2,6 +2,8 @@ const users = [];
 
 const addUser = ({ socketID, id, userName, room }) => {
 
+    if(!room) room = 'world';
+
     userName = userName.trim().toLowerCase();
     room = room.trim().toLowerCase();
 

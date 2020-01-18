@@ -12,49 +12,38 @@
 
       {{>header}}
 
-      {{>profile}}
+      {{>gameslist}}
 
       {{>blocks}}
 
-      <button class="search-team">Search team</button>
-
-      <div class="filters">
-
-          <div>
-              <input type="checkbox" name="online-game" id="online-game">
-              <label for="online-game">Online games</label>
-          </div>
-          <div>
-              <input type="checkbox" name="cooperative-game" id="cooperative-game">
-              <label for="cooperative-game">Cooperative games</label>
-          </div>
-
-          <hr>
-
-          <div>
-              <input type="checkbox" name="fast-searching" id="fast-searching">
-              <label for="fast-searching">Fast searching</label>
-          </div>
-          <div>
-              <input type="checkbox" name="search-favorite" id="search-favorite">
-              <label for="search-favorite">Search by favorite games</label>
-          </div>
-
-          <button class="start-searching">Start searching</button>
-
-      </div>
+      {{>profile}}
 
     </section>
   </section>
 
     <script src="https://cdn.socket.io/socket.io-1.2.0.js"></script>
     <script src="https://code.jquery.com/jquery-1.11.1.js"></script>
+    <script src="/js/script.js"></script>
+    <script src="/js/games.js"></script>
     <script>
     $(function () {
 
+        const gamesList = document.querySelector('.games-list');
+
+        let games = '{{gamesList}}';
+        games = games.replace(/&quot;/g, '"');
+        games = JSON.parse(games);
+        console.log(games);
+
+        if(games) {
+            games.forEach((game) => {
+                renderGame(game.name, gamesList, game.iconURL);
+            });
+        }
+
         let searchTeamBtn = document.querySelector('.search-team');
         let filtersBlock = document.querySelector('.filters');
-        let startSearchBtn = filtersBlock.querySelector('.start-searching');
+        let startSearchBtn = document.querySelector('.start-searching');
 
         function getFilters(checkboxes) {
             let checked = [];
@@ -74,37 +63,72 @@
         });
 
 
-        const socket = io('https://myappest.herokuapp.com'); // http://localhost:3000
+        const socket = io('http://localhost:3000'); // http://localhost:3000
 
-        let usersList = document.querySelector('.users-list');
-        let messagesList = document.querySelector('.messages');
-        let messageText = document.getElementById('messageText');
-        let sendBtn = document.getElementById('send');
+        const chatWorld = document.querySelector('.chat--world');
+        const chatRoom = document.querySelector('.chat--room');
 
-        sendBtn.addEventListener('click', () => {
-            let message = messageText.value;
-            messageText.value = '';
+        let usersList = chatWorld.querySelector('.users-list');
+        let messagesWorldList = chatWorld.querySelector('.messages');
+        let messagesRoomList = chatRoom.querySelector('.messages');
+        let messageWorldText = chatWorld.querySelector('#messageWorldText');
+        let messageRoomText = chatRoom.querySelector('#messageRoomText');
+        let sendWorldBtn = chatWorld.querySelector('#sendWorld');
+        let sendRoomBtn = chatRoom.querySelector('#sendRoom');
+
+        sendWorldBtn.addEventListener('click', () => {
+            let message = messageWorldText.value;
+            messageWorldText.value = '';
 
             if(message) {
-                socket.emit('sendMessage', {message, userID}, () => console.log('1'));
+                socket.emit('sendMessage', {message, userID, room: 'world'}, () => console.log('1'));
             }
         });
 
-        messageText.addEventListener('keyup', function(evt) {
+        sendRoomBtn.addEventListener('click', () => {
+            let message = messageRoomText.value;
+            messageRoomText.value = '';
+
+            if(message) {
+                socket.emit('sendMessage', {message, userID, room: 'room'}, () => console.log('1'));
+            }
+        });
+
+        messageWorldText.addEventListener('keyup', function(evt) {
            if(evt.code === 'Enter') {
-               let message = messageText.value;
-               messageText.value = '';
+               let message = messageWorldText.value;
+               messageWorldText.value = '';
 
                if(message) {
-                   socket.emit('sendMessage', {message, userID}, () => console.log('1'));
+                   socket.emit('sendMessage', {message, userID, room: 'world'}, () => console.log('1'));
                }
            }
         });
 
+        messageRoomText.addEventListener('keyup', function(evt) {
+            if(evt.code === 'Enter') {
+                let message = messageRoomText.value;
+                messageRoomText.value = '';
+
+                if(message) {
+                    socket.emit('sendMessage', {message, userID, room: 'room'}, () => console.log('1'));
+                }
+            }
+        });
+
         function renderMessage(data) {
-            let item = document.createElement('p');
-            item.innerHTML = data.user + ': ' + data.text;
-            messagesList.appendChild(item);
+            console.log(data);
+            if(data.room === 'world') {
+                let item = document.createElement('p');
+                item.innerHTML = data.user + ': ' + data.text;
+                messagesWorldList.appendChild(item);
+            } else {
+                if(data.room === 'room') {
+                    let item = document.createElement('p');
+                    item.innerHTML = data.user + ': ' + data.text;
+                    messagesRoomList.appendChild(item);
+                }
+            }
         }
 
         function renderUsers(users) {
@@ -121,7 +145,7 @@
         const userID = '{{userID}}';
         const userName = '{{userName}}';
 
-        socket.emit('join', { userID, userName }, (error) => {
+        socket.emit('join', { userID, userName, room: 'world' }, (error) => {
             if(error) {
                 alert(error);
             }
@@ -133,9 +157,106 @@
         });
 
         socket.on('message', (data) => {
+            console.log(data);
             renderMessage(data);
         });
 
+
+
+        // const gamesList = document.querySelector('.games-list');
+        const roomsList = document.querySelector('.rooms-list');
+
+        let homeBlocks = document.querySelector('.home-blocks');
+        let homeBlocksSearch = document.querySelector('.home-blocks__search');
+        let userRoom = document.querySelector('.user-room');
+
+        let rooms = '{{rooms}}';
+        if(rooms) {
+            rooms = rooms.replace(/&#x27;/g, "'");
+            rooms = rooms.replace(/&quot;/g, '"');
+            rooms = JSON.parse(rooms);
+            console.log(rooms);
+
+            rooms.forEach((room) => renderGame(room._id, roomsList));
+
+            selectRoom(roomsList, rooms);
+        }
+
+        <!--let games = '{{gamesList}}';-->
+        <!--games = games.replace(/&quot;/g, '"');-->
+        <!--games = JSON.parse(games);-->
+        <!--console.log(games);-->
+
+        function changeTemplate(search) {
+            if(search) {
+                homeBlocks.style.display = 'none';
+                homeBlocksSearch.style.display = 'flex';
+                userRoom.style.display = 'block';
+            }
+            else {
+                return;
+            }
+        }
+        // function renderGame(game, list) {
+        //     let item = document.createElement('p');
+        //     item.innerHTML = game;
+        //     list.appendChild(item);
+        // }
+        //
+        // if(games) {
+        //     games.forEach((game) => {
+        //         renderGame(game.name, gamesList);
+        //     });
+        // }
+
+        changeTemplate({{searching}});
+
+        function selectRoom(roomsParent, rooms) {
+            let roomsList = roomsParent.querySelectorAll('p');
+
+            roomsList.forEach((room) => room.addEventListener('click', function() {
+                console.log(this.innerText);
+                rooms.forEach((roomsItem) => {
+                    if(roomsItem._id === this.innerText) changeRoom(userID, userName, roomsItem._id);
+                })
+            }));
+        }
+
+        function changeRoom(userID, userName, id) {
+            socket.emit('join', { userID, userName, room: id }, (error) => {
+                if(error) {
+                    alert(error);
+                }
+            });
+        }
+
+        function changeRoomTemplate(room, users) {
+            room.innerHTML = '';
+            users.forEach((user) => {
+                renderGame(user.userName, room);
+            })
+        }
+
+        socket.on('roomData', (data) => {
+            console.log('roomData ' + data);
+            renderUsers(data.users);
+            changeRoomTemplate(userRoom, data.users);
+        });
+
+        let tabsList = document.querySelector('.tabs');
+        let tabs = tabsList.querySelectorAll('.tab-link');
+        let tabsContent = document.querySelectorAll('.tab-content');
+
+        tabs.forEach((tab, i) => tab.addEventListener('click', function() {
+            tabs.forEach((tabItem) => {
+                if (tabItem.classList.contains('active'))  tabItem.classList.remove('active')
+            });
+            tabsContent.forEach((tabContent) => {
+                if (tabContent.classList.contains('active'))  tabContent.classList.remove('active')
+            });
+            this.classList.add('active');
+            tabsContent[i].classList.add('active');
+        }));
     });
     </script>
   </body>

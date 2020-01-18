@@ -276,23 +276,25 @@ app.get('/account', ensureAuthenticated, function (req, res) {
 
 io.on('connection', (socket) => {
 
-    socket.on('sendMessage', ({message, userID}, callback) => {
+    socket.on('sendMessage', ({message, userID, room}, callback) => {
         const user = getUser(userID);
 
-        io.to(user.room).emit('message', {user: user.userName, text: message});
+        // io.to(room).emit('message', {user: user.userName, text: message, room});
+
+        socket.emit('message', {user: user.userName, text: message, room});
 
         // callback();
     });
 
-    socket.on('join', ({userID, userName, room = 'home'}, callback) => {
+    socket.on('join', ({userID, userName, room}, callback) => {
         const {error, user} = addUser({socketID: socket.id, id: userID, userName, room});
 
         if (error) return callback(error);
 
         socket.join(user.room);
 
-        socket.emit('message', {user: 'admin', text: `${user.userName}, welcome to room ${user.room}.`});
-        socket.broadcast.to(user.room).emit('message', {user: 'admin', text: `${user.userName} has joined!`});
+        socket.emit('message', {user: 'admin', text: `${user.userName}, welcome to room ${user.room}.`, room});
+        socket.broadcast.to(user.room).emit('message', {user: 'admin', text: `${user.userName} has joined!`, room});
 
         io.to(user.room).emit('roomData', {room: user.room, users: getUsersInRoom(user.room)});
 
