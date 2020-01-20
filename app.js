@@ -151,51 +151,53 @@ app.get('/', function (req, res) {
 app.get('/home', function (req, res) {
     if (req.session.user) {
 
-        api.getUser(req.session.user.name).then((user) => {
+        api.loadUser(req, res, function () {
 
-            const searchInfo = {
-                name: req.query.name,
-                room: req.query.room,
-                userName: req.session.user.name,
-                userID: req.session.user.id
-            };
+            api.getUser(req.session.user.name).then((user) => {
 
-            let roomsList = [];
+                const searchInfo = {
+                    name: req.query.name,
+                    room: req.query.room,
+                    userName: req.session.user.name,
+                    userID: req.session.user.id
+                };
 
-            api.getGames(user.games).then((games) => {
-                let searchParams = req.query.params;
-                if (searchParams) {
-                    let params = searchParams.split(';');
+                let roomsList = [];
 
-                    api.createRoom(req.session.user);
+                api.getGames(user.games).then((games) => {
+                    let searchParams = req.query.params;
+                    if (searchParams) {
+                        let params = searchParams.split(';');
 
-                    api.getRooms(user.games).then((rooms) => {
-                        api.loadUser(req, res, function () {
-                            res.render(req.currentUser);
-                            // res.render('home', {
-                            //     userProfile: req.currentUser,
-                            //     userName: req.currentUser.username,
-                            //     userIcon: req.currentUser.icon,
-                            //     userID: req.session.user.id,
-                            //     gamesList: JSON.stringify(games),
-                            //     rooms: JSON.stringify(rooms),
-                            //     searching: true,
-                            //     searchInfo
-                            // });
-                        }, function () {
-                            res.redirect('/login')
+                        api.createRoom(req.session.user);
+
+                        api.getRooms(user.games).then((rooms) => {
+                            res.render('home', {
+                                userProfile: req.currentUser,
+                                userName: req.currentUser.username,
+                                userIcon: req.currentUser.icon,
+                                userID: req.session.user.id,
+                                gamesList: JSON.stringify(games),
+                                rooms: JSON.stringify(rooms),
+                                searching: true,
+                                searchInfo
+                            });
+
                         });
-                    });
 
-                } else {
-                    res.render('home', {
-                        userName: req.session.user.name,
-                        userID: req.session.user.id,
-                        gamesList: JSON.stringify(games),
-                        searchInfo
-                    });
-                }
-
+                    } else {
+                        res.render('home', {
+                            userProfile: req.currentUser,
+                            userName: req.session.user.name,
+                            userIcon: req.currentUser.icon,
+                            userID: req.session.user.id,
+                            gamesList: JSON.stringify(games),
+                            searchInfo
+                        });
+                    }
+                }, function () {
+                    res.redirect('/login')
+                });
             });
         });
 
@@ -311,7 +313,7 @@ io.on('connection', (socket) => {
         callback();
     });
 
-    socket.on('createRoom', ({roomTitle, hostName }, callback) => {
+    socket.on('createRoom', ({roomTitle, hostName}, callback) => {
         const {error, room} = createRoom({roomTitle, hostName, roomID: uuid()});
 
         if (error) return callback(error);
