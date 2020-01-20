@@ -51,6 +51,14 @@ exports.updateUser = function(userName, games, icon) {
     })
 };
 
+exports.addNotice = function(user, text) {
+    return User.findOne({username:user}).then(function(user) {
+        user.notices.push(text);
+        User(user).save();
+        return Promise.resolve(user);
+    })
+};
+
 exports.addFriend = function(user, friend) {
     return User.findOne({username:user}).then(function(user) {
         user.friends.push(friend);

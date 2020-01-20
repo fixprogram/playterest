@@ -303,7 +303,7 @@ io.on('connection', (socket) => {
 
        socket.join(socketID);
 
-       const user = addNotice({userName: friendName, text: 'Заявка на добавление в друзья от ' + fromUser});
+       const user = api.addNotice(friendName, 'Заявка на добавление в друзья от ' + fromUser);
 
        console.log(user);
 

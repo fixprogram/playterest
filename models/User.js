@@ -23,6 +23,9 @@ const User = new mongoose.Schema({
     },
     friends: {
         type: Array
+    },
+    notices: {
+        type: Array
     }
 });
 
