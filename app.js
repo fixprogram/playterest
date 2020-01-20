@@ -159,9 +159,9 @@ app.get('/home', function (req, res) {
                 api.getRooms(user.games).then((rooms) => {
                     res.render('home', {
                         userProfile: user,
-                        userName: req.currentUser.username,
+                        userName: user.username,
                         userIcon: user.icon,
-                        userID: req.session.user.id,
+                        userID: user._id,
                         gamesList: JSON.stringify(games),
                         rooms: JSON.stringify(rooms)
                     });
