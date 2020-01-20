@@ -141,13 +141,6 @@
             });
         }
 
-        let userProfile = '{{userProfile}}';
-        if(userProfile) {
-            userProfile = userProfile.replace(/&quot;/g, '"');
-            userProfile = JSON.parse(userProfile);
-            console.log(userProfile);
-        }
-
         let searchTeamBtn = document.querySelector('.search-team');
         let filtersBlock = document.querySelector('.filters');
         let startSearchBtn = document.querySelector('.start-searching');
