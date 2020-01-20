@@ -303,10 +303,15 @@ io.on('connection', (socket) => {
 
        socket.join(socketID);
 
-       const user = api.addNotice(userID, 'Заявка на добавление в друзья от ' + fromUser).then((user) => {
-           console.log(user);
+       let text = 'Заявка на добавление в друзья от ' + fromUser;
 
-           socket.to(socketID).emit('notice', {notices: user.notices});
+       const user = api.addNotice(userID, text).then((user) => {
+           let count;
+           user.notices.forEach((notice) => {
+               if(notice === text) count = true
+           });
+
+           if(!count) socket.to(socketID).emit('notice', { notices: user.notices, text });
        });
     });
 

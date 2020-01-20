@@ -33,16 +33,10 @@ exports.getGame = function(id) {
     });
 };
 
-// exports.getGames = function(arr) {
-//     return Game.find({gameID: arr}).then(function(games) {
-//         return Promise.resolve(games);
-//     });
-// };
-
 exports.getGames = (arr) => Game.find({ gameID: arr }).then((games) => Promise.resolve(games));
 
 exports.updateUser = function(userName, games, icon) {
-    return User.findOne({username:userName}).then(function(user) {
+    return User.findOne({ username: userName }).then(function(user) {
         if(icon) user.icon = icon;
         user.games = games;
         console.log(user.games);
@@ -50,6 +44,14 @@ exports.updateUser = function(userName, games, icon) {
         return Promise.resolve(user);
     })
 };
+//
+// exports.getNotices = function(userID) {
+//     return User.findOne({ _id: userID }).then(function(user) {
+//         user.notices.push(text);
+//         User(user).save();
+//         return Promise.resolve(user);
+//     })
+// };
 
 exports.addNotice = function(userID, text) {
     return User.findOne({ _id: userID }).then(function(user) {
@@ -68,14 +70,14 @@ exports.addFriend = function(user, friend) {
 };
 
 exports.getUser = function(name) {
-    return User.findOne({username: name}).then(function(user) {
+    return User.findOne({ username: name }).then(function(user) {
        return Promise.resolve(user);
     });
 };
 
 exports.checkUser = function(userData) {
 
-    return User.findOne({username:userData.username}).then(function(doc) {
+    return User.findOne({ username: userData.username }).then(function(doc) {
         console.log('doc is: ' + doc);
         if ( doc.password == hash(userData.password) ) {
             console.log('The password is okay');
