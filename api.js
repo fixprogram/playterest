@@ -52,7 +52,7 @@ exports.updateUser = function(userName, games, icon) {
 };
 
 exports.addNotice = function(userID, text) {
-    return User.findOne({id:userID}).then(function(user) {
+    return User.findOne({ _id: userID }).then(function(user) {
         console.log(user);
         user.notices.push(text);
         User(user).save();
@@ -61,7 +61,7 @@ exports.addNotice = function(userID, text) {
 };
 
 exports.addFriend = function(user, friend) {
-    return User.findOne({username:user}).then(function(user) {
+    return User.findOne({ username: user }).then(function(user) {
         user.friends.push(friend);
         User(user).save();
         return Promise.resolve(user);
