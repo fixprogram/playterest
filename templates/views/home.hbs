@@ -224,6 +224,10 @@
                 console.log(users[i]);
                 item.href = '/profile?id=' + users[i].id;
                 item.innerHTML = users[i].userName;
+                item.addEventListener('click', function(evt) {
+                    evt.preventDefault();
+                    if(userName !== users[i].userName) socket.emit('addToFriend');
+                });
                 usersList.appendChild(item);
             }
         }

@@ -296,6 +296,10 @@ io.on('connection', (socket) => {
 
     });
 
+    socket.on('addToFriend', ({}, callback) => {
+       console.log('add to friend');
+    });
+
     socket.on('disconnect', (callback) => {
         const user = removeUser(socket.id);
 

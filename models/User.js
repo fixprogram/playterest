@@ -20,6 +20,9 @@ const User = new mongoose.Schema({
     },
     games: {
         type: Array
+    },
+    friends: {
+        type: Array
     }
 });
 
