@@ -173,7 +173,7 @@ app.get('/home', function (req, res) {
                         api.loadUser(req, res, function () {
                             // res.render('profile', {name: req.currentUser});
                             res.render('home', {
-                                user: JSON.stringify(req.currentUser),
+                                user: req.currentUser,
                                 userName: req.currentUser.username,
                                 userIcon: req.currentUser.icon,
                                 userID: req.session.user.id,

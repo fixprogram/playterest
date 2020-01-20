@@ -106,7 +106,7 @@ h1, h2, h3, h4, h5, h6 {
 .page-footer {
     width: 100%;
     padding: 20px 0;
-    height: 77px;
+    height: 10vh;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -197,14 +197,17 @@ h1, h2, h3, h4, h5, h6 {
 
 .gamesList {
     width: 24%;
+    height: 80vh;
 }
 
 .user-block {
     width: 24%;
+    height: 80vh;
 }
 
 .app-blocks {
     width: 50%;
+    height: 80vh;
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
@@ -224,9 +227,10 @@ h1, h2, h3, h4, h5, h6 {
 
 .home-blocks li {
     width: 49%;
+    height: 49%;
     margin-bottom: 2%;
     background: linear-gradient(0deg, rgba(16, 25, 29, 0.25), rgba(16, 25, 29, 0.25));
-    min-height: 170px;
+    /*min-height: 170px;*/
 }
 
 .home-blocks li p {
@@ -245,7 +249,8 @@ h1, h2, h3, h4, h5, h6 {
     text-align: left;
     padding-left: 10px;
     overflow-y: auto;
-    max-height: 610px;
+    /*max-height: 610px;*/
+    height: 100%;
 }
 
 .games-list li {
