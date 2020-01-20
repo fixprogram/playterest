@@ -277,6 +277,8 @@
         });
 
         socket.on('notice', (data) => {
+            console.log('notices');
+            console.log(data);
            let notices = document.querySelector('.notices');
            if(data.user === userName) {
                let message = document.createElement('p');
