@@ -174,7 +174,7 @@ app.get('/home', function (req, res) {
                             // res.render('profile', {name: req.currentUser});
                             res.render('home', {
                                 user: JSON.stringify(req.currentUser),
-                                userName: req.session.user.name,
+                                userName: req.currentUser.username,
                                 userID: req.session.user.id,
                                 gamesList: JSON.stringify(games),
                                 rooms: JSON.stringify(rooms),
