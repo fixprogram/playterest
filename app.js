@@ -154,6 +154,7 @@ app.get('/home', function (req, res) {
         api.getUser(req.session.user.name).then((user) => {
 
             api.getGames(user.games).then((games) => {
+
                 api.createRoom(req.session.user);
 
                 api.getRooms(user.games).then((rooms) => {
@@ -163,7 +164,8 @@ app.get('/home', function (req, res) {
                         userIcon: user.icon,
                         userID: user._id,
                         gamesList: JSON.stringify(games),
-                        rooms: JSON.stringify(rooms)
+                        rooms: JSON.stringify(rooms),
+                        notices: JSON.stringify(user.notices)
                     });
 
                 });
@@ -296,27 +298,23 @@ io.on('connection', (socket) => {
 
     });
 
-    socket.on('addToFriend', ({socketID, fromUser, userID}, callback) => {
-       console.log('add to friend ' + userID);
+    socket.on('addToFriend', ({ socketID, fromUser, userID }, callback) => {
+        // io.to(friendName).emit('notice', {message: 'Заявка на добавление в друзья от ' + fromUser, user: friendName})
 
-       // io.to(friendName).emit('notice', {message: 'Заявка на добавление в друзья от ' + fromUser, user: friendName})
+        socket.join(socketID);
 
-       socket.join(socketID);
+        let text = 'Заявка на добавление в друзья от ' + fromUser;
 
-       let text = 'Заявка на добавление в друзья от ' + fromUser;
+        api.getNotices(userID, text).then((user) => {
+            let count = false;
+            user.notices.forEach((notice) => {
+                if (notice === text) count = true;
+            });
 
-       api.getNotices(userID, text).then((user) => {
-           let count = false;
-           user.notices.forEach((notice) => {
-               if(notice === text) count = true;
-           });
-
-           console.log('count ' + count);
-           if(!count) api.addNotice(userID, text).then((user) => {
-               console.log('user ' + user);
-               socket.to(socketID).emit('notice', { notices: user.notices, text });
-           });
-       });
+            if (!count) api.addNotice(userID, text).then((user) => {
+                socket.to(socketID).emit('notice', { notices: user.notices, text });
+            });
+        });
     });
 
     socket.on('disconnect', (callback) => {

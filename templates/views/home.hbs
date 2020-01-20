@@ -144,6 +144,13 @@
             });
         }
 
+        let notices = '{{notices}}';
+        if(notices) {
+            notices = notices.replace(/&quot;/g, '"');
+            notices = JSON.parse(notices);
+            console.log(notices);
+        }
+
         let searchTeamBtn = document.querySelector('.search-team');
         let filtersBlock = document.querySelector('.filters');
         let startSearchBtn = document.querySelector('.start-searching');
