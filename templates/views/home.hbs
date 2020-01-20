@@ -276,6 +276,15 @@
             });
         });
 
+        socket.on('notice', (data) => {
+           let notices = document.querySelector('.notices');
+           if(data.user === userName) {
+               let message = document.createElement('p');
+               message.innerHTML = data.message;
+               notices.appendChild(message);
+           }
+        });
+
         // const gamesList = document.querySelector('.games-list');
         const roomsList = document.querySelector('.rooms-list');
 
