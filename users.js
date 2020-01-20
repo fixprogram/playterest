@@ -51,4 +51,10 @@ const removeRoom = (hostName) => {
 
 const getRooms = () => rooms;
 
-module.exports = { addUser, removeUser, getUser, getUsersInRoom, createRoom, getRooms, removeRoom };
+const addNotice = ({ userName, text }) => {
+    let user = users.find((user) => user.userName === userName);
+    user.notices.push(text);
+    return user;
+};
+
+module.exports = { addUser, removeUser, getUser, getUsersInRoom, createRoom, getRooms, removeRoom, addNotice };

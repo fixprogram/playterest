@@ -21,7 +21,7 @@ const mongoose = require('mongoose');
 const session = require('express-session');
 const MongoStore = require('connect-mongo')(session);
 
-const {addUser, removeUser, getUser, getUsersInRoom, createRoom, getRooms, removeRoom} = require('./users');
+const {addUser, removeUser, getUser, getUsersInRoom, createRoom, getRooms, removeRoom, addNotice} = require('./users');
 
 const views = path.join(__dirname, 'templates/views');
 const partialsPath = path.join(__dirname, 'templates/partials');
@@ -303,7 +303,11 @@ io.on('connection', (socket) => {
 
        socket.join(socketID);
 
-       io.to(socketID).emit('notice', {message: 'Заявка на добавление в друзья от ' + fromUser, user: friendName});
+       const user = addNotice({userName: friendName, text: 'Заявка на добавление в друзья от ' + fromUser});
+
+       console.log(user);
+
+       // io.to(socketID).emit('notice', {message: 'Заявка на добавление в друзья от ' + fromUser, user: friendName});
     });
 
     socket.on('disconnect', (callback) => {
