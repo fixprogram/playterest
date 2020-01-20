@@ -154,7 +154,6 @@ app.get('/home', function (req, res) {
         api.getUser(req.session.user.name).then((user) => {
 
             api.getGames(user.games).then((games) => {
-
                 api.createRoom(req.session.user);
 
                 api.getRooms(user.games).then((rooms) => {
@@ -164,8 +163,7 @@ app.get('/home', function (req, res) {
                         userIcon: user.icon,
                         userID: user._id,
                         gamesList: JSON.stringify(games),
-                        rooms: JSON.stringify(rooms),
-                        notices: JSON.stringify(user.notices)
+                        rooms: JSON.stringify(rooms)
                     });
 
                 });
@@ -284,12 +282,12 @@ io.on('connection', (socket) => {
         callback();
     });
 
-    socket.on('createRoom', ({ roomTitle, hostName }, callback) => {
-        const {error, room} = createRoom({ roomTitle, hostName, roomID: uuid() });
+    socket.on('createRoom', ({roomTitle, hostName}, callback) => {
+        const {error, room} = createRoom({roomTitle, hostName, roomID: uuid()});
 
         if (error) return callback(error);
 
-        socket.emit('rooms', { rooms: getRooms() });
+        socket.emit('rooms', {rooms: getRooms()});
 
         console.log(room);
     });
@@ -298,27 +296,30 @@ io.on('connection', (socket) => {
 
     });
 
-    socket.on('addToFriend', ({ socketID, fromUser, userID }, callback) => {
-        // io.to(friendName).emit('notice', {message: 'Заявка на добавление в друзья от ' + fromUser, user: friendName})
+    socket.on('addToFriend', ({socketID, fromUser, userID}, callback) => {
+       console.log('add to friend ' + userID);
 
-        socket.join(socketID);
+       // io.to(friendName).emit('notice', {message: 'Заявка на добавление в друзья от ' + fromUser, user: friendName})
 
-        let text = 'Заявка на добавление в друзья от ' + fromUser;
+       socket.join(socketID);
 
-        api.getNotices(userID, text).then((user) => {
-            let count = false;
-            console.log('user notices ' + user.notices);
-            user.notices.forEach((notice) => {
-                console.log(notice);
-                console.log(text);
-                if (notice === text) count = true;
-            });
+       let text = 'Заявка на добавление в друзья от ' + fromUser;
 
-            console.log(count);
-            if (!count) api.addNotice(userID, text).then((user) => {
-                socket.to(socketID).emit('notice', { notices: user.notices, text });
-            });
-        });
+       api.getNotices(userID).then((user) => {
+           let count = false;
+           console.log('notices: ' + user.notices);
+           user.notices.forEach((notice) => {
+               console.log(notice);
+               console.log(text);
+               if(notice === text) count = true;
+           });
+
+           console.log('count' + count);
+
+           if(!count) api.addNotice(userID, text).then((user) => {
+               socket.to(socketID).emit('notice', { notices: user.notices, text });
+           });
+       });
     });
 
     socket.on('disconnect', (callback) => {
