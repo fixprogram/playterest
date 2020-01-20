@@ -296,8 +296,8 @@ io.on('connection', (socket) => {
 
     });
 
-    socket.on('addToFriend', ({}, callback) => {
-       console.log('add to friend');
+    socket.on('addToFriend', ({name}, callback) => {
+       console.log('add to friend ' + name);
     });
 
     socket.on('disconnect', (callback) => {
