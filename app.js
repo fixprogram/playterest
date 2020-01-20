@@ -163,7 +163,8 @@ app.get('/home', function (req, res) {
                         userIcon: user.icon,
                         userID: user._id,
                         gamesList: JSON.stringify(games),
-                        rooms: JSON.stringify(rooms)
+                        rooms: JSON.stringify(rooms),
+                        notices: user.notices
                     });
 
                 });
