@@ -175,6 +175,7 @@ app.get('/home', function (req, res) {
                             res.render('home', {
                                 user: JSON.stringify(req.currentUser),
                                 userName: req.currentUser.username,
+                                userIcon: req.currentUser.icon,
                                 userID: req.session.user.id,
                                 gamesList: JSON.stringify(games),
                                 rooms: JSON.stringify(rooms),
