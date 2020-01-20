@@ -307,7 +307,10 @@ io.on('connection', (socket) => {
 
        api.getNotices(userID, text).then((user) => {
            let count = false;
+           console.log('notices: ' + user.notices);
            user.notices.forEach((notice) => {
+               console.log(notice);
+               console.log(text);
                if(notice === text) count = true;
            });
 
