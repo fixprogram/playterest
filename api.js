@@ -43,13 +43,6 @@ exports.getGames = (arr) => Game.find({ gameID: arr }).then((games) => Promise.r
 
 exports.updateUser = function(userName, games, icon) {
     return User.findOne({username:userName}).then(function(user) {
-        // games.forEach((game) => {
-        //     getGame(game.name).then(function(gameItem) {
-        //         console.log(gameItem._id);
-        //         user.games.push(gameItem._id);
-        //     });
-        // });
-        console.log('icon' + icon);
         if(icon) user.icon = icon;
         user.games = games;
         console.log(user.games);
