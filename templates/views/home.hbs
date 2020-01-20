@@ -130,6 +130,9 @@
 
         const gamesList = document.querySelector('.games-list');
 
+        const userID = '{{userID}}';
+        let userName = '{{userName}}';
+
         let games = '{{gamesList}}';
         games = games.replace(/&quot;/g, '"');
         games = JSON.parse(games);
@@ -232,9 +235,6 @@
             }
         }
 
-        const userID = '{{userID}}';
-        const userName = '{{userName}}';
-
         let url = new URL(window.location.href);
         url = url.searchParams.get('params');
 
@@ -280,6 +280,7 @@
             console.log('notices');
             console.log(data);
            let notices = document.querySelector('.notices');
+           userName = userName.toLowerCase();
            if(data.user === userName) {
                let message = document.createElement('p');
                message.innerHTML = data.message;
