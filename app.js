@@ -299,7 +299,7 @@ io.on('connection', (socket) => {
     socket.on('addToFriend', ({fromUser, friendName}, callback) => {
        console.log('add to friend ' + friendName);
 
-       socket.emit('notice', {message: 'Заявка на добавление в друзья от ' + fromUser, user: friendName})
+       io.to(friendName).socket.emit('notice', {message: 'Заявка на добавление в друзья от ' + fromUser, user: friendName})
     });
 
     socket.on('disconnect', (callback) => {
