@@ -303,11 +303,11 @@ io.on('connection', (socket) => {
 
        socket.join(socketID);
 
-       const user = api.addNotice(friendName, 'Заявка на добавление в друзья от ' + fromUser);
+       const user = api.addNotice(friendName, 'Заявка на добавление в друзья от ' + fromUser).then((user) => {
+           console.log(user);
 
-       console.log(user);
-
-       socket.to(socketID).emit('notice', {notices: user.notices});
+           socket.to(socketID).emit('notice', {notices: user.notices});
+       });
     });
 
     socket.on('disconnect', (callback) => {
