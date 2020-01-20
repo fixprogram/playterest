@@ -53,7 +53,6 @@ exports.updateUser = function(userName, games, icon) {
 
 exports.addNotice = function(userID, text) {
     return User.findOne({ _id: userID }).then(function(user) {
-        console.log(user);
         user.notices.push(text);
         User(user).save();
         return Promise.resolve(user);
