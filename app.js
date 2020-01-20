@@ -296,14 +296,14 @@ io.on('connection', (socket) => {
 
     });
 
-    socket.on('addToFriend', ({socketID, fromUser, friendName}, callback) => {
-       console.log('add to friend ' + friendName);
+    socket.on('addToFriend', ({socketID, fromUser, userID}, callback) => {
+       console.log('add to friend ' + userID);
 
        // io.to(friendName).emit('notice', {message: 'Заявка на добавление в друзья от ' + fromUser, user: friendName})
 
        socket.join(socketID);
 
-       const user = api.addNotice(friendName, 'Заявка на добавление в друзья от ' + fromUser).then((user) => {
+       const user = api.addNotice(userID, 'Заявка на добавление в друзья от ' + fromUser).then((user) => {
            console.log(user);
 
            socket.to(socketID).emit('notice', {notices: user.notices});
