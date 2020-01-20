@@ -44,14 +44,13 @@ exports.updateUser = function(userName, games, icon) {
         return Promise.resolve(user);
     })
 };
-//
-// exports.getNotices = function(userID) {
-//     return User.findOne({ _id: userID }).then(function(user) {
-//         user.notices.push(text);
-//         User(user).save();
-//         return Promise.resolve(user);
-//     })
-// };
+
+exports.getNotices = function(userID) {
+    return User.findOne({ _id: userID }).then(function(user) {
+        User(user).save();
+        return Promise.resolve(user);
+    })
+};
 
 exports.addNotice = function(userID, text) {
     return User.findOne({ _id: userID }).then(function(user) {

@@ -305,13 +305,15 @@ io.on('connection', (socket) => {
 
        let text = 'Заявка на добавление в друзья от ' + fromUser;
 
-       const user = api.addNotice(userID, text).then((user) => {
-           let count;
+       api.getNotices(userID, text).then((user) => {
+           let count = false;
            user.notices.forEach((notice) => {
-               if(notice === text) count = true
+               if(notice === text) count = true;
            });
 
-           if(!count) socket.to(socketID).emit('notice', { notices: user.notices, text });
+           if(!count) api.addNotice().then((user) => {
+               socket.to(socketID).emit('notice', { notices: user.notices, text });
+           });
        });
     });
 
