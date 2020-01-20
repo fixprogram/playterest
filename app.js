@@ -307,16 +307,11 @@ io.on('connection', (socket) => {
 
        api.getNotices(userID, text).then((user) => {
            let count = false;
-           console.log('notices: ' + user.notices);
            user.notices.forEach((notice) => {
-               console.log(notice);
-               console.log(text);
                if(notice === text) count = true;
            });
 
-           console.log('count' + count);
-
-           if(!count) api.addNotice().then((user) => {
+           if(!count) api.addNotice(userID, text).then((user) => {
                socket.to(socketID).emit('notice', { notices: user.notices, text });
            });
        });
