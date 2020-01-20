@@ -8,7 +8,9 @@ const addUser = ({ socketID, id, userName, room }) => {
     userName = userName.trim().toLowerCase();
     room = room.trim().toLowerCase();
 
-    const user = { socketID, id, userName, room };
+    let notices = [];
+
+    const user = { socketID, id, userName, room, notices };
 
     // const existingUser = users.find((user) => user.room === room && user.name === userName);
     const existingUser = users.find((user) => user.room === room && user.id === id);
