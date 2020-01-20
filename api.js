@@ -49,6 +49,7 @@ exports.updateUser = function(userName, games, icon) {
         //         user.games.push(gameItem._id);
         //     });
         // });
+        console.log('icon' + icon);
         if(icon) user.icon = icon;
         user.games = games;
         console.log(user.games);
