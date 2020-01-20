@@ -276,16 +276,16 @@
             });
         });
 
-        socket.on('notice', (data) => {
+        socket.on('notice', (notices) => {
             console.log('notices');
-            console.log(data);
-           let notices = document.querySelector('.notices');
+            console.log(notices);
+           let noticesList = document.querySelector('.notices');
            userName = userName.toLowerCase();
-           if(data.user === userName) {
+           notices.forEach((notice) => {
                let message = document.createElement('p');
-               message.innerHTML = data.message;
-               notices.appendChild(message);
-           }
+               message.innerHTML = notice;
+               noticesList.appendChild(message);
+           });
         });
 
         // const gamesList = document.querySelector('.games-list');

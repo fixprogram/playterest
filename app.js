@@ -307,7 +307,7 @@ io.on('connection', (socket) => {
 
        console.log(user);
 
-       // io.to(socketID).emit('notice', {message: 'Заявка на добавление в друзья от ' + fromUser, user: friendName});
+       io.to(socketID).emit('notice', {notices: user.notices});
     });
 
     socket.on('disconnect', (callback) => {
