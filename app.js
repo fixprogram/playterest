@@ -266,18 +266,18 @@ io.on('connection', (socket) => {
         // callback();
     });
 
-    socket.on('join', ({userID, userName, room}, callback) => {
+    socket.on('join', ({ userID, userName, room }, callback) => {
         console.log(room);
-        const {error, user} = addUser({socketID: socket.id, id: userID, userName, room});
+        const { error, user } = addUser({ socketID: socket.id, id: userID, userName, room });
 
         if (error) return callback(error);
 
         socket.join(user.room);
 
-        socket.emit('message', {user: 'admin', text: `${user.userName}, welcome to room ${user.room}.`, room});
-        socket.broadcast.to(user.room).emit('message', {user: 'admin', text: `${user.userName} has joined!`, room});
+        socket.emit('message', { user: 'admin', text: `${ user.userName }, welcome to room ${ user.room }.`, room });
+        socket.broadcast.to(user.room).emit('message', { user: 'admin', text: `${ user.userName } has joined!`, room });
 
-        io.to(user.room).emit('roomData', {room: user.room, users: getUsersInRoom(user.room)});
+        io.to(user.room).emit('roomData', { room: user.room, users: getUsersInRoom(user.room) });
 
         callback();
     });
@@ -307,15 +307,9 @@ io.on('connection', (socket) => {
 
        api.getNotices(userID).then((user) => {
            let count = false;
-           console.log(user);
-           console.log('notices: ' + user.notices);
            user.notices.forEach((notice) => {
-               console.log(notice);
-               console.log(text);
                if(notice === text) count = true;
            });
-
-           console.log('count' + count);
 
            if(!count) api.addNotice(userID, text).then((user) => {
                socket.to(socketID).emit('notice', { notices: user.notices, text });
