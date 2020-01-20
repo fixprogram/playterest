@@ -51,8 +51,8 @@ exports.updateUser = function(userName, games, icon) {
     })
 };
 
-exports.addNotice = function(user, text) {
-    return User.findOne({username:user}).then(function(user) {
+exports.addNotice = function(userID, text) {
+    return User.findOne({id:userID}).then(function(user) {
         console.log(user);
         user.notices.push(text);
         User(user).save();
