@@ -284,12 +284,12 @@ io.on('connection', (socket) => {
         callback();
     });
 
-    socket.on('createRoom', ({roomTitle, hostName}, callback) => {
-        const {error, room} = createRoom({roomTitle, hostName, roomID: uuid()});
+    socket.on('createRoom', ({ roomTitle, hostName }, callback) => {
+        const {error, room} = createRoom({ roomTitle, hostName, roomID: uuid() });
 
         if (error) return callback(error);
 
-        socket.emit('rooms', {rooms: getRooms()});
+        socket.emit('rooms', { rooms: getRooms() });
 
         console.log(room);
     });
@@ -307,10 +307,14 @@ io.on('connection', (socket) => {
 
         api.getNotices(userID, text).then((user) => {
             let count = false;
+            console.log('user notices ' + user.notices);
             user.notices.forEach((notice) => {
+                console.log(notice);
+                console.log(text);
                 if (notice === text) count = true;
             });
 
+            console.log(count);
             if (!count) api.addNotice(userID, text).then((user) => {
                 socket.to(socketID).emit('notice', { notices: user.notices, text });
             });
