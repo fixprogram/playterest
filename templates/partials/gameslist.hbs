@@ -1,8 +1,12 @@
 <section class="gamesList">
     <div class="searching-block">
-        <div>
-            <button class="search-team">Найти команду!</button>
-            <button class="start-searching">icon</button>
+        <div style="display: flex; justify-content: space-between;">
+            <button class="start-searching">Найти команду!</button>
+            <button class="search-team">
+                <svg width="24" height="24">
+                    <use xlink:href="#filters-icon"></use>
+                </svg>
+            </button>
         </div>
 
         <div class="filters">
@@ -15,8 +19,6 @@
                 <input type="checkbox" name="cooperative-game" id="cooperative-game">
                 <label for="cooperative-game">Cooperative games</label>
             </div>
-
-            <hr>
 
             <div>
                 <input type="checkbox" name="fast-searching" id="fast-searching">

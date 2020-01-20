@@ -21,7 +21,7 @@ const mongoose = require('mongoose');
 const session = require('express-session');
 const MongoStore = require('connect-mongo')(session);
 
-const {addUser, removeUser, getUser, getUsersInRoom} = require('./users');
+const {addUser, removeUser, getUser, getUsersInRoom, createRoom, getRooms, removeRoom} = require('./users');
 
 const views = path.join(__dirname, 'templates/views');
 const partialsPath = path.join(__dirname, 'templates/partials');
@@ -279,14 +279,15 @@ io.on('connection', (socket) => {
     socket.on('sendMessage', ({message, userID, room}, callback) => {
         const user = getUser(userID);
 
-        // io.to(room).emit('message', {user: user.userName, text: message, room});
+        io.to(room).emit('message', {user: user.userName, text: message, room});
 
-        socket.emit('message', {user: user.userName, text: message, room});
+        // socket.emit('message', {user: user.userName, text: message, room});
 
         // callback();
     });
 
     socket.on('join', ({userID, userName, room}, callback) => {
+        console.log(room);
         const {error, user} = addUser({socketID: socket.id, id: userID, userName, room});
 
         if (error) return callback(error);
@@ -301,12 +302,31 @@ io.on('connection', (socket) => {
         callback();
     });
 
+    socket.on('createRoom', ({roomTitle, hostName }, callback) => {
+        const {error, room} = createRoom({roomTitle, hostName, roomID: uuid()});
+
+        if (error) return callback(error);
+
+        socket.emit('rooms', {rooms: getRooms()});
+
+        console.log(room);
+    });
+
+    socket.on('joinRoom', ({}, callback) => {
+
+    });
+
     socket.on('disconnect', (callback) => {
         const user = removeUser(socket.id);
 
         if (user) {
+            const rooms = removeRoom(user.userName);
+            console.log('removed ' + rooms);
+
             io.to(user.room).emit('message', {user: 'admin', text: `${user.userName} has left.`});
             io.to(user.room).emit('roomData', {room: user.room, users: getUsersInRoom(user.room)});
+
+            socket.emit('rooms', {rooms: removeRoom(user.userName)});
         }
     })
 

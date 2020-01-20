@@ -1,4 +1,5 @@
 const users = [];
+const rooms = [];
 
 const addUser = ({ socketID, id, userName, room }) => {
 
@@ -30,4 +31,24 @@ const getUser = (id) => users.find((user) => user.id === id);
 
 const getUsersInRoom = (room) => users.filter((user) => user.room === room);
 
-module.exports = { addUser, removeUser, getUser, getUsersInRoom };
+const createRoom = ({ roomTitle, hostName, roomID }) => {
+    const room = { roomTitle, hostName, roomID };
+
+    rooms.push(room);
+
+    return { room };
+};
+
+const removeRoom = (hostName) => {
+
+    const index = rooms.findIndex((room) => {
+        room.hostName = room.hostName.trim().toLowerCase();
+        return room.hostName === hostName;
+    });
+
+    if(index !== -1) return rooms.splice(index, 1)[0];
+};
+
+const getRooms = () => rooms;
+
+module.exports = { addUser, removeUser, getUser, getUsersInRoom, createRoom, getRooms, removeRoom };

@@ -229,6 +229,14 @@ h1, h2, h3, h4, h5, h6 {
     min-height: 170px;
 }
 
+.home-blocks li p {
+    margin-top: 35%;
+    margin-left: 20%;
+    text-align: right;
+    font-size: 28px;
+    max-width: 70%;
+}
+
 .home-blocks__search li {
     width: 100%;
 }
@@ -260,14 +268,15 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .searching-block {
-    padding: 16px;
+    padding: 16px 16px 0;
     background: linear-gradient(0deg, rgba(16, 25, 29, 0.25), rgba(16, 25, 29, 0.25));
 }
 
 .search-team,
 .start-searching {
-    width: 245px;
-    height: 36px;
+    width: 80%;
+    max-width: 245px;
+    height: 38px;
     background: linear-gradient(90deg, #10191D 0%, #233A4A 50.01%, #10191D 100%);
     border-radius: 5px;
     font-weight: 500;
@@ -279,9 +288,17 @@ h1, h2, h3, h4, h5, h6 {
     cursor: pointer;
 }
 
+.search-team {
+    width: 16%;
+    max-width: 45px;
+}
+
 .filters {
+    margin-top: 15px;
     background: linear-gradient(118.07deg, #233A4A -109.79%, #10191D 148.04%);
     min-height: 140px;
+    text-align: left;
+    padding: 10px;
 }
 
 .home-chat {
@@ -291,6 +308,7 @@ h1, h2, h3, h4, h5, h6 {
     position: relative;
     padding-bottom: 24px;
     text-align: left;
+    margin-top: 20px;
     background: linear-gradient(0deg, rgba(16, 25, 29, 0.25), rgba(16, 25, 29, 0.25));
 }
 
@@ -306,6 +324,10 @@ h1, h2, h3, h4, h5, h6 {
     margin: 1px 0;
     font-size: 14px;
     line-height: 17px;
+    color: #E7E9EA;
+}
+
+.home-chat .messages .chat-user {
     color: #8C949A;
 }
 
@@ -350,7 +372,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .user-profile {
-    max-height: 400px;
+    max-height: 355px;
     height: 100%;
     background: linear-gradient(0deg, rgba(16, 25, 29, 0.25), rgba(16, 25, 29, 0.25));
 }
@@ -365,15 +387,6 @@ h1, h2, h3, h4, h5, h6 {
     position: absolute;
     width: 80%;
 }
-
-/*.tab-link {*/
-/*    cursor: pointer;*/
-/*    padding: 5px 10px;*/
-/*}*/
-
-/*.tab-link.active {*/
-/*    background: red;*/
-/*}*/
 
 .tab-content {
     display: none;
@@ -404,4 +417,18 @@ h1, h2, h3, h4, h5, h6 {
     line-height: 19px;
     color: #E7E9EA;
     background-color: #17262F;
+    cursor: text;
+}
+
+.chat-users span {
+    display: block;
+    width: 100%;
+}
+
+.home-blocks__search li p {
+    margin: 15px 0;
+    max-width: 100%;
+    text-align: left;
+    cursor: pointer;
+    font-size: 16px;
 }

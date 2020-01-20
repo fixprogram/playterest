@@ -1,48 +1,57 @@
 <section class="app-blocks">
     <ul class="home-blocks">
-        <li>Developers news</li>
-        <li>Last game</li>
-        <li>Favorite games</li>
-        <li>Another block</li>
+        <li><p>Новости разрабов</p></li>
+        <li><p>Последнее пати</p></li>
+        <li><p>Общение</p></li>
+        <li><p>Маджонг придумает</p></li>
     </ul>
 
     <div class="user-room" style="border: 1px solid">
-        <b>My room</b>
+        <b>Моя комната</b>
+        <ul class="user-room-list"></ul>
     </div>
 
     <ul class="home-blocks home-blocks__search">
-        <li>Last game</li>
         <li>
-            <b>Rooms</b>
-            <div class="rooms-list"></div>
+            <b>Комнаты</b>
+            <ul class="rooms-list"></ul>
         </li>
     </ul>
 
     <section class="home-chat">
         <div class="chat-tabs">
-            <a class="tab tab-link tab--world active">Общий</a>
-            <a class="tab tab-link tab--room">Комната</a>
+            <a class="tab tab-chat tab--world active">Общий</a>
+            <a class="tab tab-chat tab--room">Комната</a>
         </div>
         <article>
-            <div class="tab-content chat--world active">
+            <div class="tab-content tab-chat-content chat--world active">
                 <div class="messages"></div>
                 <div class="chat-users">
-                    <b class="tab active">Пользователи</b>
+                    <span class="tab active">Пользователи</span>
                     <ul class="users-list"></ul>
                 </div>
                 <div class="text-form">
                     <input type="text" id="messageWorldText">
-                    <button id="sendWorld" type="submit">icon</button>
+                    <button id="sendWorld" type="submit">
+                        <svg width="15" height="10">
+                            <use xlink:href="#enter-icon"></use>
+                        </svg>
+                    </button>
                 </div>
             </div>
-            <div class="tab-content chat--room">
+            <div class="tab-content tab-chat-content chat--room">
                 <div class="messages"></div>
-                <div class="users-list">
-                    <b>Users</b>
+                <div class="chat-users">
+                    <span class="tab active">Пользователи</span>
+                    <ul class="users-list"></ul>
                 </div>
                 <div class="text-form">
                     <input type="text" id="messageRoomText">
-                    <button id="sendRoom" type="submit">icon</button>
+                    <button id="sendRoom" type="submit">
+                        <svg width="15" height="10">
+                            <use xlink:href="#enter-icon"></use>
+                        </svg>
+                    </button>
                 </div>
             </div>
         </article>

@@ -2,10 +2,12 @@
 function renderGame(game, list, icon) {
     let item = document.createElement('li');
     let gameName = document.createElement('p');
-    let gameIcon = document.createElement('img');
-    gameIcon.src = icon;
+    if(icon) {
+        let gameIcon = document.createElement('img');
+        gameIcon.src = icon;
+        item.appendChild(gameIcon);
+    }
     gameName.innerText = game;
-    item.appendChild(gameIcon);
     item.appendChild(gameName);
     list.appendChild(item);
 }
