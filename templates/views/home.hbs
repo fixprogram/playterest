@@ -142,9 +142,11 @@
         }
 
         let user = '{{user}}';
-        user = user.replace(/&quot;/g, '"');
-        user = JSON.parse(user);
-        console.log(user);
+        if(user) {
+            user = user.replace(/&quot;/g, '"');
+            user = JSON.parse(user);
+            console.log(user);
+        }
 
         let searchTeamBtn = document.querySelector('.search-team');
         let filtersBlock = document.querySelector('.filters');
