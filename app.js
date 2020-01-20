@@ -170,13 +170,19 @@ app.get('/home', function (req, res) {
                     api.createRoom(req.session.user);
 
                     api.getRooms(user.games).then((rooms) => {
-                        res.render('home', {
-                            userName: req.session.user.name,
-                            userID: req.session.user.id,
-                            gamesList: JSON.stringify(games),
-                            rooms: JSON.stringify(rooms),
-                            searching: true,
-                            searchInfo
+                        api.loadUser(req, res, function () {
+                            // res.render('profile', {name: req.currentUser});
+                            res.render('home', {
+                                user: JSON.stringify(req.currentUser),
+                                userName: req.session.user.name,
+                                userID: req.session.user.id,
+                                gamesList: JSON.stringify(games),
+                                rooms: JSON.stringify(rooms),
+                                searching: true,
+                                searchInfo
+                            });
+                        }, function () {
+                            res.redirect('/login')
                         });
                     });
 
