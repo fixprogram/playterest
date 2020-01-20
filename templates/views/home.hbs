@@ -148,6 +148,12 @@
         if(notices) {
             notices = notices.split(',');
             console.log(notices);
+            let noticesList = document.querySelector('.notices');
+            notices.forEach((notice) => {
+                let item = document.createElement('p');
+                item.innerHTML = notice;
+                noticesList.appendChild(item);
+            })
         }
 
         let searchTeamBtn = document.querySelector('.search-team');
