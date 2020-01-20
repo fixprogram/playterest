@@ -314,6 +314,8 @@ io.on('connection', (socket) => {
                if(notice === text) count = true;
            });
 
+           console.log('count' + count);
+
            if(!count) api.addNotice().then((user) => {
                socket.to(socketID).emit('notice', { notices: user.notices, text });
            });
