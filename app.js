@@ -171,17 +171,17 @@ app.get('/home', function (req, res) {
 
                     api.getRooms(user.games).then((rooms) => {
                         api.loadUser(req, res, function () {
-                            // res.render('profile', {name: req.currentUser});
-                            res.render('home', {
-                                userProfile: req.currentUser,
-                                userName: req.currentUser.username,
-                                userIcon: req.currentUser.icon,
-                                userID: req.session.user.id,
-                                gamesList: JSON.stringify(games),
-                                rooms: JSON.stringify(rooms),
-                                searching: true,
-                                searchInfo
-                            });
+                            res.render(req.currentUser);
+                            // res.render('home', {
+                            //     userProfile: req.currentUser,
+                            //     userName: req.currentUser.username,
+                            //     userIcon: req.currentUser.icon,
+                            //     userID: req.session.user.id,
+                            //     gamesList: JSON.stringify(games),
+                            //     rooms: JSON.stringify(rooms),
+                            //     searching: true,
+                            //     searchInfo
+                            // });
                         }, function () {
                             res.redirect('/login')
                         });
