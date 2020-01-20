@@ -47,7 +47,6 @@ exports.updateUser = function(userName, games, icon) {
 
 exports.getNotices = function(userID) {
     return User.findOne({ _id: userID }).then(function(user) {
-        User(user).save();
         return Promise.resolve(user);
     })
 };
