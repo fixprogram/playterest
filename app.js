@@ -127,7 +127,7 @@ module.exports = app;
 
 app.get('/profile', function (req, res) {
     api.loadUser(req, res, function () {
-        res.render('profile', {name: req.session.user.name});
+        res.render('profile', {name: req.currentUser});
     }, function () {
         res.redirect('/login')
     })
@@ -170,18 +170,13 @@ app.get('/home', function (req, res) {
                     api.createRoom(req.session.user);
 
                     api.getRooms(user.games).then((rooms) => {
-                        api.loadUser(req, res, function () {
-                            res.render('profile', {name: req.currentUser});
-                            // res.render('home', {
-                            //     userName: req.session.user.name,
-                            //     userID: req.session.user.id,
-                            //     gamesList: JSON.stringify(games),
-                            //     rooms: JSON.stringify(rooms),
-                            //     searching: true,
-                            //     searchInfo
-                            // });
-                        }, function () {
-                            res.redirect('/login')
+                        res.render('home', {
+                            userName: req.session.user.name,
+                            userID: req.session.user.id,
+                            gamesList: JSON.stringify(games),
+                            rooms: JSON.stringify(rooms),
+                            searching: true,
+                            searchInfo
                         });
                     });
 
