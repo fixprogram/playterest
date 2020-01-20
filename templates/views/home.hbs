@@ -129,6 +129,8 @@
     $(function () {
 
         const gamesList = document.querySelector('.games-list');
+        const noticesList = document.querySelector('.notices-list');
+        const friendsList = document.querySelector('.friends-list');
 
         const userID = '{{userID}}';
         let userName = '{{userName}}';
@@ -146,14 +148,31 @@
 
         let notices = '{{notices}}';
         if(notices) {
-            notices = notices.split(',');
+            notices = notices.replace(/&quot;/g, '"');
+            notices = JSON.parse(notices);
             console.log(notices);
-            let noticesList = document.querySelector('.notices');
             notices.forEach((notice) => {
                 let item = document.createElement('p');
-                item.innerHTML = notice;
+                item.innerText = notice.content;
+
+                item.addEventListener('click', () => {
+                        socket.emit('addToFriend', { user: userName, content: notice.content, type: notice.type });
+                    });
+
                 noticesList.appendChild(item);
             })
+        }
+
+        let friends = '{{friends}}';
+        if(friends) {
+            friends = friends.replace(/&quot;/g, '"');
+            friends = JSON.parse(friends);
+            console.log('friends + ' + friends);
+            friends.forEach((friend) => {
+                let item = document.createElement('li');
+                item.innerHTML = friend.friendName;
+                friendsList.appendChild(item);
+            });
         }
 
         let searchTeamBtn = document.querySelector('.search-team');
@@ -241,7 +260,7 @@
                 item.innerHTML = users[i].userName;
                 item.addEventListener('click', function (evt) {
                     evt.preventDefault();
-                    if (userName !== users[i].userName) socket.emit('addToFriend', {
+                    if (userName !== users[i].userName) socket.emit('addNotice', {
                         socket: users[i].socketID,
                         fromUser: userName,
                         userID: users[i].id
@@ -295,10 +314,9 @@
         socket.on('notice', (notices) => {
             console.log('notices');
             console.log(notices.notices);
-            let noticesList = document.querySelector('.notices');
             notices.notices.forEach((notice) => {
                 let message = document.createElement('p');
-                message.innerHTML = notice;
+                message.innerHTML = notice.content;
                 noticesList.appendChild(message);
             });
         });

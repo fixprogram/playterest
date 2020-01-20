@@ -51,17 +51,42 @@ exports.getNotices = function(userID) {
     })
 };
 
-exports.addNotice = function(userID, text) {
+// exports.addNotice = function(userID, text) {
+//     return User.findOne({ _id: userID }).then(function(user) {
+//         user.notices.push(text);
+//         User(user).save();
+//         return Promise.resolve(user);
+//     })
+// };
+
+exports.addNotice = function(userID, content, type) {
+    let notice = { content, type };
     return User.findOne({ _id: userID }).then(function(user) {
-        user.notices.push(text);
+        user.notices.push(notice);
         User(user).save();
         return Promise.resolve(user);
     })
 };
 
-exports.addFriend = function(user, friend) {
+exports.addFriend = function(user, content, type) {
     return User.findOne({ username: user }).then(function(user) {
-        user.friends.push(friend);
+        let notice = user.notices.filter((notice) => notice.content === content);
+        let i = user.notices.indexOf(notice);
+        if(type === 'addToFriend') {
+            let count = false;
+            let arr = notice[0].content.split(' ');
+            let friendName = arr.slice(-1)[0];
+            user.friends.forEach((friend) => {
+                console.log(friend);
+               if(friend === friendName) count = true;
+            });
+            if(!count) {
+                let friend = { friendName };
+                user.friends.push(friend);
+                user.notices.splice(i, 1);
+            }
+            console.log(user.friends);
+        }
         User(user).save();
         return Promise.resolve(user);
     })

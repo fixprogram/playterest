@@ -164,7 +164,8 @@ app.get('/home', function (req, res) {
                         userID: user._id,
                         gamesList: JSON.stringify(games),
                         rooms: JSON.stringify(rooms),
-                        notices: user.notices
+                        notices: JSON.stringify(user.notices),
+                        friends: JSON.stringify(user.friends)
                     });
 
                 });
@@ -297,7 +298,7 @@ io.on('connection', (socket) => {
 
     });
 
-    socket.on('addToFriend', ({socketID, fromUser, userID}, callback) => {
+    socket.on('addNotice', ({socketID, fromUser, userID}, callback) => {
        console.log('add to friend ' + userID);
 
        // io.to(friendName).emit('notice', {message: 'Заявка на добавление в друзья от ' + fromUser, user: friendName})
@@ -309,13 +310,19 @@ io.on('connection', (socket) => {
        api.getNotices(userID).then((user) => {
            let count = false;
            user.notices.forEach((notice) => {
-               if(notice === text) count = true;
+               if(notice.content === text) count = true;
            });
 
-           if(!count) api.addNotice(userID, text).then((user) => {
+           if(!count) api.addNotice(userID, text, 'addToFriend').then((user) => {
                socket.to(socketID).emit('notice', { notices: user.notices, text });
            });
        });
+    });
+
+    socket.on('addToFriend', ({ user, content, type }, callback) => {
+        api.addFriend(user, content, type).then((user) => {
+            console.log(user);
+        });
     });
 
     socket.on('disconnect', (callback) => {
