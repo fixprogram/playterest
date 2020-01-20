@@ -230,7 +230,8 @@ h1, h2, h3, h4, h5, h6 {
     height: 49%;
     margin-bottom: 2%;
     background: linear-gradient(0deg, rgba(16, 25, 29, 0.25), rgba(16, 25, 29, 0.25));
-    /*min-height: 170px;*/
+    max-height: 170px;
+    overflow-y: auto;
 }
 
 .home-blocks li p {
