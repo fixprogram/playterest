@@ -15,6 +15,9 @@ const User = new mongoose.Schema({
         unique: true,
         required: true
     },
+    icon: {
+        type: String
+    },
     games: {
         type: Array
     }

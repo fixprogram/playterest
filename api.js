@@ -41,7 +41,7 @@ exports.getGame = function(id) {
 
 exports.getGames = (arr) => Game.find({ gameID: arr }).then((games) => Promise.resolve(games));
 
-exports.updateUser = function(userName, games) {
+exports.updateUser = function(userName, games, icon) {
     return User.findOne({username:userName}).then(function(user) {
         // games.forEach((game) => {
         //     getGame(game.name).then(function(gameItem) {
@@ -49,6 +49,7 @@ exports.updateUser = function(userName, games) {
         //         user.games.push(gameItem._id);
         //     });
         // });
+        if(icon) user.icon = icon;
         user.games = games;
         console.log(user.games);
         User(user).save();

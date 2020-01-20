@@ -272,7 +272,7 @@ app.get('/account', ensureAuthenticated, function (req, res) {
             api.createGame(gameItem.appID, gameItem.name, gameItem.iconURL)
         });
 
-        api.updateUser(req.session.user.name, gamesID)
+        api.updateUser(req.session.user.name, gamesID, req.user.avatar)
     });
 });
 
