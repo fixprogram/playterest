@@ -226,7 +226,7 @@
                 item.innerHTML = users[i].userName;
                 item.addEventListener('click', function(evt) {
                     evt.preventDefault();
-                    if(userName !== users[i].userName) socket.emit('addToFriend', {fromUser: userName, friendName: users[i].userName});
+                    if(userName !== users[i].userName) socket.emit('addToFriend', {socket: users[i].socketID, fromUser: userName, friendName: users[i].userName});
                 });
                 usersList.appendChild(item);
             }

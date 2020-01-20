@@ -296,10 +296,12 @@ io.on('connection', (socket) => {
 
     });
 
-    socket.on('addToFriend', ({fromUser, friendName}, callback) => {
+    socket.on('addToFriend', ({socketID, fromUser, friendName}, callback) => {
        console.log('add to friend ' + friendName);
 
-       io.to(friendName).emit('notice', {message: 'Заявка на добавление в друзья от ' + fromUser, user: friendName})
+       // io.to(friendName).emit('notice', {message: 'Заявка на добавление в друзья от ' + fromUser, user: friendName})
+
+       io.sockets.socket(socketID).emit('notice', {message: 'Заявка на добавление в друзья от ' + fromUser, user: friendName});
     });
 
     socket.on('disconnect', (callback) => {
