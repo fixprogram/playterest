@@ -321,7 +321,7 @@ io.on('connection', (socket) => {
 
     socket.on('addToFriend', ({ user, content, type }, callback) => {
         api.addFriend(user, content, type).then((user) => {
-            console.log(user);
+            // console.log(user);
         });
     });
 

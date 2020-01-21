@@ -70,25 +70,38 @@ exports.addNotice = function(userID, content, type) {
 
 exports.addFriend = function(user, content, type) {
     return User.findOne({ username: user }).then(function(user) {
+        let userName = user.username;
+        let userIcon = user.icon;
+        let userID = user._id;
         let notice = user.notices.filter((notice) => notice.content === content);
         let i = user.notices.indexOf(notice);
         if(type === 'addToFriend') {
             let count = false;
             let arr = notice[0].content.split(' ');
             let friendName = arr.slice(-1)[0];
-            user.friends.forEach((friend) => {
-                console.log(friend);
-               if(friend === friendName) count = true;
+            return User.findOne({ username: friendName }).then((userFriend) => {
+                let friendIcon = userFriend.icon;
+                let friendID = userFriend._id;
+                user.friends.forEach((friend) => {
+                    if(friend === friendName) count = true;
+                });
+                if(!count) {
+                    let friendData = { name: friendName, icon: friendIcon, id: friendID };
+                    let userData = { name: userName, icon: userIcon, id: userID };
+                    console.log(userData);
+                    user.friends.push(friendData);
+                    userFriend.friends.push(userData);
+                    user.notices.splice(i, 1);
+                }
+
+                console.log(user.friends);
+                console.log(userFriend.friends);
+
+                User(userFriend).save();
+                User(user).save();
+                return Promise.resolve(user);
             });
-            if(!count) {
-                let friend = { friendName };
-                user.friends.push(friend);
-                user.notices.splice(i, 1);
-            }
-            console.log(user.friends);
         }
-        User(user).save();
-        return Promise.resolve(user);
     })
 };
 

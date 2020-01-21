@@ -169,9 +169,11 @@
             friends = JSON.parse(friends);
             console.log('friends + ' + friends);
             friends.forEach((friend) => {
-                let item = document.createElement('li');
-                item.innerHTML = friend.friendName;
-                friendsList.appendChild(item);
+                // let item = document.createElement('li');
+                // item.innerHTML = friend.friendName;
+                // friendsList.appendChild(item);
+
+                renderGame(friend.name, friendsList, friend.icon);
             });
         }
 

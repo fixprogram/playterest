@@ -218,6 +218,7 @@ h1, h2, h3, h4, h5, h6 {
     flex-wrap: wrap;
     justify-content: space-between;
     width: 100%;
+    height: 60%;
 }
 
 .home-blocks__search {
@@ -227,7 +228,7 @@ h1, h2, h3, h4, h5, h6 {
 
 .home-blocks li {
     width: 49%;
-    height: 49%;
+    /*height: 49%;*/
     margin-bottom: 2%;
     background: linear-gradient(0deg, rgba(16, 25, 29, 0.25), rgba(16, 25, 29, 0.25));
     max-height: 170px;
@@ -308,9 +309,8 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .home-chat {
-    max-height: 200px;
     width: 100%;
-    height: 100%;
+    height: 40%;
     position: relative;
     padding-bottom: 24px;
     text-align: left;
@@ -321,7 +321,7 @@ h1, h2, h3, h4, h5, h6 {
 .home-chat .messages {
     width: 80%;
     overflow-y: auto;
-    height: 175px;
+    height: calc(100% - 10px);
     padding-top: 49px;
     padding-left: 15px;
 }
@@ -399,6 +399,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .tab-content.active {
+    height: 100%;
     display: flex;
 }
 
@@ -437,4 +438,40 @@ h1, h2, h3, h4, h5, h6 {
     text-align: left;
     cursor: pointer;
     font-size: 16px;
+}
+
+.user-friends {
+    margin-top: 20px;
+    background: linear-gradient(0deg, rgba(16, 25, 29, 0.25), rgba(16, 25, 29, 0.25));
+    text-align: left;
+}
+
+.user-friends li {
+    margin-left: 10px;
+    display: flex;
+    align-items: center;
+}
+
+.user-friends li img {
+    height: 25px;
+    width: 25px;
+    margin-right: 11px;
+}
+
+.user-friends li p {
+    font-size: 14px;
+    line-height: 17px;
+    color: #E7E9EA;
+}
+
+.user-friends__title {
+    background-color: #17262F;
+    padding: 6px 0 7px 15px;
+    margin-bottom: 24px;
+}
+
+.user-friends__title b {
+    color: #E7E9EA;
+    font-size: 16px;
+    line-height: 19px;
 }
