@@ -244,32 +244,48 @@
                 let item = document.createElement('p');
                 item.innerHTML = '<span class="chat-user">' + data.user + ':</span> ' + data.text;
                 messagesWorldList.appendChild(item);
+                messagesWorldList.scrollTo(0, 10000);
             } else {
                 if (data.room === 'room') {
                     let item = document.createElement('p');
                     item.innerHTML = data.user + ': ' + data.text;
                     messagesRoomList.appendChild(item);
+                    messagesRoomList.scrollTo(0, 10000);
                 }
             }
         }
 
         function renderUsers(users) {
             usersList.innerHTML = '';
-            for (let i = 0; i < users.length; i++) {
+            // for (let i = 0; i < users.length; i++) {
+            //     let item = document.createElement('a');
+            //     item.href = '/profile?id=' + users[i].id;
+            //     item.innerHTML = users[i].userName;
+            //     item.addEventListener('click', function (evt) {
+            //         evt.preventDefault();
+            //         if (userName !== users[i].userName) socket.emit('addNotice', {
+            //             socket: users[i].socketID,
+            //             fromUser: userName,
+            //             userID: users[i].id
+            //         });
+            //     });
+            //     usersList.appendChild(item);
+            // }
+            users.forEach((user) => {
                 let item = document.createElement('a');
-                console.log(users[i]);
-                item.href = '/profile?id=' + users[i].id;
-                item.innerHTML = users[i].userName;
+                item.href = '/profile?id=' + user.id;
+                item.innerHTML = user.userName;
+                if(user.userName === userName.toLowerCase()) item.classList.add('me');
                 item.addEventListener('click', function (evt) {
                     evt.preventDefault();
-                    if (userName !== users[i].userName) socket.emit('addNotice', {
-                        socket: users[i].socketID,
+                    if (userName !== user.userName) socket.emit('addNotice', {
+                        socket: user.socketID,
                         fromUser: userName,
-                        userID: users[i].id
+                        userID: user.id
                     });
                 });
                 usersList.appendChild(item);
-            }
+            });
         }
 
         let url = new URL(window.location.href);
