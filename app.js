@@ -325,6 +325,10 @@ io.on('connection', (socket) => {
         });
     });
 
+    socket.on('getMessages', ({ name }, callback) => {
+       console.log('nameee ' + name);
+    });
+
     socket.on('disconnect', (callback) => {
         const user = removeUser(socket.id);
 
