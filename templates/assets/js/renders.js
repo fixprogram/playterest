@@ -33,6 +33,7 @@ window.renders = function(userName) {
 
         buttonMessages.addEventListener('click', () => {
             openFriendMessages(buttonMessages);
+            buttonMessages.disabled = true;
         });
     };
 
@@ -44,15 +45,35 @@ window.renders = function(userName) {
 
     };
 
+    window.renderPersonal = function(msg, list) {
+        let message = document.createElement('p');
+        if(msg.me === userName) {
+            message.style.marginLeft = 'auto';
+        }
+        message.innerText = msg.text;
+        list.appendChild(message);
+    };
+
     function openFriendMessages(buttonMessages) {
         let parent = buttonMessages.parentElement;
+        let friendName = parent.querySelector('p').textContent;
+
+        let tabs = document.querySelectorAll('.chat-tabs .tab');
+        let tabsContent = document.querySelectorAll('.chat-content .messages');
+        tabs.forEach((tab) => tab.classList.remove('active'));
+        tabsContent.forEach((content) => content.classList.remove('active'));
+        tabs.forEach((tabItem, i) => {
+            if(tabItem.classList.contains('tab--personal')) {
+                tabsContent[i].classList.add('active');
+                tabItem.style.display = 'block';
+                tabItem.innerHTML = friendName;
+                tabItem.classList.add('active');
+            }
+        });
 
         window.changeTemplateMessage();
 
-        // 'Не дублировать код, а просто смотреть на содержание таба и взависимости от этого действовать'
-
-        socket.emit('friendMessages', {me: userName, name: parent.querySelector('p').textContent});
-
+        socket.emit('friendMessages', {me: userName, name: friendName});
     }
 
 };

@@ -318,13 +318,17 @@ io.on('connection', (socket) => {
         api.getUser(me).then((user) => {
            user.friends.forEach((friend) => {
                if(friend.name === name) {
-                   socket.emit('getMessages', { messages: friend.messages })
+                   api.getUser(name).then((userFriend) => {
+                       userFriend.friends.forEach((fr) => {
+                          if(fr.name === me) socket.emit('getMessages', { messages: friend.messages, messagesFriend: fr.messages })
+                       });
+                   });
                }
            })
         });
     });
 
-    socket.on('messageToFriend', ({ me, friendName, message }) => api.messageToFriend(me, friendName, message) );
+    socket.on('messageToFriend', ({ me, friendName, message, time }) => api.messageToFriend(me, friendName, message, time) );
 
     socket.on('disconnect', (callback) => {
         const user = removeUser(socket.id);

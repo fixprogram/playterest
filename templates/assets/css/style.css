@@ -329,6 +329,9 @@ h1, h2, h3, h4, h5, h6 {
     height: calc(100% - 10px);
     padding-top: 49px;
     padding-left: 15px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
 }
 
 .home-chat .messages p {
@@ -396,7 +399,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .chat-content .messages.active {
-    display: block;
+    display: flex;
 }
 
 .user-profile {
@@ -439,6 +442,11 @@ h1, h2, h3, h4, h5, h6 {
     padding: 6px 0 7px 14px;
     width: 50%;
     cursor: pointer;
+    display: none;
+}
+
+.tab.tab--world {
+    display: block;
 }
 
 .tab.active {

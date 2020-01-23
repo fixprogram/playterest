@@ -139,13 +139,13 @@ exports.createGame = function(id, name, icon) {
     return new Game(game).save()
 };
 
-exports.getRoom = (id) => Room.find({id}).then((room) => Promise.resolve(room));
+exports.getRoom = (id) => Room.find({ id }).then((room) => Promise.resolve(room));
 
 exports.getRooms = (games) => Room.find({ games }).then((rooms) => Promise.resolve(rooms));
 
-exports.messageToFriend = (me, friendName, message) => {
+exports.messageToFriend = (me, friendName, message, time) => {
     return User.findOne({ username: me }).then(function(user) {
-        let msg = { text: message };
+        let msg = { text: message, time, me };
         user.friends.forEach((friend) => {
             if(friend.name === friendName) {
                 console.log(msg);

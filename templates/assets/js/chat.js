@@ -38,18 +38,14 @@ window.chat = function (userID, userName) {
             } else if (chat === 'Комната') {
                 socket.emit('sendMessage', {message, userID, room: 'room'}, () => console.log('1'));
             } else {
+                let time = new Date();
                 socket.emit('sendMessage', {message, userID, room: 'personal'}, () => console.log('1'));
-                socket.emit('messageToFriend', {me: userName, friendName, message}, () => console.log('1'));
+                socket.emit('messageToFriend', {me: userName, friendName, message, time: time.getTime()}, () => console.log('1'));
             }
         }
     }
 
     window.renderMessage = function (data) {
-        // if(tabPersonal.classList.contains('active')) {
-        //     console.log('active');
-        //     socket.emit('friendMessages', { me: userName, name: tabPersonal.textContent })
-        // }
-        // console.log(data);
         if (data.room === 'world') {
             let item = document.createElement('p');
             item.innerHTML = '<span class="chat-user">' + data.user + ':</span> ' + data.text;
@@ -62,7 +58,12 @@ window.chat = function (userID, userName) {
             messagesLists[1].scrollTo(0, 10000);
         } else if(data.room === 'personal') {
             let item = document.createElement('p');
-            item.innerHTML = '<span class="chat-user">' + data.user + ':</span> ' + data.text;
+            if(data.user === userName) {
+                item.innerHTML = data.text;
+                item.style.marginLeft = 'auto';
+            } else {
+                item.innerHTML = '<span class="chat-user">' + data.user + ':</span> ' + data.text;
+            }
             messagesLists[2].appendChild(item);
             messagesLists[2].scrollTo(0, 10000);
         }

@@ -194,7 +194,17 @@
         });
 
         socket.on('getMessages', (data) => {
-            if(data) console.log(data);
+            if(data) {
+                console.log(data);
+
+                let messages = [].concat(data.messages, data.messagesFriend);
+
+                messages.sort((prev, next) => prev.time - next.time);
+
+                messages.forEach((msg) => {
+                    window.renderPersonal(msg, document.querySelector('#messages-personal'));
+                });
+            }
         });
 
         const roomsList = document.querySelector('.rooms-list');
