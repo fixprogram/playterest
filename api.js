@@ -12,7 +12,6 @@ exports.createRoom = function(user) {
         games: user.games
     };
     mongoose.connection.collections['rooms'].insertOne(room);
-    console.log(room);
     return new Room(room).save()
 };
 
@@ -23,7 +22,6 @@ exports.createUser = function(userData) {
         password: hash(userData.password)
     };
     mongoose.connection.collections['users'].insertOne(user);
-    console.log(user);
     return new User(user).save()
 };
 
@@ -39,7 +37,6 @@ exports.updateUser = function(userName, games, icon) {
     return User.findOne({ username: userName }).then(function(user) {
         if(icon) user.icon = icon;
         user.games = games;
-        console.log(user.games);
         User(user).save();
         return Promise.resolve(user);
     })
@@ -50,14 +47,6 @@ exports.getNotices = function(userID) {
         return Promise.resolve(user);
     })
 };
-
-// exports.addNotice = function(userID, text) {
-//     return User.findOne({ _id: userID }).then(function(user) {
-//         user.notices.push(text);
-//         User(user).save();
-//         return Promise.resolve(user);
-//     })
-// };
 
 exports.addNotice = function(userID, content, type) {
     let notice = { content, type };
@@ -82,20 +71,17 @@ exports.addFriend = function(user, content, type) {
             return User.findOne({ username: friendName }).then((userFriend) => {
                 let friendIcon = userFriend.icon;
                 let friendID = userFriend._id;
+                let messages = [];
                 user.friends.forEach((friend) => {
                     if(friend === friendName) count = true;
                 });
                 if(!count) {
-                    let friendData = { name: friendName, icon: friendIcon, id: friendID };
-                    let userData = { name: userName, icon: userIcon, id: userID };
-                    console.log(userData);
+                    let friendData = { name: friendName, icon: friendIcon, id: friendID, messages };
+                    let userData = { name: userName, icon: userIcon, id: userID, messages };
                     user.friends.push(friendData);
                     userFriend.friends.push(userData);
                     user.notices.splice(i, 1);
                 }
-
-                console.log(user.friends);
-                console.log(userFriend.friends);
 
                 User(userFriend).save();
                 User(user).save();
@@ -114,7 +100,6 @@ exports.getUser = function(name) {
 exports.checkUser = function(userData) {
 
     return User.findOne({ username: userData.username }).then(function(doc) {
-        console.log('doc is: ' + doc);
         if ( doc.password == hash(userData.password) ) {
             console.log('The password is okay');
             return Promise.resolve(doc)
@@ -157,3 +142,16 @@ exports.createGame = function(id, name, icon) {
 exports.getRoom = (id) => Room.find({id}).then((room) => Promise.resolve(room));
 
 exports.getRooms = (games) => Room.find({ games }).then((rooms) => Promise.resolve(rooms));
+
+exports.messageToFriend = (me, friendName, message) => {
+    return User.findOne({ username: me }).then(function(user) {
+        let msg = { text: message };
+        user.friends.forEach((friend) => {
+            if(friend.name === friendName) {
+                console.log(msg);
+                friend.messages.push(msg);
+            }
+        });
+        User(user).save();
+    });
+};

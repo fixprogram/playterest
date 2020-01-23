@@ -1,5 +1,4 @@
-(function () {
-    'use strict';
+window.renders = function(userName) {
 
     const socket = io('http://localhost:3000'); // http://localhost:3000
 
@@ -33,7 +32,7 @@
         list.appendChild(friendItem);
 
         buttonMessages.addEventListener('click', () => {
-            getFriendName(buttonMessages);
+            openFriendMessages(buttonMessages);
         });
     };
 
@@ -45,11 +44,15 @@
 
     };
 
-    function getFriendName(buttonMessages) {
+    function openFriendMessages(buttonMessages) {
         let parent = buttonMessages.parentElement;
 
-        window.changeTemplate(true);
+        window.changeTemplateMessage();
 
-        socket.emit('getMessages', {name: parent.querySelector('p').textContent});
+        // 'Не дублировать код, а просто смотреть на содержание таба и взависимости от этого действовать'
+
+        socket.emit('friendMessages', {me: userName, name: parent.querySelector('p').textContent});
+
     }
-})();
+
+};

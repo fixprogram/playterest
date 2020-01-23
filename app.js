@@ -80,8 +80,6 @@ app.use(passport.session());
 
 app.post('/', function (req, res, next) {
 
-    console.log(req.body.username + ' ' + req.body.password);
-
     api.checkUser(req.body).then(function (user) {
         if (user) {
             req.session.user = {id: user._id, name: user.username, games: user.games};
@@ -227,9 +225,6 @@ app.get('/auth/steam/return',
     });
 
 app.get('/account', ensureAuthenticated, function (req, res) {
-    // steam.getUserOwnedGames('76561197987987066').then(games => {
-
-    console.log(req.user);
 
     steam.getUserOwnedGames('76561197987987066').then(games => { // req.user.id
         res.send(req.user);
@@ -261,11 +256,7 @@ io.on('connection', (socket) => {
     socket.on('sendMessage', ({message, userID, room}, callback) => {
         const user = getUser(userID);
 
-        io.to(room).emit('message', {user: user.userName, text: message, room});
-
-        // socket.emit('message', {user: user.userName, text: message, room});
-
-        // callback();
+        io.to(user.room).emit('message', {user: user.userName, text: message, room});
     });
 
     socket.on('join', ({ userID, userName, room }, callback) => {
@@ -320,14 +311,20 @@ io.on('connection', (socket) => {
     });
 
     socket.on('addToFriend', ({ user, content, type }, callback) => {
-        api.addFriend(user, content, type).then((user) => {
-            // console.log(user);
+        api.addFriend(user, content, type)
+    });
+
+    socket.on('friendMessages', ({ me, name }, callback) => {
+        api.getUser(me).then((user) => {
+           user.friends.forEach((friend) => {
+               if(friend.name === name) {
+                   socket.emit('getMessages', { messages: friend.messages })
+               }
+           })
         });
     });
 
-    socket.on('getMessages', ({ name }, callback) => {
-       console.log('nameee ' + name);
-    });
+    socket.on('messageToFriend', ({ me, friendName, message }) => api.messageToFriend(me, friendName, message) );
 
     socket.on('disconnect', (callback) => {
         const user = removeUser(socket.id);

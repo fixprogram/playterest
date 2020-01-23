@@ -137,10 +137,11 @@
         const friendsList = document.querySelector('.friends-list');
 
         const userID = '{{userID}}';
-        window.chat(userID);
-
         let userName = '{{userName}}';
+
+        window.chat(userID, userName);
         window.searchGame(userName);
+        window.renders(userName);
 
         let games = window.parseData('{{gamesList}}');
         if (games) games.forEach((game) => renderGame(game.name, gamesList, game.iconURL) );
@@ -192,6 +193,10 @@
             });
         });
 
+        socket.on('getMessages', (data) => {
+            if(data) console.log(data);
+        });
+
         const roomsList = document.querySelector('.rooms-list');
 
         let rooms = '{{rooms}}';
@@ -238,7 +243,7 @@
             })
         }
 
-        window.tabulation(document.querySelectorAll('.tab-chat'), document.querySelectorAll('.tab-chat-content'))
+        window.tabulation(document.querySelectorAll('.tab-chat'), document.querySelectorAll('.chat-content .messages'))
     });
 </script>
 </body>

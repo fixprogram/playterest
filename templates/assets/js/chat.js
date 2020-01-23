@@ -1,62 +1,80 @@
-window.chat = function(userID) {
+window.chat = function (userID, userName) {
 
     const socket = io('http://localhost:3000'); // http://localhost:3000
 
-    const chatWorld = document.querySelector('.chat--world');
-    const chatRoom = document.querySelector('.chat--room');
+    const chatTabs = document.querySelector('.chat-tabs');
+    const tabs = chatTabs.querySelectorAll('.tab');
 
-    let usersList = chatWorld.querySelector('.users-list');
-    let messagesWorldList = chatWorld.querySelector('.messages');
-    let messagesRoomList = chatRoom.querySelector('.messages');
-    let messageWorldText = chatWorld.querySelector('#messageWorldText');
-    let messageRoomText = chatRoom.querySelector('#messageRoomText');
-    let sendWorldBtn = chatWorld.querySelector('#sendWorld');
-    let sendRoomBtn = chatRoom.querySelector('#sendRoom');
+    const tabPersonal = chatTabs.querySelector('.tab--personal');
 
-    sendWorldBtn.addEventListener('click', () => sendMessage(messageWorldText, 'world'));
+    const chatContent = document.querySelector('.chat-content');
 
-    sendRoomBtn.addEventListener('click', () => sendMessage(messageRoomText, 'room'));
+    let usersList = chatContent.querySelector('.users-list');
+    let messagesLists = chatContent.querySelectorAll('.messages');
+    let messageWorldText = chatContent.querySelector('#messageWorldText');
+    let sendWorldBtn = chatContent.querySelector('#sendWorld');
+
+    sendWorldBtn.addEventListener('click', () => {
+        tabs.forEach((tab) => {
+            if (tab.classList.contains('active')) sendMessage(messageWorldText, tab.textContent, tab.textContent);
+        });
+    });
 
     messageWorldText.addEventListener('keyup', function (evt) {
-        if (evt.code === 'Enter') sendMessage(messageWorldText, 'world');
+        if (evt.code === 'Enter') {
+            tabs.forEach((tab) => {
+                if (tab.classList.contains('active')) sendMessage(messageWorldText, tab.textContent, tab.textContent);
+            });
+        }
     });
 
-    messageRoomText.addEventListener('keyup', function (evt) {
-        if (evt.code === 'Enter') sendMessage(messageRoomText, 'room');
-    });
-
-    function sendMessage(input, chat) {
+    function sendMessage(input, chat, friendName) {
         let message = input.value;
         input.value = '';
 
         if (message) {
-            socket.emit('sendMessage', {message, userID, room: chat}, () => console.log('1'));
+            if (chat === 'Общий') {
+                socket.emit('sendMessage', {message, userID, room: 'world'}, () => console.log('1'));
+            } else if (chat === 'Комната') {
+                socket.emit('sendMessage', {message, userID, room: 'room'}, () => console.log('1'));
+            } else {
+                socket.emit('sendMessage', {message, userID, room: 'personal'}, () => console.log('1'));
+                socket.emit('messageToFriend', {me: userName, friendName, message}, () => console.log('1'));
+            }
         }
     }
 
-    window.renderMessage = function(data) {
+    window.renderMessage = function (data) {
+        // if(tabPersonal.classList.contains('active')) {
+        //     console.log('active');
+        //     socket.emit('friendMessages', { me: userName, name: tabPersonal.textContent })
+        // }
+        // console.log(data);
         if (data.room === 'world') {
             let item = document.createElement('p');
             item.innerHTML = '<span class="chat-user">' + data.user + ':</span> ' + data.text;
-            messagesWorldList.appendChild(item);
-            messagesWorldList.scrollTo(0, 10000);
-        } else {
-            if (data.room === 'room') {
-                let item = document.createElement('p');
-                item.innerHTML = data.user + ': ' + data.text;
-                messagesRoomList.appendChild(item);
-                messagesRoomList.scrollTo(0, 10000);
-            }
+            messagesLists[0].appendChild(item);
+            messagesLists[0].scrollTo(0, 10000);
+        } else if (data.room === 'room') {
+            let item = document.createElement('p');
+            item.innerHTML = '<span class="chat-user">' + data.user + ':</span> ' + data.text;
+            messagesLists[1].appendChild(item);
+            messagesLists[1].scrollTo(0, 10000);
+        } else if(data.room === 'personal') {
+            let item = document.createElement('p');
+            item.innerHTML = '<span class="chat-user">' + data.user + ':</span> ' + data.text;
+            messagesLists[2].appendChild(item);
+            messagesLists[2].scrollTo(0, 10000);
         }
     };
 
-    window.renderUsers = function(users, userName) {
+    window.renderUsers = function (users, userName) {
         usersList.innerHTML = '';
         users.forEach((user) => {
             let item = document.createElement('a');
             item.href = '/profile?id=' + user.id;
             item.innerHTML = user.userName;
-            if(user.userName === userName.toLowerCase()) item.classList.add('me');
+            if (user.userName === userName.toLowerCase()) item.classList.add('me');
             item.addEventListener('click', function (evt) {
                 evt.preventDefault();
                 if (userName !== user.userName) socket.emit('addNotice', {
