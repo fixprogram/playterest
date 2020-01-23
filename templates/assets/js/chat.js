@@ -5,8 +5,6 @@ window.chat = function (userID, userName) {
     const chatTabs = document.querySelector('.chat-tabs');
     const tabs = chatTabs.querySelectorAll('.tab');
 
-    const tabPersonal = chatTabs.querySelector('.tab--personal');
-
     const chatContent = document.querySelector('.chat-content');
 
     let usersList = chatContent.querySelector('.users-list');
@@ -70,21 +68,28 @@ window.chat = function (userID, userName) {
     };
 
     window.renderUsers = function (users, userName) {
+        let friends = document.querySelectorAll('.friends-list p');
+
         usersList.innerHTML = '';
         users.forEach((user) => {
-            let item = document.createElement('a');
-            item.href = '/profile?id=' + user.id;
-            item.innerHTML = user.userName;
-            if (user.userName === userName.toLowerCase()) item.classList.add('me');
-            item.addEventListener('click', function (evt) {
-                evt.preventDefault();
-                if (userName !== user.userName) socket.emit('addNotice', {
-                    socket: user.socketID,
-                    fromUser: userName,
-                    userID: user.id
+            // if (!user.userName === userName.toLowerCase()) {
+                let item = document.createElement('a');
+                item.href = '/profile?id=' + user.id;
+                item.innerHTML = user.userName;
+                friends.forEach((friend) => {
+                    console.log(friend);
+                    if (user.userName === friend.innerText.toLowerCase()) friend.classList.add('online');
                 });
-            });
-            usersList.appendChild(item);
+                item.addEventListener('click', function (evt) {
+                    evt.preventDefault();
+                    if (userName !== user.userName) socket.emit('addNotice', {
+                        socket: user.socketID,
+                        fromUser: userName,
+                        userID: user.id
+                    });
+                });
+                usersList.appendChild(item);
+            // }
         });
     };
 };

@@ -442,6 +442,9 @@ h1, h2, h3, h4, h5, h6 {
     padding: 6px 0 7px 14px;
     width: 50%;
     cursor: pointer;
+}
+
+.chat-tabs .tab {
     display: none;
 }
 
@@ -505,4 +508,25 @@ h1, h2, h3, h4, h5, h6 {
     color: #E7E9EA;
     font-size: 16px;
     line-height: 19px;
+}
+
+.friends-list p {
+    position: relative;
+    padding-right: 10px;
+    margin-right: 10px;
+}
+
+.friends-list p:before {
+    content: "";
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background: rgba(235, 27, 27, 0.75);
+    position: absolute;
+    top: 0;
+    right: 0;
+}
+
+.friends-list p.online:before {
+    background-color: #00FF0A;
 }
