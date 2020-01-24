@@ -13,6 +13,7 @@ const passport = require('passport');
 const SteamStrategy = require('passport-steam/lib/passport-steam').Strategy;
 const steamAPI = require('steamapi');
 const steam = new steamAPI('CFB0BB3EDA8D5FD2342384380B442CC9');
+const favicon = require('serve-favicon');
 
 const db = require('./db.js');
 db.getCollection(app);
@@ -53,6 +54,7 @@ app.set('views', views);
 hbs.registerPartials(partialsPath);
 app.use(express.static(publicDirectoryPath));
 app.use("/assets", express.static(`${__dirname}/assets`));
+app.use(favicon(path.join(__dirname, 'favicon.ico')));
 
 const sessionMiddleware = session({
     secret: 'my secret',
