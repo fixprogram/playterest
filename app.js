@@ -246,7 +246,11 @@ app.get('/account', ensureAuthenticated, function (req, res) {
         // req.session.user.games = gamesList;
 
         games.forEach((gameItem) => {
-            api.createGame(gameItem.appID, gameItem.name, gameItem.iconURL)
+            steamSearch.find({ search: gameItem.name }, function (err, game) {
+                if (err) console.log('404');
+                console.log(game.categories);
+                api.createGame(gameItem.appID, gameItem.name, gameItem.iconURL, game.categories)
+            });
         });
 
         api.updateUser(req.session.user.name, gamesID, req.user._json.avatar)
