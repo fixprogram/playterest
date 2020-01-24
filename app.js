@@ -7,7 +7,8 @@ const port = process.env.PORT || 3000; // Подключаться по этом
 const path = require('path');
 const hbs = require('hbs');
 const api = require('./api.js');
-const steamSearch = require('steam-searcher');
+// const steamSearch = require('steam-searcher');
+const steamBrowser = require("steam-game-browser");
 const uuid = require('uuid');
 const passport = require('passport');
 const SteamStrategy = require('passport-steam/lib/passport-steam').Strategy;
@@ -181,18 +182,18 @@ app.get('/register', function (req, res) {
     res.render('register');
 });
 
-app.get('/games/:name', function (req, res) {
-    let gameQuery = req.params.name;
-
-    if (gameQuery) {
-        steamSearch.find({search: gameQuery}, function (err, game) {
-            if (err) res.render('404');
-            res.render('game', {data: JSON.stringify(game)});
-        });
-    } else {
-        res.render('404');
-    }
-});
+// app.get('/games/:name', function (req, res) {
+//     let gameQuery = req.params.name;
+//
+//     if (gameQuery) {
+//         steamSearch.find({search: gameQuery}, function (err, game) {
+//             if (err) res.render('404');
+//             res.render('game', {data: JSON.stringify(game)});
+//         });
+//     } else {
+//         res.render('404');
+//     }
+// });
 
 app.get('/search', function (req, res) {
     let query = req.query.term;
@@ -246,11 +247,11 @@ app.get('/account', ensureAuthenticated, function (req, res) {
         // req.session.user.games = gamesList;
 
         games.forEach((gameItem) => {
-            steamSearch.find({ search: gameItem.name }, function (err, game) {
-                if (err) console.log('404');
-                console.log(game.categories);
-                api.createGame(gameItem.appID, gameItem.name, gameItem.iconURL, game.categories)
+            steamBrowser.searchById(gameItem.appID, (err, data) => {
+                if (err) return console.error(err);
+                console.log(data.categories) // Read the Game Object section, this shows in the console the name, the AppID, required age, if it's free, controller support, dlc, detailed description, short description
             });
+            api.createGame(gameItem.appID, gameItem.name, gameItem.iconURL)
         });
 
         api.updateUser(req.session.user.name, gamesID, req.user._json.avatar)
