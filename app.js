@@ -249,9 +249,9 @@ app.get('/account', ensureAuthenticated, function (req, res) {
         games.forEach((gameItem) => {
             steamBrowser.searchById(gameItem.appID, (err, data) => {
                 if (err) return console.error(err);
-                console.log(data.categories) // Read the Game Object section, this shows in the console the name, the AppID, required age, if it's free, controller support, dlc, detailed description, short description
+                console.log(data.categories); // Read the Game Object section, this shows in the console the name, the AppID, required age, if it's free, controller support, dlc, detailed description, short description
+                api.createGame(gameItem.appID, gameItem.name, gameItem.iconURL, data.categories);
             });
-            api.createGame(gameItem.appID, gameItem.name, gameItem.iconURL, data.categories)
         });
 
         api.updateUser(req.session.user.name, gamesID, req.user._json.avatar)
