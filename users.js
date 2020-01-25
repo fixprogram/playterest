@@ -33,8 +33,8 @@ const getUser = (id) => users.find((user) => user.id === id);
 
 const getUsersInRoom = (room) => users.filter((user) => user.room === room);
 
-const createRoom = ({ roomTitle, hostName, roomID }) => {
-    const room = { roomTitle, hostName, roomID };
+const createRoom = ({ roomTitle, hostName, hostIcon, games, roomID }) => {
+    const room = { roomTitle, hostName, hostIcon, games, roomID };
 
     rooms.push(room);
 

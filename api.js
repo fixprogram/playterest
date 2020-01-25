@@ -3,17 +3,17 @@ const crypto = require('crypto');
 
 let db = mongoose.connect('mongodb://heroku_969m2gr9:d0ljj3k0df4v7psa45cn26u376@ds129098.mlab.com:29098/heroku_969m2gr9');
 let User = require('./models/User.js');
-let Room = require('./models/Room.js');
+// let Room = require('./models/Room.js');
 let Game = require('./models/Game.js');
 
-exports.createRoom = function(user) {
-    let room = {
-        username: user.name,
-        games: user.games
-    };
-    mongoose.connection.collections['rooms'].insertOne(room);
-    return new Room(room).save()
-};
+// exports.createRoom = function(user) {
+//     let room = {
+//         username: user.name,
+//         games: user.games
+//     };
+//     mongoose.connection.collections['rooms'].insertOne(room);
+//     return new Room(room).save()
+// };
 
 exports.createUser = function(userData) {
     let user = {
@@ -140,9 +140,9 @@ exports.createGame = function(id, name, icon, categories) {
     return new Game(game).save()
 };
 
-exports.getRoom = (id) => Room.find({ id }).then((room) => Promise.resolve(room));
-
-exports.getRooms = (games) => Room.find({ games }).then((rooms) => Promise.resolve(rooms));
+// exports.getRoom = (id) => Room.find({ id }).then((room) => Promise.resolve(room));
+//
+// exports.getRooms = (games) => Room.find({ games }).then((rooms) => Promise.resolve(rooms));
 
 exports.messageToFriend = (me, friendName, message, time) => {
     return User.findOne({ username: me }).then(function(user) {

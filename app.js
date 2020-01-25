@@ -155,19 +155,19 @@ app.get('/home', function (req, res) {
         api.getUser(req.session.user.name).then((user) => {
 
             api.getGames(user.games).then((games) => {
-                api.createRoom(req.session.user);
+                // api.createRoom(req.session.user);
 
-                api.getRooms(user.games).then((rooms) => {
+                // api.getRooms(user.games).then((rooms) => {
                     res.render('home', {
                         userProfile: user,
                         userName: user.username,
                         userIcon: user.icon,
                         userID: user._id,
                         gamesList: JSON.stringify(games),
-                        rooms: JSON.stringify(rooms),
+                        // rooms: JSON.stringify(rooms),
                         notices: JSON.stringify(user.notices),
                         friends: JSON.stringify(user.friends)
-                    });
+                    // });
 
                 });
             });
@@ -281,8 +281,8 @@ io.on('connection', (socket) => {
         callback();
     });
 
-    socket.on('createRoom', ({roomTitle, hostName}, callback) => {
-        const {error, room} = createRoom({roomTitle, hostName, roomID: uuid()});
+    socket.on('createRoom', ({roomTitle, hostName, hostIcon, games}, callback) => {
+        const {error, room} = createRoom({roomTitle, hostName, hostIcon, games, roomID: uuid()});
 
         if (error) return callback(error);
 

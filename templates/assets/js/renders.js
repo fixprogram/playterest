@@ -2,16 +2,24 @@ window.renders = function(userName) {
 
     const socket = io('http://localhost:3000'); // http://localhost:3000
 
-    window.renderGame = function(game, list, icon) {
+    window.renderGame = function(game, list, icon, id) {
         let gameItem = document.createElement('li');
         let gameName = document.createElement('p');
+        let gameCheckbox = document.createElement('input');
+        gameCheckbox.type = 'checkbox';
+        gameCheckbox.id = id;
+        gameCheckbox.classList.add('visually-hidden');
+        let gameLabel = document.createElement('label');
+        gameLabel.htmlFor = id;
         if(icon) {
             let gameIcon = document.createElement('img');
             gameIcon.src = icon;
-            gameItem.appendChild(gameIcon);
+            gameLabel.appendChild(gameIcon);
         }
         gameName.innerText = game;
-        gameItem.appendChild(gameName);
+        gameLabel.appendChild(gameName);
+        gameItem.appendChild(gameCheckbox);
+        gameItem.appendChild(gameLabel);
         list.appendChild(gameItem);
     };
 
@@ -41,8 +49,12 @@ window.renders = function(userName) {
 
     };
 
-    window.renderRoom = function() {
-
+    window.renderRoom = function(title, list) {
+        let roomItem = document.createElement('li');
+        let roomTitle = document.createElement('p');
+        roomTitle.innerText = title;
+        roomItem.appendChild(roomTitle);
+        list.appendChild(roomItem);
     };
 
     window.renderPersonal = function(msg, list) {

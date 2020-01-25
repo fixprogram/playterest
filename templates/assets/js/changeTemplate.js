@@ -2,16 +2,23 @@
     'use strict';
 
     const homeBlocks = document.querySelector('.home-blocks');
-    const homeBlocksSearch = document.querySelector('.home-blocks__search');
-    const userRoom = document.querySelector('.user-room');
-    const userRoomList = userRoom.querySelector('.user-room-list');
+    const room = document.querySelector('.room');
+    const roomUsers = document.querySelector('.user-room__list');
     const chat = document.querySelector('.home-chat');
 
-    window.changeTemplate = function (search) {
+    window.changeTemplate = function (search, roomData) {
         if (search) {
             homeBlocks.style.display = 'none';
-            homeBlocksSearch.style.display = 'flex';
-            userRoom.style.display = 'block';
+            room.style.display = 'flex';
+            room.querySelector('.user-room__header p').innerHTML = roomData.roomTitle;
+            let userItem = document.createElement('li');
+            let hostIcon = document.createElement('img');
+            hostIcon.src = roomData.hostIcon;
+            let hostName = document.createElement('p');
+            hostName.innerHTML = roomData.hostName;
+            userItem.appendChild(hostIcon);
+            userItem.appendChild(hostName);
+            roomUsers.appendChild(userItem);
         } else {
             return;
         }
