@@ -12,20 +12,20 @@
         <div class="filters">
 
             <div class="checkbox-filter">
-                <input type="checkbox" name="online-game" id="Multi-player">
+                <input type="checkbox" class="visually-hidden" name="online-game" id="Multi-player">
                 <label for="Multi-player">Online games</label>
             </div>
             <div class="checkbox-filter">
-                <input type="checkbox" name="cooperative-game" id="Co-op">
+                <input type="checkbox" class="visually-hidden" name="cooperative-game" id="Co-op">
                 <label for="Co-op">Cooperative games</label>
             </div>
 
             <div class="checkbox-filter">
-                <input type="checkbox" name="fast-searching" id="fast-searching">
+                <input type="checkbox" class="visually-hidden" name="fast-searching" id="fast-searching">
                 <label for="fast-searching">Fast searching</label>
             </div>
             <div class="checkbox-filter">
-                <input type="checkbox" name="search-favorite" id="search-favorite">
+                <input type="checkbox" class="visually-hidden" name="search-favorite" id="search-favorite">
                 <label for="search-favorite">Search by favorite games</label>
             </div>
         </div>
@@ -33,11 +33,9 @@
 
     <section style="height: calc(100% - 249px)">
         <div class="games-tabs">
-            <a class="tab games-tab games-tab--mine active">Ваши игры</a>
-            <a class="tab games-tab games-tab--favorite">Избранное</a>
+            <a class="tab games-tab checkbox-filter games-tab--mine active" id="all-games">Ваши игры</a>
+            <a class="tab games-tab checkbox-filter games-tab--favorite" id="favorite-games">Избранное</a>
         </div>
-        <ul class="games-list">
-
-        </ul>
+        <ul class="games-list"></ul>
     </section>
 </section>

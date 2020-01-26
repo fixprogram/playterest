@@ -60,32 +60,35 @@ window.renders = function(userName) {
     window.renderPersonal = function(msg, list) {
         let message = document.createElement('p');
         if(msg.me === userName) {
-            message.style.marginLeft = 'auto';
+            message.classList.add('fromMe');
         }
         message.innerText = msg.text;
         list.appendChild(message);
     };
 
     function openFriendMessages(buttonMessages) {
-        let parent = buttonMessages.parentElement;
-        let friendName = parent.querySelector('p').textContent;
+        const parent = buttonMessages.parentElement;
+        const friendName = parent.querySelector('p');
+        const friendIcon = parent.querySelector('img').src;
+        const tabs = document.querySelectorAll('.chat-tabs .tab');
+        const tabsContent = document.querySelectorAll('.chat-content .messages');
 
-        let tabs = document.querySelectorAll('.chat-tabs .tab');
-        let tabsContent = document.querySelectorAll('.chat-content .messages');
         tabs.forEach((tab) => tab.classList.remove('active'));
         tabsContent.forEach((content) => content.classList.remove('active'));
         tabs.forEach((tabItem, i) => {
             if(tabItem.classList.contains('tab--personal')) {
                 tabsContent[i].classList.add('active');
                 tabItem.style.display = 'block';
-                tabItem.innerHTML = friendName;
+                tabItem.querySelector('.personal-chat-name').innerHTML = friendName.textContent;
+                if(friendName.classList.contains('online')) tabItem.querySelector('.personal-chat-name').classList.add('online');
+                tabItem.querySelector('.personal-chat-icon').src = friendIcon;
                 tabItem.classList.add('active');
             }
         });
 
         window.changeTemplateMessage();
 
-        socket.emit('friendMessages', {me: userName, name: friendName});
+        socket.emit('friendMessages', {me: userName, name: friendName.textContent});
     }
 
 };

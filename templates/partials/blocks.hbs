@@ -24,54 +24,47 @@
         <div class="chat-tabs">
             <a class="tab tab-chat tab--world active">Общий</a>
             <a class="tab tab-chat tab--room">Комната</a>
-            <a class="tab tab-chat tab--personal"></a>
         </div>
         <article class="chat-content" style="height: 100%;">
             <div class="messages active" id="messages-world"></div>
             <div class="messages" id="messages-room"></div>
-            <div class="messages" id="messages-personal"></div>
             <div class="chat-users">
                 <span class="tab active">Пользователи</span>
                 <ul class="users-list"></ul>
             </div>
             <div class="text-form">
-                <input type="text" id="messageWorldText">
-                <button id="sendWorld" type="submit">
+                <input type="text" class="textMessage">
+                <button class="sendMessage" type="submit">
                     <svg width="15" height="10">
                         <use xlink:href="#enter-icon"></use>
                     </svg>
                 </button>
             </div>
-            <!--            <div class="tab-content tab-chat-content chat--room">-->
-            <!--                <div class="messages"></div>-->
-            <!--                <div class="chat-users">-->
-            <!--                    <span class="tab active">Пользователи</span>-->
-            <!--                    <ul class="users-list"></ul>-->
-            <!--                </div>-->
-            <!--                <div class="text-form">-->
-            <!--                    <input type="text" id="messageRoomText">-->
-            <!--                    <button id="sendRoom" type="submit">-->
-            <!--                        <svg width="15" height="10">-->
-            <!--                            <use xlink:href="#enter-icon"></use>-->
-            <!--                        </svg>-->
-            <!--                    </button>-->
-            <!--                </div>-->
-            <!--            </div>-->
-            <!--            <div class="tab-content tab-chat-content chat--personal">-->
-            <!--                <div class="messages"></div>-->
-            <!--                <div class="chat-users">-->
-            <!--                    <span class="tab active">Пользователи</span>-->
-            <!--                    <ul class="users-list"></ul>-->
-            <!--                </div>-->
-            <!--                <div class="text-form">-->
-            <!--                    <input type="text" id="messagePersonalText">-->
-            <!--                    <button id="sendPersonal" type="submit">-->
-            <!--                        <svg width="15" height="10">-->
-            <!--                            <use xlink:href="#enter-icon"></use>-->
-            <!--                        </svg>-->
-            <!--                    </button>-->
-            <!--                </div>-->
-            <!--            </div>-->
+        </article>
+    </section>
+
+    <section class="home-chat personal-chat">
+        <div class="chat-tabs">
+            <a class="tab tab-chat tab--personal active">
+                <div>
+                    <img src="" class="personal-chat-icon" alt="">
+                    <p class="personal-chat-name"></p>
+                    <button class="all-dialogs">Все диалоги</button>
+                </div>
+                <button>Свернуть</button>
+                <button>Закрыть</button>
+            </a>
+        </div>
+        <article class="chat-content" style="height: 100%;">
+            <div class="messages active" id="messages-personal"></div>
+            <div class="text-form">
+                <input type="text" class="textMessage">
+                <button class="sendMessage" type="submit">
+                    <svg width="15" height="10">
+                        <use xlink:href="#enter-icon"></use>
+                    </svg>
+                </button>
+            </div>
         </article>
     </section>
 

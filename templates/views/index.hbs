@@ -8,28 +8,33 @@
 </head>
 <body>
 
-<section class="container">
+<section class="container start-page">
 
-    <article style="width:50%;">
-        <h1 class="main-title">{{title}}</h1>
-        <p>Main description</p>
-    </article>
+    <h1 class="main-title">Играй по своим правилам на <span>playterest</span></h1>
 
-    <div class="login-block" style="width:50%;">
+    <div class="start-block">
+        <a class="register-show">Зарегистрироваться</a>
+        <a class="login-show">Войти под существующим аккаунтом</a>
+    </div>
 
-        <svg>
-            <use xlink:href="#logo-icon"></use>
-        </svg>
-
-        <p>Зарегистрируйтесь чтобы было все пиздато</p>
-
-        <h2>Регистрация</h2>
+    <div class="sign-up">
 
         <form method="post" action="/register">
 
-            <input type="email" name="email" placeholder="Your email">
-            <input type="text" name="username" placeholder="Your username">
-            <input type="password" name="password" placeholder="Your password">
+            <div>
+                <label for="user-email">E-mail</label>
+                <input type="email" name="email" id="user-email" placeholder="Your email">
+            </div>
+
+            <div>
+                <label for="user-name">Nickname</label>
+                <input type="text" name="username" id="user-name" placeholder="Your username">
+            </div>
+
+            <div>
+                <label for="user-password">Password</label>
+                <input type="password" name="password" id="user-password" placeholder="Your password">
+            </div>
 
             <input type="submit" value="Зарегистрироваться">
 
@@ -37,24 +42,73 @@
                 Регистрируясь, вы принимаете наши Условия, Политику использования данных и Политику в отношении файлов
                 cookie.
             </p>
+
+            <a class="return">Назад</a>
+            <a class="has-account">Уже зарегистрирован</a>
         </form>
+    </div>
 
-        <p>Или</p>
+    <div class="sign-in">
 
-        <h2>Вход</h2>
+        <form method="post" action="/" style="padding: 0 150px;">
 
-        <form method="post" action="/">
+            <div>
+                <label for="username">Nickname</label>
+                <input type="text" name="username" id="username" placeholder="Your username">
+            </div>
 
-            <input type="text" name="username" placeholder="Your username">
-            <input type="password" name="password" placeholder="Your password">
+            <div>
+                <label for="password">Password</label>
+                <input type="password" name="password" id="password" placeholder="Your password">
+            </div>
 
-            <input type="submit" value="Войти">
+            <div style="width: 100%">
+                <input type="submit" value="Авторизоваться">
+            </div>
 
             <p>{{error}}</p>
 
+            <a class="return">Назад</a>
         </form>
     </div>
 
 </section>
+
+<script>
+    const startBlock = document.querySelector('.start-block');
+    const signIn = document.querySelector('.sign-in');
+    const signUp = document.querySelector('.sign-up');
+
+    const registerShow = document.querySelector('.register-show');
+    const loginShow = document.querySelector('.login-show');
+    const returnBtns = document.querySelectorAll('.return');
+    const hasAccount = document.querySelector('.has-account');
+
+    registerShow.addEventListener('click', () => {
+        startBlock.style.display = 'none';
+        signUp.style.display = 'block';
+    });
+
+    loginShow.addEventListener('click', () => {
+        startBlock.style.display = 'none';
+        signIn.style.display = 'block';
+    });
+
+    returnBtns.forEach((btn) => {
+        btn.addEventListener('click', () => {
+            signIn.style.display = 'none';
+            signUp.style.display = 'none';
+
+            startBlock.style.display = 'block';
+        });
+    });
+
+    hasAccount.addEventListener('click', () => {
+        signIn.style.display = 'block';
+        signUp.style.display = 'none';
+        startBlock.style.display = 'none';
+    })
+</script>
+
 </body>
 </html>

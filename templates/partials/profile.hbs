@@ -1,12 +1,20 @@
 <section class="user-block">
     <article class="user-profile">
-        <a href="/profile?id={{userID}}">{{userName}}</a>
-        <a href='/logout'>Logout</a></h2>
-        <img src="{{userIcon}}" alt="">
+        <div class="profile-block">
+            <img src="{{userIcon}}" alt="{{userName}}" width="40" height="40">
+            <p class="online">{{userName}}</a>
+            <!--        <a href='/logout'>Logout</a></h2>-->
+        </div>
+        <ul class="profile-links-list">
+            <li><a href="/profile?id={{userID}}">Мой профиль</a></li>
+            <li><a href="">Мои сообщения</a></li>
+            <li><a href="">Мои игры</a></li>
+            <li><a href="">Новости</a></li>
+        </ul>
     </article>
     <section class="user-friends">
         <div class="user-friends__title">
-            <b>Друзья</b>
+            <p>Друзья</p>
         </div>
         <ul class="friends-list"></ul>
     </section>

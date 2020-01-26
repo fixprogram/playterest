@@ -102,6 +102,97 @@ h1, h2, h3, h4, h5, h6 {
     color: #fff;
 }
 
+.container.start-page {
+    flex-direction: column;
+    justify-content: flex-start;
+    background: url(/assets/img/start-bg.jpg) no-repeat;
+    height: 100vh;
+}
+
+.main-title {
+    margin-top: 108px;
+    margin-bottom: 150px;
+}
+
+.register-show {
+    background: rgba(252, 255, 83, 0.9);
+    border-radius: 100px;
+    font-size: 22px;
+    color: #10191D;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    margin: 0 auto;
+    width: 346px;
+    height: 65px;}
+
+.login-show {
+    text-shadow: 0 4px 15px rgba(0, 0, 0, 0.25);
+    font-size: 14px;
+    color: #E5E5E5;
+}
+
+.sign-up,
+.sign-in {
+    display: none;
+    margin-top: 170px;
+    position: relative;
+}
+
+.sign-up .return,
+.sign-in .return,
+.sign-up .has-account {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    color: #fff;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+.sign-up .has-account {
+    left: auto;
+    right: 0;
+}
+
+.sign-up form,
+.sign-in form {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    max-width: 800px;
+    position: relative;
+    margin: 0 auto;
+    text-align: left;
+}
+
+.sign-up label,
+.sign-in label {
+    font-size: 14px;
+    color: #fff;
+    margin-left: 21px;
+}
+
+.sign-up input,
+.sign-in input {
+    display: block;
+    width: 244px;
+    height: 45px;
+    background: rgba(220, 222, 223, 0.75);
+    border-radius: 100px;
+    padding-left: 21px;
+    font-size: 14px;
+    border: none;
+}
+
+.sign-up input[type="submit"],
+.sign-in input[type="submit"] {
+    margin: 20px auto;
+    cursor: pointer;
+    padding: 0;
+}
+
 .page-header,
 .page-footer {
     width: 100%;
@@ -287,11 +378,12 @@ h1, h2, h3, h4, h5, h6 {
 
 .search-team,
 .start-searching {
-    width: 80%;
+    width: calc(100% - 48px);
+    padding: 0;
     max-width: 245px;
     height: 38px;
     background: linear-gradient(90deg, #10191D 0%, #233A4A 50.01%, #10191D 100%);
-    border-radius: 5px;
+    border-radius: 5px 0 0 5px;
     font-weight: 500;
     font-size: 18px;
     line-height: 21px;
@@ -302,8 +394,12 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .search-team {
-    width: 16%;
-    max-width: 45px;
+    width: 45px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0;
+    border-radius: 0 5px 5px 0;
 }
 
 .filters {
@@ -312,6 +408,33 @@ h1, h2, h3, h4, h5, h6 {
     min-height: 140px;
     text-align: left;
     padding: 10px;
+}
+
+.checkbox-filter {
+    margin-top: 6px;
+}
+
+.checkbox-filter label {
+    position: relative;
+    padding-left: 20px;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.checkbox-filter label:before {
+    content: "";
+    position: absolute;
+    top: 1px;
+    left: 0;
+    width: 15px;
+    height: 15px;
+    background: #FFFFFF;
+    border: 0.5px solid #3F4B51;
+    border-radius: 3px;
+}
+
+.checkbox-filter input[type='checkbox']:checked + label:before {
+    background: url('/assets/img/check-icon.svg');
 }
 
 .home-chat {
@@ -325,7 +448,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .home-chat .messages {
-    width: 80%;
+    width: calc(100% - 183px);
     overflow-y: auto;
     height: calc(100% - 10px);
     padding-top: 49px;
@@ -333,6 +456,36 @@ h1, h2, h3, h4, h5, h6 {
     display: flex;
     flex-direction: column;
     justify-content: flex-end;
+    align-items: flex-start;
+}
+
+.personal-chat .messages {
+    width: 100%;
+    padding-right: 15px;
+    height: calc(100% - 42px);
+}
+
+.personal-chat .messages p {
+    background: #1D313D;
+    padding: 7px 10px 5px 10px;
+    color: #DCDEDF;
+    font-size: 14px;
+    line-height: 17px;
+    margin-top: 7px;
+    border-radius: 15px;
+}
+
+.personal-chat .messages p.fromMe {
+    background: rgba(121, 184, 241, 0.25);
+    margin-left: auto;
+}
+
+.personal-chat .tab {
+    padding: 14px 15px;
+}
+
+.personal-chat-name {
+    margin: 0;
 }
 
 .home-chat .messages p {
@@ -405,14 +558,35 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .user-profile {
+    padding: 15px;
     height: 50%;
     background: linear-gradient(0deg, rgba(16, 25, 29, 0.25), rgba(16, 25, 29, 0.25));
+}
+
+.profile-block {
+    display: flex;
+    align-items: center;
+}
+
+.profile-block img {
+    margin-right: 9px;
+}
+
+.profile-links-list {
+    text-align: left;
+}
+
+.profile-links-list a {
+    font-size: 16px;
+    line-height: 19px;
+    color: #E7E9EA;
+    margin-top: 3px;
 }
 
 .chat-tabs {
     display: flex;
     position: absolute;
-    width: 80%;
+    width: calc(100% - 183px);
 }
 
 .tab-content {
@@ -436,7 +610,7 @@ h1, h2, h3, h4, h5, h6 {
     background-color: #3F4B51;
     text-align: left;
     padding: 6px 0 7px 14px;
-    width: 50%;
+    width: 100%;
     cursor: pointer;
 }
 
@@ -454,6 +628,10 @@ h1, h2, h3, h4, h5, h6 {
     color: #E7E9EA;
     background-color: #17262F;
     cursor: text;
+}
+
+.chat-users {
+    width: 183px;
 }
 
 .chat-users span {
@@ -500,19 +678,24 @@ h1, h2, h3, h4, h5, h6 {
     margin-bottom: 24px;
 }
 
-.user-friends__title b {
+.user-friends__title p {
     color: #E7E9EA;
     font-size: 16px;
     line-height: 19px;
+    margin: 0;
 }
 
-.friends-list p {
+.friends-list p,
+.profile-block p,
+.personal-chat-name {
     position: relative;
     padding-right: 10px;
     margin-right: 10px;
 }
 
-.friends-list p:before {
+.friends-list p:before,
+.profile-block p:before,
+.personal-chat-name:before {
     content: "";
     width: 5px;
     height: 5px;
@@ -523,7 +706,9 @@ h1, h2, h3, h4, h5, h6 {
     right: 0;
 }
 
-.friends-list p.online:before {
+.friends-list p.online:before,
+.profile-block p.online:before,
+.personal-chat-name.online:before {
     background-color: #00FF0A;
 }
 
@@ -571,6 +756,12 @@ h1, h2, h3, h4, h5, h6 {
     margin-top: 9px;
 }
 
+.user-room__list {
+    display: flex;
+    flex-display: column;
+    align-items: flex-start;
+}
+
 .user-room__list li {
     display: flex;
     align-items: center;
@@ -590,4 +781,23 @@ h1, h2, h3, h4, h5, h6 {
     background: rgba(16, 25, 29, 0.25);
     border-radius: 2px;
     padding: 10px;
+}
+
+.personal-chat {
+    display: none;
+    margin: 0;
+    height: 100%;
+}
+
+.personal-chat .chat-tabs {
+    width: 100%;
+}
+
+.personal-chat .tab div {
+    display: flex;
+    align-items: center;
+}
+
+.personal-chat .tab div img {
+    margin-right: 9px;
 }

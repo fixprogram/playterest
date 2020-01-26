@@ -2,28 +2,34 @@ window.chat = function (userID, userName) {
 
     const socket = io('http://localhost:3000'); // http://localhost:3000
 
-    const chatTabs = document.querySelector('.chat-tabs');
-    const tabs = chatTabs.querySelectorAll('.tab');
+    const tabs = document.querySelectorAll('.chat-tabs .tab');
 
     const chatContent = document.querySelector('.chat-content');
 
     let usersList = chatContent.querySelector('.users-list');
-    let messagesLists = chatContent.querySelectorAll('.messages');
-    let messageWorldText = chatContent.querySelector('#messageWorldText');
-    let sendWorldBtn = chatContent.querySelector('#sendWorld');
+    let messagesLists = document.querySelectorAll('.messages');
+    let textMessages = document.querySelectorAll('.textMessage');
+    let sendBtns = document.querySelectorAll('.sendMessage');
 
-    sendWorldBtn.addEventListener('click', () => {
-        tabs.forEach((tab) => {
-            if (tab.classList.contains('active')) sendMessage(messageWorldText, tab.textContent, tab.textContent);
-        });
+
+    console.log(textMessages);
+
+    sendBtns.forEach((btn, i) => {
+      btn.addEventListener('click', () => {
+          tabs.forEach((tab) => {
+              if (tab.classList.contains('active')) sendMessage(textMessages[i], tab.textContent, tab.textContent);
+          });
+      });
     });
 
-    messageWorldText.addEventListener('keyup', function (evt) {
-        if (evt.code === 'Enter') {
-            tabs.forEach((tab) => {
-                if (tab.classList.contains('active')) sendMessage(messageWorldText, tab.textContent, tab.textContent);
-            });
-        }
+    textMessages.forEach((text) => {
+        text.addEventListener('keyup', function (evt) {
+            if (evt.code === 'Enter') {
+                tabs.forEach((tab) => {
+                    if (tab.classList.contains('active')) sendMessage(text, tab.textContent, tab.textContent);
+                });
+            }
+        });
     });
 
     function sendMessage(input, chat, friendName) {
@@ -56,12 +62,8 @@ window.chat = function (userID, userName) {
             messagesLists[1].scrollTo(0, 10000);
         } else if(data.room === 'personal') {
             let item = document.createElement('p');
-            if(data.user === userName) {
-                item.innerHTML = data.text;
-                item.style.marginLeft = 'auto';
-            } else {
-                item.innerHTML = '<span class="chat-user">' + data.user + ':</span> ' + data.text;
-            }
+            if(data.user === userName.toLowerCase()) item.classList.add('fromMe')
+            item.innerHTML = data.text;
             messagesLists[2].appendChild(item);
             messagesLists[2].scrollTo(0, 10000);
         }

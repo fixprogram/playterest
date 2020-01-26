@@ -5,10 +5,12 @@
     const room = document.querySelector('.room');
     const roomUsers = document.querySelector('.user-room__list');
     const chat = document.querySelector('.home-chat');
+    const personalChat = document.querySelector('.personal-chat');
 
     window.changeTemplate = function (search, roomData) {
         if (search) {
             homeBlocks.style.display = 'none';
+            personalChat.style.display = 'none';
             room.style.display = 'flex';
             room.querySelector('.user-room__header p').innerHTML = roomData.roomTitle;
             let userItem = document.createElement('li');
@@ -26,9 +28,9 @@
 
     window.changeTemplateMessage = function () {
         homeBlocks.style.display = 'none';
-        userRoom.style.display = 'none';
+        room.style.display = 'none';
+        chat.style.display = 'none';
 
-        chat.style.height = '100%';
-        chat.style.marginTop = '0px';
+        personalChat.style.display = 'block';
     }
 })();
