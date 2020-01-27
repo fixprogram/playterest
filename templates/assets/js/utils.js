@@ -3,6 +3,8 @@
 
     window.parseData = function(data) {
         data = data.replace(/&quot;/g, '"');
+        data = data.replace(/&amp;/g, '&');
+        data = data.replace(/&#x27;/g, "'");
         return JSON.parse(data);
     };
 

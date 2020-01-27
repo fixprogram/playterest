@@ -23,7 +23,7 @@ const mongoose = require('mongoose');
 const session = require('express-session');
 const MongoStore = require('connect-mongo')(session);
 
-const {addUser, removeUser, getUser, getUsersInRoom, createRoom, getRooms, removeRoom, addNotice} = require('./users');
+const {addUser, removeUser, getUser, getUsersInRoom, createRoom, getRooms, removeRoom, addNotice, getRoom} = require('./users');
 
 const views = path.join(__dirname, 'templates/views');
 const partialsPath = path.join(__dirname, 'templates/partials');
@@ -291,8 +291,10 @@ io.on('connection', (socket) => {
         console.log(room);
     });
 
-    socket.on('joinRoom', ({}, callback) => {
+    socket.on('joinRoom', ({ userName }, callback) => {
+        const {error, room} = getRoom(userName);
 
+        console.log(room);
     });
 
     socket.on('addNotice', ({socketID, fromUser, userID}, callback) => {

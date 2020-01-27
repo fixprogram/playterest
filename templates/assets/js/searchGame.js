@@ -73,7 +73,6 @@ window.searchGame = function(userName, games, hostIcon) {
     let gameCheckboxes = document.querySelectorAll('.games-list li input');
     gameCheckboxes.forEach((gameItem, i) => {
         gameItem.addEventListener('click', () => {
-            choosenGames = [];
             choosenGames.push(games[i]);
 
             choosenGames = choosenGames.filter((item, pos) => choosenGames.indexOf(item).name === pos.name);
@@ -95,7 +94,7 @@ window.searchGame = function(userName, games, hostIcon) {
         });
     });
 
-    searchTeamBtn.addEventListener('click', () => filtersBlock.classList.toggle('active'));
+    // searchTeamBtn.addEventListener('click', () => filtersBlock.classList.toggle('active'));
     startSearchBtn.addEventListener('click', () => {
         console.log(choosenGames);
         let gamesID = [];
@@ -104,16 +103,46 @@ window.searchGame = function(userName, games, hostIcon) {
         });
 
         socket.emit('createRoom', {roomTitle: 'My room', hostName: userName, hostIcon, games: gamesID}, () => console.log('error'));
+        // socket.emit('joinRoom', { userName });
 
         socket.on('rooms', (data) => {
             console.log(data);
-            data.rooms.forEach((room) => {
-                if(room.hostName === userName) {
-                    window.changeTemplate(true, room);
-                } else {
+            let rooms = data.rooms;
+            rooms.forEach((room, i, arr) => {
+                let similarity = false;
+                room.games.forEach((gameID) => {
+                    gamesID.forEach((roomGameID) => {
+                        if(gameID === roomGameID) similarity = true;
+                    })
+                });
+                if(!similarity) arr.splice(i, 1)
+            });
+            console.log(rooms);
+            rooms.forEach((room) => {
+                let myRoom = false;
+                room.users.forEach((user) => {
+                   if(user === userName) myRoom = true
+                });
+                if(!myRoom) {
                     window.renderRoom(room.roomTitle, roomsList);
                 }
+                else {
+                    window.changeTemplate(true, room);
+                }
             });
+        });
+
+        document.querySelectorAll('.chat-tabs .tab').forEach((tab) => {
+           if(tab.classList.contains('active') && !tab.classList.contains('tab--room')) tab.classList.remove('active');
+           if(tab.classList.contains('tab--room')) {
+               tab.classList.add('active');
+               tab.style.display = 'block';
+           }
+        });
+
+        document.querySelectorAll('.chat-content .messages').forEach((messagesBlock) => {
+            if(messagesBlock.classList.contains('active') && !messagesBlock.classList.contains('messages--room')) messagesBlock.classList.remove('active');
+            if(messagesBlock.classList.contains('messages--room')) messagesBlock.classList.add('active');
         });
 
         startSearchBtn.innerHTML = 'Идет поиск...';

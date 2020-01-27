@@ -1,12 +1,17 @@
 <section class="user-block">
     <article class="user-profile">
-        <div class="profile-block">
+        <div class="profile-block" style="margin-bottom:13px;">
             <img src="{{userIcon}}" alt="{{userName}}" width="40" height="40">
-            <p class="online">{{userName}}</a>
+            <article style="text-align:left;flex-direction:column;display:flex;align-items:flex-start;">
+                <p class="online" style="margin:0;">
+                    {{userName}}
+                </p>
+                <span class="status">Еблом торгует на главной</span>
+            </article>
             <!--        <a href='/logout'>Logout</a></h2>-->
         </div>
         <ul class="profile-links-list">
-            <li><a href="/profile?id={{userID}}">Мой профиль</a></li>
+            <li><a href="/profile?id={{userID}}">Мой профиль</li>
             <li><a href="">Мои сообщения</a></li>
             <li><a href="">Мои игры</a></li>
             <li><a href="">Новости</a></li>

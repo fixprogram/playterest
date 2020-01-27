@@ -34,7 +34,7 @@ const getUser = (id) => users.find((user) => user.id === id);
 const getUsersInRoom = (room) => users.filter((user) => user.room === room);
 
 const createRoom = ({ roomTitle, hostName, hostIcon, games, roomID }) => {
-    const room = { roomTitle, hostName, hostIcon, games, roomID };
+    const room = { roomTitle, hostName, hostIcon, games, roomID, users: [hostName] };
 
     rooms.push(room);
 
@@ -51,12 +51,14 @@ const removeRoom = (hostName) => {
     if(index !== -1) return rooms.splice(index, 1)[0];
 };
 
+const getRoom = (userName) => rooms.filter((room) => room.hostName === userName);
+
 const getRooms = () => rooms;
 
 const addNotice = ({ userName, text }) => {
-    let user = users.find((user) => user.userName === userName);
+    let user = users.find((user) => user.hostName === userName);
     user.notices.push(text);
     return user;
 };
 
-module.exports = { addUser, removeUser, getUser, getUsersInRoom, createRoom, getRooms, removeRoom, addNotice };
+module.exports = { addUser, removeUser, getUser, getUsersInRoom, createRoom, getRooms, removeRoom, addNotice, getRoom };

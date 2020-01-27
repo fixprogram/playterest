@@ -603,6 +603,10 @@ h1, h2, h3, h4, h5, h6 {
     margin-bottom: 8px;
 }
 
+.games-tabs .tab {
+    margin: 0;
+}
+
 .tab {
     font-size: 14px;
     line-height: 17px;
@@ -628,6 +632,7 @@ h1, h2, h3, h4, h5, h6 {
     color: #E7E9EA;
     background-color: #17262F;
     cursor: text;
+    display: block;
 }
 
 .chat-users {
@@ -714,12 +719,13 @@ h1, h2, h3, h4, h5, h6 {
 
 .user-room {
     background: linear-gradient(0deg, rgba(16, 25, 29, 0.25), rgba(16, 25, 29, 0.25));
+    padding: 15px;
 }
 
 .user-room__header {
     display: flex;
     align-items: center;
-    padding: 15px;
+    margin-bottom: 15px;
 }
 
 .user-room__title {
@@ -727,6 +733,13 @@ h1, h2, h3, h4, h5, h6 {
     font-size: 16px;
     line-height: 19px;
     margin: 0;
+}
+
+.user-room__title span {
+    margin-left: 12px;
+    font-size: 16px;
+    line-height: 19px;
+    color: #8C949A;
 }
 
 .room {
@@ -744,7 +757,7 @@ h1, h2, h3, h4, h5, h6 {
     display: flex;
     flex-direction: column;
     height: 100%;
-    background: rgba(23, 38, 47, 0.25);
+    background: linear-gradient(0deg, rgba(16, 25, 29, 0.3), rgba(16, 25, 29, 0.3));
 }
 
 .rooms__search p {
@@ -769,12 +782,15 @@ h1, h2, h3, h4, h5, h6 {
 
 .user-room__list li img {
     margin-right: 10px;
+    width: 25px;
+    height: 25px;
 }
 
 .user-room__list li p {
     font-size: 14px;
     line-height: 17px;
     color: #E7E9EA;
+    margin: 0;
 }
 
 .user-room__list li:first-child {
@@ -800,4 +816,10 @@ h1, h2, h3, h4, h5, h6 {
 
 .personal-chat .tab div img {
     margin-right: 9px;
+}
+
+.status {
+    font-size: 12px;
+    line-height: 14px;
+    color: #AAAAAA;
 }
