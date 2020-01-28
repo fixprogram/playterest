@@ -282,6 +282,8 @@ io.on('connection', (socket) => {
         api.getUser(me).then((me) => {
             const room = getRoom(userName);
 
+            socket.join(room);
+
             const newUser = {
                 name: me.username,
                 icon: me.icon,
@@ -292,6 +294,8 @@ io.on('connection', (socket) => {
 
             removeRoom(me.username);
             updateRoom(userName, room);
+
+            socket.broadcast.to(room).emit('message', {user: 'admin', text: `${me} has joined!`, room});
 
             socket.emit('rooms', {rooms: getRooms(), anotherRoom: true});
         });
