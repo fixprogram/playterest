@@ -1,5 +1,5 @@
 window.searchGame = function(userName, games, hostIcon) {
-    const socket = io('http://localhost:3000'); // http://localhost:3000
+    const socket = io('https://myappest.herokuapp.com'); // http://localhost:3000
 
     const roomsList = document.querySelector('.rooms-list');
 

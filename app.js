@@ -208,8 +208,8 @@ app.get('/auth/steam/return',
     });
 
 app.get('/account', ensureAuthenticated, function (req, res) {
-
-    steam.getUserOwnedGames('76561197987987066').then(games => { // req.user.id
+    // '76561197987987066'
+    steam.getUserOwnedGames(req.user.id).then(games => { // req.user.id
         res.send(games);
         let gamesID = [];
         let gamesList = [];

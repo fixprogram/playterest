@@ -1,6 +1,6 @@
 window.chat = function (userID, userName) {
 
-    const socket = io('http://localhost:3000'); // http://localhost:3000
+    const socket = io('https://myappest.herokuapp.com'); // http://localhost:3000
 
     const tabs = document.querySelectorAll('.chat-tabs .tab');
 
