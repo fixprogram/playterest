@@ -1,5 +1,5 @@
 window.searchGame = function(userName, games, hostIcon) {
-    const socket = io('http://localhost:3000'); // http://localhost:3000
+    const socket = io('https://myappest.herokuapp.com/'); // http://localhost:3000
 
     const roomsList = document.querySelector('.rooms-list');
 
@@ -96,6 +96,7 @@ window.searchGame = function(userName, games, hostIcon) {
 
     // searchTeamBtn.addEventListener('click', () => filtersBlock.classList.toggle('active'));
     startSearchBtn.addEventListener('click', () => {
+        if(choosenGames.length === 0) choosenGames = games;
         console.log(choosenGames);
         let gamesID = [];
         choosenGames.forEach((chose) => {
@@ -103,9 +104,9 @@ window.searchGame = function(userName, games, hostIcon) {
         });
 
         socket.emit('createRoom', {roomTitle: 'My room', hostName: userName, hostIcon, games: gamesID}, () => console.log('error'));
-        // socket.emit('joinRoom', { userName });
 
         socket.on('rooms', (data) => {
+            roomsList.innerHTML = '';
             console.log(data);
             let rooms = data.rooms;
             rooms.forEach((room, i, arr) => {
@@ -117,17 +118,16 @@ window.searchGame = function(userName, games, hostIcon) {
                 });
                 if(!similarity) arr.splice(i, 1)
             });
-            console.log(rooms);
             rooms.forEach((room) => {
                 let myRoom = false;
                 room.users.forEach((user) => {
-                   if(user === userName) myRoom = true
+                   if(user.name === userName) myRoom = true
                 });
-                if(!myRoom) {
-                    window.renderRoom(room.roomTitle, roomsList);
+                if(myRoom || data.anotherRoom) {
+                    window.changeTemplate(true, room);
                 }
                 else {
-                    window.changeTemplate(true, room);
+                    window.renderRoom(room.host.name, roomsList, room.roomID);
                 }
             });
         });

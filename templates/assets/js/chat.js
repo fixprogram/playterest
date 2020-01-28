@@ -1,6 +1,6 @@
 window.chat = function (userID, userName) {
 
-    const socket = io('http://localhost:3000'); // http://localhost:3000
+    const socket = io('https://myappest.herokuapp.com/'); // http://localhost:3000
 
     const tabs = document.querySelectorAll('.chat-tabs .tab');
 
@@ -10,9 +10,6 @@ window.chat = function (userID, userName) {
     let messagesLists = document.querySelectorAll('.messages');
     let textMessages = document.querySelectorAll('.textMessage');
     let sendBtns = document.querySelectorAll('.sendMessage');
-
-
-    console.log(textMessages);
 
     sendBtns.forEach((btn, i) => {
       btn.addEventListener('click', () => {

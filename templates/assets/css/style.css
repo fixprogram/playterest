@@ -149,11 +149,18 @@ h1, h2, h3, h4, h5, h6 {
     color: #fff;
     font-size: 14px;
     cursor: pointer;
+    padding-left: 28px;
+    background: url(/assets/img/svg/prev.svg) no-repeat;
+    background-position: left center;
 }
 
 .sign-up .has-account {
     left: auto;
     right: 0;
+    padding-left: 0;
+    padding-right: 28px;
+    background: url(/assets/img/svg/next.svg) no-repeat;
+    background-position: right center;
 }
 
 .sign-up form,
@@ -190,7 +197,12 @@ h1, h2, h3, h4, h5, h6 {
 .sign-in input[type="submit"] {
     margin: 20px auto;
     cursor: pointer;
-    padding: 0;
+    padding: 43px 0 0;
+    height: auto;
+    background-color: inherit;
+    background: url(/assets/img/svg/action.svg) no-repeat;
+    background-position: center -20px;
+    color: #fff;
 }
 
 .page-header,
@@ -434,7 +446,8 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .checkbox-filter input[type='checkbox']:checked + label:before {
-    background: url('/assets/img/check-icon.svg');
+    background: #fff url('/assets/img/svg/checked.svg') no-repeat;
+    background-position: center;
 }
 
 .home-chat {
@@ -633,6 +646,7 @@ h1, h2, h3, h4, h5, h6 {
     background-color: #17262F;
     cursor: text;
     display: block;
+    position: relative;
 }
 
 .chat-users {
@@ -771,13 +785,14 @@ h1, h2, h3, h4, h5, h6 {
 
 .user-room__list {
     display: flex;
-    flex-display: column;
+    flex-direction: column;
     align-items: flex-start;
 }
 
 .user-room__list li {
     display: flex;
     align-items: center;
+    padding: 10px;
 }
 
 .user-room__list li img {
@@ -796,7 +811,6 @@ h1, h2, h3, h4, h5, h6 {
 .user-room__list li:first-child {
     background: rgba(16, 25, 29, 0.25);
     border-radius: 2px;
-    padding: 10px;
 }
 
 .personal-chat {
@@ -812,6 +826,20 @@ h1, h2, h3, h4, h5, h6 {
 .personal-chat .tab div {
     display: flex;
     align-items: center;
+    padding-right: 81px;
+}
+
+.personal-chat .tab button {
+    border: none;
+    padding: 0;
+    position: absolute;
+    width: 12px;
+    height: 12px;
+    cursor: pointer;
+    top: 15px;
+    right: 15px;
+    background: url(/assets/img/svg/close.svg) no-repeat;
+    background-position: center;
 }
 
 .personal-chat .tab div img {
@@ -822,4 +850,31 @@ h1, h2, h3, h4, h5, h6 {
     font-size: 12px;
     line-height: 14px;
     color: #AAAAAA;
+}
+
+.user-messages {
+    border: none;
+    width: 12px;
+    height: 12px;
+    cursor: pointer;
+    background: url('/assets/img/svg/personal.svg') no-repeat;
+}
+
+.personal-chat .tab div .all-dialogs {
+    margin: 0 0 0 auto;
+    position: relative;
+    width: auto;
+    height: 21px;
+    font-size: 16px;
+    line-height: 19px;
+    color: #8C949A;
+    padding-right: 12px;
+    background: url(/assets/img/svg/arrow.svg) no-repeat;
+    background-position: right center;
+    cursor: pointer;
+}
+
+.personal-chat .tab .hide-chat-btn {
+    background: url(/assets/img/svg/hide.svg) no-repeat;
+    right: 39px;
 }

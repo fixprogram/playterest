@@ -7,11 +7,13 @@
     const chat = document.querySelector('.home-chat');
     const personalChat = document.querySelector('.personal-chat');
 
-    window.changeTemplate = function (search, roomData) {
+    window.changeTemplate = (search, roomData) => {
+        roomUsers.innerHTML = '';
         if (search) {
             homeBlocks.style.display = 'none';
             personalChat.style.display = 'none';
             room.style.display = 'flex';
+            chat.style.display = 'block';
             if(roomData.users.length === 1) {
                 room.querySelector('.user-room__header p').innerHTML = roomData.roomTitle + '<span>' + roomData.users.length + ' участник</span>';
             } else if(roomData.users.length === 5) {
@@ -22,34 +24,34 @@
             roomData.users.forEach((user) => {
                 let userItem = document.createElement('li');
                 let userName = document.createElement('p');
-                userName.innerHTML = user;
-                if(user === roomData.hostName) {
-                    userName.innerHTML = user + ' <span style="color:#DCDEDF;margin-left:7px;">Создатель</span>';
-                    let hostIcon = document.createElement('img');
-                    hostIcon.src = roomData.hostIcon;
-                    userItem.appendChild(hostIcon);
+                userName.innerHTML = user.name;
+                if(user.name === roomData.host.name) {
+                    userName.innerHTML = user.name + ' <span style="color:#DCDEDF;margin-left:7px;">Создатель</span>';
                 }
+                let userIcon = document.createElement('img');
+                userIcon.src = user.icon;
+                userItem.appendChild(userIcon);
                 userItem.appendChild(userName);
                 roomUsers.appendChild(userItem);
             });
-            // let userItem = document.createElement('li');
-            // let hostIcon = document.createElement('img');
-            // hostIcon.src = roomData.hostIcon;
-            // let hostName = document.createElement('p');
-            // hostName.innerHTML = roomData.hostName;
-            // userItem.appendChild(hostIcon);
-            // userItem.appendChild(hostName);
-            // roomUsers.appendChild(userItem);
         } else {
             return;
         }
     };
 
-    window.changeTemplateMessage = function () {
+    window.changeTemplateMessage = () => {
         homeBlocks.style.display = 'none';
         room.style.display = 'none';
         chat.style.display = 'none';
 
         personalChat.style.display = 'block';
+    };
+
+    window.changeTemplateToStart = () => {
+        room.style.display = 'none';
+        personalChat.style.display = 'none';
+
+        homeBlocks.style.display = 'flex';
+        chat.style.display = 'flex';
     }
 })();

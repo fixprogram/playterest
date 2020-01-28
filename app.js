@@ -7,7 +7,6 @@ const port = process.env.PORT || 3000; // Подключаться по этом
 const path = require('path');
 const hbs = require('hbs');
 const api = require('./api.js');
-// const steamSearch = require('steam-searcher');
 const steamBrowser = require("steam-game-browser");
 const uuid = require('uuid');
 const passport = require('passport');
@@ -23,7 +22,7 @@ const mongoose = require('mongoose');
 const session = require('express-session');
 const MongoStore = require('connect-mongo')(session);
 
-const {addUser, removeUser, getUser, getUsersInRoom, createRoom, getRooms, removeRoom, addNotice, getRoom} = require('./users');
+const {addUser, removeUser, getUser, getUsersInRoom, createRoom, getRooms, removeRoom, addNotice, getRoom, updateRoom} = require('./users');
 
 const views = path.join(__dirname, 'templates/views');
 const partialsPath = path.join(__dirname, 'templates/partials');
@@ -155,20 +154,14 @@ app.get('/home', function (req, res) {
         api.getUser(req.session.user.name).then((user) => {
 
             api.getGames(user.games).then((games) => {
-                // api.createRoom(req.session.user);
-
-                // api.getRooms(user.games).then((rooms) => {
-                    res.render('home', {
-                        userProfile: user,
-                        userName: user.username,
-                        userIcon: user.icon,
-                        userID: user._id,
-                        gamesList: JSON.stringify(games),
-                        // rooms: JSON.stringify(rooms),
-                        notices: JSON.stringify(user.notices),
-                        friends: JSON.stringify(user.friends)
-                    // });
-
+                res.render('home', {
+                    userProfile: user,
+                    userName: user.username,
+                    userIcon: user.icon,
+                    userID: user._id,
+                    gamesList: JSON.stringify(games),
+                    notices: JSON.stringify(user.notices),
+                    friends: JSON.stringify(user.friends)
                 });
             });
         });
@@ -181,19 +174,6 @@ app.get('/home', function (req, res) {
 app.get('/register', function (req, res) {
     res.render('register');
 });
-
-// app.get('/games/:name', function (req, res) {
-//     let gameQuery = req.params.name;
-//
-//     if (gameQuery) {
-//         steamSearch.find({search: gameQuery}, function (err, game) {
-//             if (err) res.render('404');
-//             res.render('game', {data: JSON.stringify(game)});
-//         });
-//     } else {
-//         res.render('404');
-//     }
-// });
 
 app.get('/search', function (req, res) {
     let query = req.query.term;
@@ -265,78 +245,101 @@ io.on('connection', (socket) => {
         io.to(user.room).emit('message', {user: user.userName, text: message, room});
     });
 
-    socket.on('join', ({ userID, userName, room }, callback) => {
+    socket.on('join', ({userID, userName, room}, callback) => {
         console.log(room);
-        const { error, user } = addUser({ socketID: socket.id, id: userID, userName, room });
+        const {error, user} = addUser({socketID: socket.id, id: userID, userName, room});
 
         if (error) return callback(error);
 
         socket.join(user.room);
 
-        socket.emit('message', { user: 'admin', text: `${ user.userName }, welcome to room ${ user.room }.`, room });
-        socket.broadcast.to(user.room).emit('message', { user: 'admin', text: `${ user.userName } has joined!`, room });
+        socket.emit('message', {user: 'admin', text: `${user.userName}, welcome to room ${user.room}.`, room});
+        socket.broadcast.to(user.room).emit('message', {user: 'admin', text: `${user.userName} has joined!`, room});
 
-        io.to(user.room).emit('roomData', { room: user.room, users: getUsersInRoom(user.room) });
+        io.to(user.room).emit('roomData', {room: user.room, users: getUsersInRoom(user.room)});
 
         callback();
     });
 
     socket.on('createRoom', ({roomTitle, hostName, hostIcon, games}, callback) => {
-        const {error, room} = createRoom({roomTitle, hostName, hostIcon, games, roomID: uuid()});
+        api.getUser(hostName).then((user) => {
 
-        if (error) return callback(error);
+            const host = {
+                name: user.username,
+                icon: user.icon,
+                id: user._id
+            };
 
-        socket.emit('rooms', {rooms: getRooms()});
+            const {error, room} = createRoom({roomTitle, host, games, roomID: uuid()});
 
-        console.log(room);
-    });
+            if (error) return callback(error);
 
-    socket.on('joinRoom', ({ userName }, callback) => {
-        const {error, room} = getRoom(userName);
-
-        console.log(room);
-    });
-
-    socket.on('addNotice', ({socketID, fromUser, userID}, callback) => {
-       console.log('add to friend ' + userID);
-
-       // io.to(friendName).emit('notice', {message: 'Заявка на добавление в друзья от ' + fromUser, user: friendName})
-
-       socket.join(socketID);
-
-       let text = 'Заявка на добавление в друзья от ' + fromUser;
-
-       api.getNotices(userID).then((user) => {
-           let count = false;
-           user.notices.forEach((notice) => {
-               if(notice.content === text) count = true;
-           });
-
-           if(!count) api.addNotice(userID, text, 'addToFriend').then((user) => {
-               socket.to(socketID).emit('notice', { notices: user.notices, text });
-           });
-       });
-    });
-
-    socket.on('addToFriend', ({ user, content, type }, callback) => {
-        api.addFriend(user, content, type)
-    });
-
-    socket.on('friendMessages', ({ me, name }, callback) => {
-        api.getUser(me).then((user) => {
-           user.friends.forEach((friend) => {
-               if(friend.name === name) {
-                   api.getUser(name).then((userFriend) => {
-                       userFriend.friends.forEach((fr) => {
-                          if(fr.name === me) socket.emit('getMessages', { messages: friend.messages, messagesFriend: fr.messages })
-                       });
-                   });
-               }
-           })
+            socket.emit('rooms', {rooms: getRooms()});
         });
     });
 
-    socket.on('messageToFriend', ({ me, friendName, message, time }) => api.messageToFriend(me, friendName, message, time) );
+    socket.on('joinRoom', ({userName, me}, callback) => {
+        api.getUser(me).then((me) => {
+            const room = getRoom(userName);
+
+            const newUser = {
+                name: me.username,
+                icon: me.icon,
+                id: me._id
+            };
+
+            room.users.push(newUser);
+
+            removeRoom(me.username);
+            updateRoom(userName, room);
+
+            socket.emit('rooms', {rooms: getRooms(), anotherRoom: true});
+        });
+    });
+
+    socket.on('addNotice', ({socketID, fromUser, userID}, callback) => {
+        console.log('add to friend ' + userID);
+
+        // io.to(friendName).emit('notice', {message: 'Заявка на добавление в друзья от ' + fromUser, user: friendName})
+
+        socket.join(socketID);
+
+        let text = 'Заявка на добавление в друзья от ' + fromUser;
+
+        api.getNotices(userID).then((user) => {
+            let count = false;
+            user.notices.forEach((notice) => {
+                if (notice.content === text) count = true;
+            });
+
+            if (!count) api.addNotice(userID, text, 'addToFriend').then((user) => {
+                socket.to(socketID).emit('notice', {notices: user.notices, text});
+            });
+        });
+    });
+
+    socket.on('addToFriend', ({user, content, type}, callback) => {
+        api.addFriend(user, content, type)
+    });
+
+    socket.on('friendMessages', ({me, name}, callback) => {
+        api.getUser(me).then((user) => {
+            user.friends.forEach((friend) => {
+                if (friend.name === name) {
+                    api.getUser(name).then((userFriend) => {
+                        userFriend.friends.forEach((fr) => {
+                            if (fr.name === me) socket.emit('getMessages', {
+                                messages: friend.messages,
+                                messagesFriend: fr.messages
+                            })
+                        });
+                    });
+                }
+            })
+        });
+    });
+
+    socket.on('messageToFriend', ({me, friendName, message, time}) => api.messageToFriend(me, friendName, message, time));
 
     socket.on('disconnect', (callback) => {
         const user = removeUser(socket.id);

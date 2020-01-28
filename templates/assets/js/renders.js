@@ -1,6 +1,6 @@
 window.renders = function(userName) {
 
-    const socket = io('http://localhost:3000'); // http://localhost:3000
+    const socket = io('https://myappest.herokuapp.com/'); // http://localhost:3000
 
     window.renderGame = function(game, list, icon, id) {
         let gameItem = document.createElement('li');
@@ -33,7 +33,6 @@ window.renders = function(userName) {
         }
         let buttonMessages = document.createElement('button');
         buttonMessages.classList.add('user-messages');
-        buttonMessages.innerHTML = '<svg class="icon icon--ls" width="12" height="12"><use xlink:href="ls-icon"></use></svg>';
         friendName.innerText = name;
         friendItem.appendChild(friendName);
         friendItem.appendChild(buttonMessages);
@@ -54,6 +53,11 @@ window.renders = function(userName) {
         let roomTitle = document.createElement('p');
         roomTitle.innerText = title;
         roomItem.appendChild(roomTitle);
+
+        roomTitle.addEventListener('click', () => {
+           socket.emit('joinRoom', { userName: title, me: userName});
+        });
+
         list.appendChild(roomItem);
     };
 

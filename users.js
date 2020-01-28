@@ -1,5 +1,5 @@
 const users = [];
-const rooms = [];
+let rooms = [];
 
 const addUser = ({ socketID, id, userName, room }) => {
 
@@ -33,8 +33,8 @@ const getUser = (id) => users.find((user) => user.id === id);
 
 const getUsersInRoom = (room) => users.filter((user) => user.room === room);
 
-const createRoom = ({ roomTitle, hostName, hostIcon, games, roomID }) => {
-    const room = { roomTitle, hostName, hostIcon, games, roomID, users: [hostName] };
+const createRoom = ({ roomTitle, host, games, roomID }) => {
+    const room = { roomTitle, host, games, roomID, users: [host] };
 
     rooms.push(room);
 
@@ -43,17 +43,22 @@ const createRoom = ({ roomTitle, hostName, hostIcon, games, roomID }) => {
 
 const removeRoom = (hostName) => {
 
-    const index = rooms.findIndex((room) => {
-        room.hostName = room.hostName.trim().toLowerCase();
-        return room.hostName === hostName;
-    });
+    const index = rooms.findIndex((room) => room.host.name === hostName);
 
     if(index !== -1) return rooms.splice(index, 1)[0];
+
 };
 
-const getRoom = (userName) => rooms.filter((room) => room.hostName === userName);
+const updateRoom = (hostName, newRoom) => rooms.forEach((room) => {
+    if(room.host.name === hostName) room = newRoom
+});
 
-const getRooms = () => rooms;
+const getRoom = (userName) => rooms.find((room) => room.host.name === userName);
+
+const getRooms = () => {
+    // rooms = rooms.filter((item, pos) => rooms.indexOf(item) === pos);
+    return rooms;
+};
 
 const addNotice = ({ userName, text }) => {
     let user = users.find((user) => user.hostName === userName);
@@ -61,4 +66,4 @@ const addNotice = ({ userName, text }) => {
     return user;
 };
 
-module.exports = { addUser, removeUser, getUser, getUsersInRoom, createRoom, getRooms, removeRoom, addNotice, getRoom };
+module.exports = { addUser, removeUser, getUser, getUsersInRoom, createRoom, getRooms, removeRoom, addNotice, getRoom, updateRoom };
