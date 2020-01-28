@@ -295,7 +295,7 @@ io.on('connection', (socket) => {
             removeRoom(me.username);
             updateRoom(userName, room);
 
-            socket.emit('message', {user: 'admin', text: `${user.userName}, welcome to room ${user.room}.`, room});
+            socket.emit('message', {user: 'admin', text: `${me}, welcome to room ${room.roomTitle}.`, room});
             socket.broadcast.to(room.roomID).emit('message', {user: 'admin', text: `${me} has joined!`, room});
 
             socket.emit('rooms', {rooms: getRooms(), anotherRoom: true});
