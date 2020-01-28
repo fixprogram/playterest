@@ -282,7 +282,7 @@ io.on('connection', (socket) => {
         api.getUser(me).then((me) => {
             const room = getRoom(userName);
 
-            socket.join(room);
+            socket.join(room.roomID);
 
             const newUser = {
                 name: me.username,
@@ -295,7 +295,8 @@ io.on('connection', (socket) => {
             removeRoom(me.username);
             updateRoom(userName, room);
 
-            socket.broadcast.to(room).emit('message', {user: 'admin', text: `${me} has joined!`, room});
+            socket.emit('message', {user: 'admin', text: `${user.userName}, welcome to room ${user.room}.`, room});
+            socket.broadcast.to(room.roomID).emit('message', {user: 'admin', text: `${me} has joined!`, room});
 
             socket.emit('rooms', {rooms: getRooms(), anotherRoom: true});
         });
