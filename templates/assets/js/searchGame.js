@@ -1,5 +1,5 @@
 window.searchGame = function(userName, games, hostIcon) {
-    const socket = io('https://myappest.herokuapp.com/'); // http://localhost:3000
+    const socket = io('http://localhost:3000'); // http://localhost:3000
 
     const roomsList = document.querySelector('.rooms-list');
 
@@ -8,7 +8,7 @@ window.searchGame = function(userName, games, hostIcon) {
 
     let filters = document.querySelectorAll('.checkbox-filter');
     let gamesItems = document.querySelectorAll('.games-list li');
-    let checked = [];
+    let checked = ['all-games'];
     let choosenGames = [];
     filters.forEach((filter) => {
         filter.addEventListener('click', () => {
@@ -43,14 +43,16 @@ window.searchGame = function(userName, games, hostIcon) {
                 });
                 if (checkedBool) checked.splice(i, 1);
             });
-            console.log(checked);
             checked.forEach((check) => {
                 games.forEach((game) => {
+                    let similars = 0;
                     if (game.categories) game.categories.forEach((category) => {
-                        if (category.description === check) checkedGames.push(game)
-                    })
+                        if (category.description === check) similars++;
+                    });
+                    if(similars === checked.length - 1) checkedGames.push(game)
                 });
             });
+            console.log(checkedGames);
             checkedGames = checkedGames.filter((item, pos) => checkedGames.indexOf(item) === pos);
             if (checkedGames.length === 0) {
                 gamesItems.forEach((item, i) => {

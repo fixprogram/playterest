@@ -129,12 +129,12 @@ exports.loadUser = function(req, res, next, previous) {
     }
 };
 
-exports.createGame = function(id, name, icon, categories) {
+exports.createGame = function(id, name, icon, genres) {
     let game = {
         gameID: id,
         name: name,
         iconURL: icon,
-        categories
+        genres
     };
     mongoose.connection.collections['games'].insertOne(game);
     return new Game(game).save()

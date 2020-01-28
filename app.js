@@ -229,7 +229,7 @@ app.get('/account', ensureAuthenticated, function (req, res) {
         games.forEach((gameItem) => {
             steamBrowser.searchById(gameItem.appID, (err, data) => {
                 if (err) return console.error(err);
-                api.createGame(gameItem.appID, gameItem.name, gameItem.iconURL, data.categories);
+                api.createGame(gameItem.appID, gameItem.name, gameItem.iconURL, data.genres);
             });
         });
 
@@ -282,8 +282,6 @@ io.on('connection', (socket) => {
         api.getUser(me).then((me) => {
             const room = getRoom(userName);
 
-            socket.join(room.roomID);
-
             const newUser = {
                 name: me.username,
                 icon: me.icon,
@@ -294,9 +292,6 @@ io.on('connection', (socket) => {
 
             removeRoom(me.username);
             updateRoom(userName, room);
-
-            socket.emit('message', {user: 'admin', text: `${me}, welcome to room ${room.roomTitle}.`, room});
-            socket.broadcast.to(room.roomID).emit('message', {user: 'admin', text: `${me} has joined!`, room});
 
             socket.emit('rooms', {rooms: getRooms(), anotherRoom: true});
         });

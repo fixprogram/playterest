@@ -130,7 +130,7 @@
 <script>
     $(function () {
 
-        const socket = io('https://myappest.herokuapp.com/'); // http://localhost:3000
+        const socket = io('http://localhost:3000'); // http://localhost:3000
 
         const gamesList = document.querySelector('.games-list');
         const noticesList = document.querySelector('.notices-list');
@@ -203,49 +203,49 @@
             }
         });
 
-        let rooms = '{{rooms}}';
-        if (rooms) {
-            rooms = rooms.replace(/&#x27;/g, "'");
-            rooms = rooms.replace(/&quot;/g, '"');
-            rooms = JSON.parse(rooms);
-            console.log(rooms);
+        <!--let rooms = '{{rooms}}';-->
+        <!--if (rooms) {-->
+        <!--    rooms = rooms.replace(/&#x27;/g, "'");-->
+        <!--    rooms = rooms.replace(/&quot;/g, '"');-->
+        <!--    rooms = JSON.parse(rooms);-->
+        <!--    console.log(rooms);-->
 
-            rooms.forEach((room) => {
-                if (room.username !== userName) {
-                    window.renderGame(room._id, roomsList)
-                }
-            });
+        <!--    rooms.forEach((room) => {-->
+        <!--        if (room.username !== userName) {-->
+        <!--            window.renderGame(room._id, roomsList)-->
+        <!--        }-->
+        <!--    });-->
 
-            selectRoom(roomsList, rooms);
-        }
+        <!--    selectRoom(roomsList, rooms);-->
+        <!--}-->
 
         window.changeTemplate({{searching}});
 
-        function selectRoom(roomsParent, rooms) {
-            let roomsList = roomsParent.querySelectorAll('p');
+        // function selectRoom(roomsParent, rooms) {
+        //     let roomsList = roomsParent.querySelectorAll('p');
+        //
+        //     roomsList.forEach((room) => room.addEventListener('click', function () {
+        //         console.log(this.innerText);
+        //         rooms.forEach((roomsItem) => {
+        //             if (roomsItem._id === this.innerText) changeRoom(userID, userName, roomsItem._id);
+        //         })
+        //     }));
+        // }
 
-            roomsList.forEach((room) => room.addEventListener('click', function () {
-                console.log(this.innerText);
-                rooms.forEach((roomsItem) => {
-                    if (roomsItem._id === this.innerText) changeRoom(userID, userName, roomsItem._id);
-                })
-            }));
-        }
-
-        function changeRoom(userID, userName, id) {
-            socket.emit('join', {userID, userName, room: id}, (error) => {
-                if (error) {
-                    alert(error);
-                }
-            });
-        }
-
-        function changeRoomTemplate(room, users) {
-            room.innerHTML = '';
-            users.forEach((user) => {
-                renderGame(user.userName, room);
-            })
-        }
+        // function changeRoom(userID, userName, id) {
+        //     socket.emit('join', {userID, userName, room: id}, (error) => {
+        //         if (error) {
+        //             alert(error);
+        //         }
+        //     });
+        // }
+        //
+        // function changeRoomTemplate(room, users) {
+        //     room.innerHTML = '';
+        //     users.forEach((user) => {
+        //         renderGame(user.userName, room);
+        //     })
+        // }
 
         window.tabulation(document.querySelectorAll('.tab-chat'), document.querySelectorAll('.chat-content .messages'))
     });

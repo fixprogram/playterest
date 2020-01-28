@@ -1,6 +1,6 @@
 window.chat = function (userID, userName) {
 
-    const socket = io('https://myappest.herokuapp.com/'); // http://localhost:3000
+    const socket = io('http://localhost:3000'); // http://localhost:3000
 
     const tabs = document.querySelectorAll('.chat-tabs .tab');
 
@@ -59,7 +59,7 @@ window.chat = function (userID, userName) {
             messagesLists[1].scrollTo(0, 10000);
         } else if(data.room === 'personal') {
             let item = document.createElement('p');
-            if(data.user === userName.toLowerCase()) item.classList.add('fromMe')
+            if(data.user === userName.toLowerCase()) item.classList.add('fromMe');
             item.innerHTML = data.text;
             messagesLists[2].appendChild(item);
             messagesLists[2].scrollTo(0, 10000);
