@@ -12,12 +12,9 @@ const addUser = ({ socketID, id, userName, room }) => {
 
     const user = { socketID, id, userName, room, notices };
 
-    // const existingUser = users.find((user) => user.room === room && user.name === userName);
     const existingUser = users.find((user) => user.room === room && user.id === id);
 
     if(!userName || !room) return { error: 'Username and room are required.' };
-    // if(!userName) return { error: 'Username required.' };
-    // if(existingUser) return { error: 'Username is taken.' };
     if(!existingUser) users.push(user);
 
     return { user };
@@ -43,7 +40,7 @@ const createRoom = ({ roomTitle, host, games, roomID }) => {
 
 const removeRoom = (hostName) => {
 
-    const index = rooms.findIndex((room) => room.host.name === hostName);
+    const index = rooms.findIndex((room) => room.host.name.toLowerCase() === hostName.toLowerCase());
 
     if(index !== -1) return rooms.splice(index, 1)[0];
 

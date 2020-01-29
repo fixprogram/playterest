@@ -1,5 +1,5 @@
 window.searchGame = function(userName, games, hostIcon) {
-    const socket = io('https://myappest.herokuapp.com'); // http://localhost:3000
+    const socket = io('http://localhost:3000'); // http://localhost:3000
 
     const roomsList = document.querySelector('.rooms-list');
 
@@ -43,11 +43,13 @@ window.searchGame = function(userName, games, hostIcon) {
                 });
                 if (checkedBool) checked.splice(i, 1);
             });
+            console.log('checked');
+            console.log(checked);
             checked.forEach((check) => {
                 games.forEach((game) => {
                     let similars = 0;
-                    if (game.categories) game.categories.forEach((category) => {
-                        if (category.description === check) similars++;
+                    if (game.genres) game.genres.forEach((genre) => {
+                        if (genre.description === check) similars++;
                     });
                     if(similars === checked.length - 1) checkedGames.push(game)
                 });
@@ -97,6 +99,41 @@ window.searchGame = function(userName, games, hostIcon) {
     });
 
     // searchTeamBtn.addEventListener('click', () => filtersBlock.classList.toggle('active'));
+
+    // if(choosenGames.length === 0) choosenGames = games;
+    // console.log(choosenGames);
+    // let gamesID = [];
+    // choosenGames.forEach((chose) => {
+    //     gamesID.push(chose.gameID)
+    // });
+    //
+    // socket.on('rooms', (data) => {
+    //     roomsList.innerHTML = '';
+    //     console.log(data);
+    //     let rooms = data.rooms;
+    //     rooms.forEach((room, i, arr) => {
+    //         let similarity = false;
+    //         room.games.forEach((gameID) => {
+    //             gamesID.forEach((roomGameID) => {
+    //                 if(gameID === roomGameID) similarity = true;
+    //             })
+    //         });
+    //         if(!similarity) arr.splice(i, 1)
+    //     });
+    //     rooms.forEach((room) => {
+    //         let myRoom = false;
+    //         room.users.forEach((user) => {
+    //             if(user.name === userName) myRoom = true
+    //         });
+    //         if(myRoom || data.anotherRoom) {
+    //             window.changeTemplate(true, room);
+    //         }
+    //         else {
+    //             window.renderRoom(room.host.name, roomsList, room.roomID);
+    //         }
+    //     });
+    // });
+
     startSearchBtn.addEventListener('click', () => {
         if(choosenGames.length === 0) choosenGames = games;
         console.log(choosenGames);
@@ -123,9 +160,10 @@ window.searchGame = function(userName, games, hostIcon) {
             rooms.forEach((room) => {
                 let myRoom = false;
                 room.users.forEach((user) => {
-                   if(user.name === userName) myRoom = true
+                   if(user.name === userName) myRoom = true;
                 });
                 if(myRoom || data.anotherRoom) {
+                    document.querySelector('.tab--room').id = room.roomID;
                     window.changeTemplate(true, room);
                 }
                 else {

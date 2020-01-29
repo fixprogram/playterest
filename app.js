@@ -184,17 +184,6 @@ app.get('/search', function (req, res) {
     }
 });
 
-app.get('/room', function (req, res) {
-
-    res.render('room', {
-        name: req.query.name,
-        room: req.query.room,
-        userName: req.session.user.name,
-        userID: req.session.user.id
-    });
-
-});
-
 app.get('/auth/steam',
     passport.authenticate('steam', {failureRedirect: '/'}),
     function (req, res) {
@@ -243,10 +232,10 @@ io.on('connection', (socket) => {
         const user = getUser(userID);
 
         io.to(user.room).emit('message', {user: user.userName, text: message, room});
+        // socket.emit('message', {user: user.userName, text: message, room});
     });
 
     socket.on('join', ({userID, userName, room}, callback) => {
-        console.log(room);
         const {error, user} = addUser({socketID: socket.id, id: userID, userName, room});
 
         if (error) return callback(error);
@@ -262,24 +251,40 @@ io.on('connection', (socket) => {
     });
 
     socket.on('createRoom', ({roomTitle, hostName, hostIcon, games}, callback) => {
-        api.getUser(hostName).then((user) => {
+        api.getUser(hostName).then((userData) => {
+
+            const {user} = addUser({socketID: socket.id, id: userData._id, userName: userData.username, room: hostName});
+
+            // if (err) return callback(err);
+
+            socket.join('rooms');
+            socket.join(user.room);
+
+            console.log(user.room);
+
+            socket.emit('message', {user: 'admin', text: `${user.userName}, welcome to room ${user.room}.`, room: user.room});
+            socket.broadcast.to(user.room).emit('message', {user: 'admin', text: `${userData.userName} has joined!`, room: user.room});
 
             const host = {
-                name: user.username,
-                icon: user.icon,
-                id: user._id
+                name: userData.username,
+                icon: userData.icon,
+                id: userData._id
             };
 
             const {error, room} = createRoom({roomTitle, host, games, roomID: uuid()});
 
             if (error) return callback(error);
 
-            socket.emit('rooms', {rooms: getRooms()});
+            socket.broadcast.to('rooms').emit('rooms', {rooms: getRooms()});
+            io.to('rooms').emit('rooms', {rooms: getRooms()});
         });
     });
 
-    socket.on('joinRoom', ({userName, me}, callback) => {
+    socket.on('joinRoom', ({userName, me, roomID}, callback) => {
         api.getUser(me).then((me) => {
+
+            socket.join(userName.toLowerCase());
+
             const room = getRoom(userName);
 
             const newUser = {
@@ -293,7 +298,8 @@ io.on('connection', (socket) => {
             removeRoom(me.username);
             updateRoom(userName, room);
 
-            socket.emit('rooms', {rooms: getRooms(), anotherRoom: true});
+            io.to(userName.toLowerCase()).emit('rooms', {rooms: getRooms(), anotherRoom: true});
+            socket.broadcast.to(userName.toLowerCase()).emit('message', {user: 'admin', text: `${me.username} has joined!`, room: userName.toLowerCase()});
         });
     });
 
@@ -343,6 +349,7 @@ io.on('connection', (socket) => {
 
     socket.on('disconnect', (callback) => {
         const user = removeUser(socket.id);
+        console.log(user);
 
         if (user) {
             const rooms = removeRoom(user.userName);

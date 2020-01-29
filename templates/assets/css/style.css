@@ -379,9 +379,9 @@ h1, h2, h3, h4, h5, h6 {
     height: 100vh;
     max-height: 100vh;
     width: 100%;
-    /*max-width: 1280px;*/
     margin: 0 auto;
     background: linear-gradient(90deg, #10191D 0%, #233A4A 50.01%, #10191D 100%);
+    overflow: hidden;
 }
 
 .searching-block {
@@ -601,6 +601,10 @@ h1, h2, h3, h4, h5, h6 {
     display: flex;
     position: absolute;
     width: calc(100% - 183px);
+}
+
+.chat-tabs .personal-chat-name:before {
+    display: none;
 }
 
 .tab-content {

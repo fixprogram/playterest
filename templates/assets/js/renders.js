@@ -1,6 +1,6 @@
 window.renders = function(userName) {
 
-    const socket = io('https://myappest.herokuapp.com'); // http://localhost:3000
+    const socket = io('http://localhost:3000'); // http://localhost:3000
 
     window.renderGame = function(game, list, icon, id) {
         let gameItem = document.createElement('li');
@@ -48,14 +48,14 @@ window.renders = function(userName) {
 
     };
 
-    window.renderRoom = function(title, list) {
+    window.renderRoom = function(title, list, roomID) {
         let roomItem = document.createElement('li');
         let roomTitle = document.createElement('p');
         roomTitle.innerText = title;
         roomItem.appendChild(roomTitle);
 
         roomTitle.addEventListener('click', () => {
-           socket.emit('joinRoom', { userName: title, me: userName});
+           socket.emit('joinRoom', { userName: title, me: userName, roomID});
         });
 
         list.appendChild(roomItem);
