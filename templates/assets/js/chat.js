@@ -14,7 +14,6 @@ window.chat = function (userID, userName) {
     sendBtns.forEach((btn, i) => {
         btn.addEventListener('click', () => {
             tabs.forEach((tab) => {
-                console.log(tab.textContent);
                 if (tab.classList.contains('active')) sendMessage(textMessages[i], tab.querySelector('.personal-chat-name').textContent, tab.querySelector('.personal-chat-name').textContent);
             });
         });
@@ -55,7 +54,6 @@ window.chat = function (userID, userName) {
     }
 
     window.renderMessage = function (data) {
-        console.log(data);
         if (data.room === 'world') {
             let item = document.createElement('p');
             item.innerHTML = '<span class="chat-user">' + data.user + ':</span> ' + data.text;
@@ -67,7 +65,7 @@ window.chat = function (userID, userName) {
             item.innerHTML = data.text;
             messagesLists[2].appendChild(item);
             messagesLists[2].scrollTo(0, 10000);
-        } else if(data.room === document.querySelector('.profile-block p').innerText.toLowerCase()) {
+        } else if(data.room === document.querySelector('.user-room__list li p').innerText.toLowerCase().split(' ')[0]) {
             let item = document.createElement('p');
             item.innerHTML = '<span class="chat-user">' + data.user + ':</span> ' + data.text;
             messagesLists[1].appendChild(item);
@@ -75,7 +73,7 @@ window.chat = function (userID, userName) {
         }
     };
 
-    window.renderUsers = function (users, userName) {
+    window.renderUsers = (users, userName) => {
         let friends = document.querySelectorAll('.friends-list p');
 
         usersList.innerHTML = '';
@@ -84,7 +82,6 @@ window.chat = function (userID, userName) {
             item.href = '/profile?id=' + user.id;
             item.innerHTML = user.userName;
             friends.forEach((friend) => {
-                console.log(friend);
                 if (user.userName === friend.innerText.toLowerCase()) friend.classList.add('online');
             });
             item.addEventListener('click', function (evt) {

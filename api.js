@@ -135,7 +135,6 @@ exports.messageToFriend = (me, friendName, message, time) => {
         let msg = { text: message, time, me };
         user.friends.forEach((friend) => {
             if(friend.name === friendName) {
-                console.log(msg);
                 friend.messages.push(msg);
             }
         });

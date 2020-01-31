@@ -45,7 +45,6 @@
         usersList.innerHTML = '';
         for(let i = 0; i < users.length; i++) {
             let item = document.createElement('a');
-            console.log(users[i]);
             item.href = '/profile?id=' + users[i].id;
             item.innerHTML = users[i].userName;
             usersList.appendChild(item);
@@ -66,7 +65,6 @@
     }
 
     socket.on('roomData', (data) => {
-        console.log(data);
         renderUsers(data.users);
     });
 

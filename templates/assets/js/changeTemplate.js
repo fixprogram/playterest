@@ -1,11 +1,13 @@
 (function () {
     'use strict';
 
+    const socket = io('http://localhost:3000'); // http://localhost:3000
     const homeBlocks = document.querySelector('.home-blocks');
     const room = document.querySelector('.room');
     const roomUsers = document.querySelector('.user-room__list');
     const chat = document.querySelector('.home-chat');
     const personalChat = document.querySelector('.personal-chat');
+    const personalChatClose = document.querySelector('.close-chat-btn');
 
     window.changeTemplate = (search, roomData) => {
         roomUsers.innerHTML = '';
@@ -45,9 +47,15 @@
         chat.style.display = 'none';
 
         personalChat.style.display = 'block';
+
+        personalChatClose.addEventListener('click', () => {
+            window.changeTemplateToStart();
+        })
     };
 
     window.changeTemplateToStart = () => {
+        window.stopSearching();
+
         room.style.display = 'none';
         personalChat.style.display = 'none';
 

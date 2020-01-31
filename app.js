@@ -22,7 +22,7 @@ const mongoose = require('mongoose');
 const session = require('express-session');
 const MongoStore = require('connect-mongo')(session);
 
-const {addUser, removeUser, getUser, getUsersInRoom, createRoom, getRooms, removeRoom, addNotice, getRoom, updateRoom} = require('./users');
+const { addUser, removeUser, getUser, getUsersInRoom, createRoom, changeRoom, getRooms, removeRoom, addNotice, getRoom, updateRoom, removeUserFromRoom } = require('./users');
 
 const views = path.join(__dirname, 'templates/views');
 const partialsPath = path.join(__dirname, 'templates/partials');
@@ -253,14 +253,12 @@ io.on('connection', (socket) => {
     socket.on('createRoom', ({roomTitle, hostName, hostIcon, games}, callback) => {
         api.getUser(hostName).then((userData) => {
 
-            const {user} = addUser({socketID: socket.id, id: userData._id, userName: userData.username, room: hostName});
+            const user = changeRoom('', socket.id, hostName);
 
             // if (err) return callback(err);
 
             socket.join('rooms');
             socket.join(user.room);
-
-            console.log(user.room);
 
             socket.emit('message', {user: 'admin', text: `${user.userName}, welcome to room ${user.room}.`, room: user.room});
             socket.broadcast.to(user.room).emit('message', {user: 'admin', text: `${userData.userName} has joined!`, room: user.room});
@@ -268,7 +266,8 @@ io.on('connection', (socket) => {
             const host = {
                 name: userData.username,
                 icon: userData.icon,
-                id: userData._id
+                id: userData._id,
+                room: userData.username
             };
 
             const {error, room} = createRoom({roomTitle, host, games, roomID: uuid()});
@@ -290,13 +289,15 @@ io.on('connection', (socket) => {
             const newUser = {
                 name: me.username,
                 icon: me.icon,
-                id: me._id
+                id: me._id,
+                room: userName
             };
 
             room.users.push(newUser);
 
-            removeRoom(me.username);
+            changeRoom(me._id, '', userName);
             updateRoom(userName, room);
+            removeRoom(me.username);
 
             io.to(userName.toLowerCase()).emit('rooms', {rooms: getRooms(), anotherRoom: true});
             socket.broadcast.to(userName.toLowerCase()).emit('message', {user: 'admin', text: `${me.username} has joined!`, room: userName.toLowerCase()});
@@ -304,8 +305,6 @@ io.on('connection', (socket) => {
     });
 
     socket.on('addNotice', ({socketID, fromUser, userID}, callback) => {
-        console.log('add to friend ' + userID);
-
         // io.to(friendName).emit('notice', {message: 'Заявка на добавление в друзья от ' + fromUser, user: friendName})
 
         socket.join(socketID);
@@ -347,18 +346,26 @@ io.on('connection', (socket) => {
 
     socket.on('messageToFriend', ({me, friendName, message, time}) => api.messageToFriend(me, friendName, message, time));
 
+    socket.on('changeRoom', ({user, room}) => {
+       changeRoom('', socket.id, room);
+        let rooms = removeRoom(user);
+        if(rooms === undefined) rooms = removeUserFromRoom(user);
+
+        io.to('rooms').emit('rooms', {rooms: getRooms()});
+    });
+
     socket.on('disconnect', (callback) => {
-        const user = removeUser(socket.id);
-        console.log(user);
+        let user = removeUser(socket.id);
 
         if (user) {
-            const rooms = removeRoom(user.userName);
-            console.log('removed ' + rooms);
+            // user = changeRoom('', socket.id, 'world');
+            let rooms = removeRoom(user.userName);
+            if(rooms === undefined) rooms = removeUserFromRoom(user.userName);
 
-            io.to(user.room).emit('message', {user: 'admin', text: `${user.userName} has left.`});
+            io.to(user.room).emit('message', {user: 'admin', text: `${user.userName} has left.`, });
             io.to(user.room).emit('roomData', {room: user.room, users: getUsersInRoom(user.room)});
 
-            socket.emit('rooms', {rooms: removeRoom(user.userName)});
+            io.to('rooms').emit('rooms', {rooms: getRooms()});
         }
     })
 

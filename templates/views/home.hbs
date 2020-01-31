@@ -144,9 +144,8 @@
         window.renders(userName);
 
         let games = window.parseData('{{gamesList}}');
-        console.log(games);
         if (games) games.forEach((game) => renderGame(game.name, gamesList, game.iconURL, game.gameID));
-        window.searchGame(userName, games, userIcon);
+        window.searchGame(userName, games, userIcon, userID);
 
         let notices = window.parseData('{{notices}}');
         if (notices) {
@@ -172,6 +171,7 @@
         });
 
         socket.on('roomData', (data) => {
+            console.log(data);
             window.renderUsers(data.users, userName);
         });
 
@@ -191,8 +191,6 @@
 
         socket.on('getMessages', (data) => {
             if (data) {
-                console.log(data);
-
                 let messages = [].concat(data.messages, data.messagesFriend);
 
                 messages.sort((prev, next) => prev.time - next.time);

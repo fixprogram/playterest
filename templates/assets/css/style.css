@@ -514,7 +514,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .home-chat .users-list {
-    height: 100%;
+    height: calc(100% - 36px);
     background: rgba(23, 38, 47, 0.25);
     padding: 15px 0 0 16px;
 }
@@ -560,6 +560,7 @@ h1, h2, h3, h4, h5, h6 {
 
 .chat-content {
     height: 100%;
+    width: 100%;
     display: flex;
 }
 
@@ -573,7 +574,7 @@ h1, h2, h3, h4, h5, h6 {
 
 .user-profile {
     padding: 15px;
-    height: 50%;
+    height: 209px;
     background: linear-gradient(0deg, rgba(16, 25, 29, 0.25), rgba(16, 25, 29, 0.25));
 }
 
@@ -605,6 +606,10 @@ h1, h2, h3, h4, h5, h6 {
 
 .chat-tabs .personal-chat-name:before {
     display: none;
+}
+
+.chat-tabs .tab--personal .personal-chat-name:before {
+    display: block;
 }
 
 .tab-content {
@@ -675,7 +680,7 @@ h1, h2, h3, h4, h5, h6 {
     margin-top: 20px;
     background: linear-gradient(0deg, rgba(16, 25, 29, 0.25), rgba(16, 25, 29, 0.25));
     text-align: left;
-    height: calc(50% - 20px);
+    height: calc(100% - 229px);
 }
 
 .user-friends li {

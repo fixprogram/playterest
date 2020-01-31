@@ -1,7 +1,8 @@
-window.searchGame = function(userName, games, hostIcon) {
+window.searchGame = (userName, games, hostIcon, userID) => {
     const socket = io('http://localhost:3000'); // http://localhost:3000
 
     const roomsList = document.querySelector('.rooms-list');
+    const room = document.querySelector('.room');
 
     let searchTeamBtn = document.querySelector('.search-team');
     let startSearchBtn = document.querySelector('.start-searching');
@@ -43,8 +44,6 @@ window.searchGame = function(userName, games, hostIcon) {
                 });
                 if (checkedBool) checked.splice(i, 1);
             });
-            console.log('checked');
-            console.log(checked);
             checked.forEach((check) => {
                 games.forEach((game) => {
                     let similars = 0;
@@ -54,7 +53,6 @@ window.searchGame = function(userName, games, hostIcon) {
                     if(similars === checked.length - 1) checkedGames.push(game)
                 });
             });
-            console.log(checkedGames);
             checkedGames = checkedGames.filter((item, pos) => checkedGames.indexOf(item) === pos);
             if (checkedGames.length === 0) {
                 gamesItems.forEach((item, i) => {
@@ -98,45 +96,9 @@ window.searchGame = function(userName, games, hostIcon) {
         });
     });
 
-    // searchTeamBtn.addEventListener('click', () => filtersBlock.classList.toggle('active'));
-
-    // if(choosenGames.length === 0) choosenGames = games;
-    // console.log(choosenGames);
-    // let gamesID = [];
-    // choosenGames.forEach((chose) => {
-    //     gamesID.push(chose.gameID)
-    // });
-    //
-    // socket.on('rooms', (data) => {
-    //     roomsList.innerHTML = '';
-    //     console.log(data);
-    //     let rooms = data.rooms;
-    //     rooms.forEach((room, i, arr) => {
-    //         let similarity = false;
-    //         room.games.forEach((gameID) => {
-    //             gamesID.forEach((roomGameID) => {
-    //                 if(gameID === roomGameID) similarity = true;
-    //             })
-    //         });
-    //         if(!similarity) arr.splice(i, 1)
-    //     });
-    //     rooms.forEach((room) => {
-    //         let myRoom = false;
-    //         room.users.forEach((user) => {
-    //             if(user.name === userName) myRoom = true
-    //         });
-    //         if(myRoom || data.anotherRoom) {
-    //             window.changeTemplate(true, room);
-    //         }
-    //         else {
-    //             window.renderRoom(room.host.name, roomsList, room.roomID);
-    //         }
-    //     });
-    // });
-
     startSearchBtn.addEventListener('click', () => {
+        socket.connect();
         if(choosenGames.length === 0) choosenGames = games;
-        console.log(choosenGames);
         let gamesID = [];
         choosenGames.forEach((chose) => {
             gamesID.push(chose.gameID)
@@ -145,8 +107,8 @@ window.searchGame = function(userName, games, hostIcon) {
         socket.emit('createRoom', {roomTitle: 'My room', hostName: userName, hostIcon, games: gamesID}, () => console.log('error'));
 
         socket.on('rooms', (data) => {
-            roomsList.innerHTML = '';
             console.log(data);
+            roomsList.innerHTML = '';
             let rooms = data.rooms;
             rooms.forEach((room, i, arr) => {
                 let similarity = false;
@@ -188,4 +150,31 @@ window.searchGame = function(userName, games, hostIcon) {
         startSearchBtn.innerHTML = 'Идет поиск...';
         startSearchBtn.disabled = true;
     });
+
+
+    window.stopSearching = () => {
+        if(room.style.display === 'flex') {
+            // socket.disconnect();
+            // user = changeRoom('', socket.id, 'world');
+            socket.emit('changeRoom', {user: userName, room: 'world'});
+            document.querySelectorAll('.chat-tabs .tab').forEach((tab) => {
+                if(tab.classList.contains('active')) {
+                    tab.classList.remove('active');
+                    tab.style.display = 'none';
+                }
+                if(tab.classList.contains('tab--world')) {
+                    tab.classList.add('active');
+                    tab.style.display = 'block';
+                }
+            });
+
+            document.querySelectorAll('.chat-content .messages').forEach((messagesBlock) => {
+                if(messagesBlock.classList.contains('active')) messagesBlock.classList.remove('active');
+                if(messagesBlock.classList.contains('messages--world')) messagesBlock.classList.add('active');
+            });
+
+            startSearchBtn.innerHTML = 'Найти команду!';
+            startSearchBtn.disabled = false;
+        }
+    }
 };
