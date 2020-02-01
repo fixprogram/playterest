@@ -8,14 +8,20 @@
     const chat = document.querySelector('.home-chat');
     const personalChat = document.querySelector('.personal-chat');
     const personalChatClose = document.querySelector('.close-chat-btn');
+    const personalDialogues = document.querySelector('.all-dialogs');
+    const dialogues = document.querySelector('.dialogues');
+    const dialoguesList = dialogues.querySelector('.dialogues-list');
 
     window.changeTemplate = (search, roomData) => {
         roomUsers.innerHTML = '';
         if (search) {
             homeBlocks.style.display = 'none';
             personalChat.style.display = 'none';
+            dialogues.style.display = 'none';
+
             room.style.display = 'flex';
             chat.style.display = 'block';
+
             if(roomData.users.length === 1) {
                 room.querySelector('.user-room__header p').innerHTML = roomData.roomTitle + '<span>' + roomData.users.length + ' участник</span>';
             } else if(roomData.users.length === 5) {
@@ -45,11 +51,31 @@
         homeBlocks.style.display = 'none';
         room.style.display = 'none';
         chat.style.display = 'none';
+        dialogues.style.display = 'none';
 
         personalChat.style.display = 'block';
 
         personalChatClose.addEventListener('click', () => {
             window.changeTemplateToStart();
+        });
+
+        personalDialogues.addEventListener('click', () => {
+           window.changeTemplateMessages();
+        });
+    };
+
+    window.changeTemplateMessages = () => {
+        homeBlocks.style.display = 'none';
+        personalChat.style.display = 'none';
+        room.style.display = 'none';
+        chat.style.display = 'none';
+
+        dialogues.style.display = 'block';
+
+        socket.emit('askForDialogues', document.querySelector('.profile-block p').textContent);
+
+        socket.on('getDialogues', (data) => {
+            console.log(data);
         })
     };
 
@@ -58,8 +84,26 @@
 
         room.style.display = 'none';
         personalChat.style.display = 'none';
+        dialogues.style.display = 'none';
 
         homeBlocks.style.display = 'flex';
         chat.style.display = 'flex';
+
+        document.querySelectorAll('.home-chat .chat-tabs .tab').forEach((tab) => {
+            if(tab.classList.contains('active')) {
+                tab.classList.remove('active');
+                tab.style.display = 'none';
+            }
+            if(tab.classList.contains('tab--world')) {
+                tab.classList.add('active');
+                tab.style.display = 'block';
+            }
+        });
+
+        document.querySelectorAll('.home-chat .chat-content .messages').forEach((messagesBlock) => {
+            if(messagesBlock.classList.contains('active')) messagesBlock.classList.remove('active');
+            if(messagesBlock.classList.contains('messages--world')) messagesBlock.classList.add('active');
+        });
+
     }
 })();

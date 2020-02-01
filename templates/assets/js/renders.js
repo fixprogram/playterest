@@ -40,7 +40,6 @@ window.renders = function(userName) {
 
         buttonMessages.addEventListener('click', () => {
             openFriendMessages(buttonMessages);
-            buttonMessages.disabled = true;
         });
     };
 
@@ -61,12 +60,18 @@ window.renders = function(userName) {
         list.appendChild(roomItem);
     };
 
-    window.renderPersonal = function(msg, list) {
-        let message = document.createElement('p');
-        if(msg.me === userName) {
+    window.renderPersonal = (msg, list) => {
+        let message = document.createElement('li');
+        if(msg.me === userName || msg.user === userName.toLowerCase()) {
             message.classList.add('fromMe');
         }
-        message.innerText = msg.text;
+
+        let date = new Date(msg.time);
+        let day = date.getUTCDate();
+        let hours = date.getHours();
+        let minutes = '0' + date.getMinutes();
+
+        message.innerHTML = '<p>' + msg.text + '</p>' + '<span class="time">' + hours + ':' + minutes.substr(-2) + '</span>';
         list.appendChild(message);
     };
 

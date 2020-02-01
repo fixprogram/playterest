@@ -228,10 +228,10 @@ app.get('/account', ensureAuthenticated, function (req, res) {
 
 io.on('connection', (socket) => {
 
-    socket.on('sendMessage', ({message, userID, room}, callback) => {
+    socket.on('sendMessage', ({message, userID, room, time = ''}, callback) => {
         const user = getUser(userID);
 
-        io.to(user.room).emit('message', {user: user.userName, text: message, room});
+        io.to(user.room).emit('message', {user: user.userName, text: message, room, time});
         // socket.emit('message', {user: user.userName, text: message, room});
     });
 
@@ -295,7 +295,7 @@ io.on('connection', (socket) => {
 
             room.users.push(newUser);
 
-            changeRoom(me._id, '', userName);
+            changeRoom(me._id, socket.id, userName);
             updateRoom(userName, room);
             removeRoom(me.username);
 
@@ -346,8 +346,14 @@ io.on('connection', (socket) => {
 
     socket.on('messageToFriend', ({me, friendName, message, time}) => api.messageToFriend(me, friendName, message, time));
 
-    socket.on('changeRoom', ({user, room}) => {
-       changeRoom('', socket.id, room);
+    socket.on('askForDialogues', (userName) => {
+       api.getUser(userName).then((user) => {
+            socket.emit('getDialogues', (user.friends))
+       });
+    });
+
+    socket.on('changeRoom', ({user, room, userID}) => {
+       changeRoom(userID, '', room);
         let rooms = removeRoom(user);
         if(rooms === undefined) rooms = removeUserFromRoom(user);
 

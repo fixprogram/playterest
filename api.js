@@ -81,16 +81,16 @@ exports.addFriend = function(user, content, type) {
     })
 };
 
-exports.getUser = function(name) {
+exports.getUser = (name) => {
     return User.findOne({ username: name }).then(function(user) {
        return Promise.resolve(user);
     });
 };
 
-exports.checkUser = function(userData) {
+exports.checkUser = (userData) => {
 
     return User.findOne({ username: userData.username }).then(function(doc) {
-        if ( doc.password == hash(userData.password) ) {
+        if ( doc.password === hash(userData.password) ) {
             console.log('The password is okay');
             return Promise.resolve(doc)
         } else {
@@ -104,7 +104,7 @@ function hash(text) {
     return crypto.createHash('sha1').update(text).digest('base64')
 }
 
-exports.loadUser = function(req, res, next, previous) {
+exports.loadUser = (req, res, next, previous) => {
     if (req.session.user) {
         User.findById(req.session.user.id, function(err, user) {
             if (user) {
@@ -119,7 +119,7 @@ exports.loadUser = function(req, res, next, previous) {
     }
 };
 
-exports.createGame = function(id, name, icon, genres) {
+exports.createGame = (id, name, icon, genres) => {
     let game = {
         gameID: id,
         name: name,

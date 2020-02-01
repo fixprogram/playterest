@@ -465,33 +465,54 @@ h1, h2, h3, h4, h5, h6 {
     width: calc(100% - 183px);
     overflow-y: auto;
     height: calc(100% - 10px);
-    padding-top: 49px;
+    padding-top: 79px;
     padding-left: 15px;
     display: flex;
     flex-direction: column;
-    justify-content: flex-end;
     align-items: flex-start;
 }
 
 .personal-chat .messages {
     width: 100%;
     padding-right: 15px;
-    height: calc(100% - 42px);
+    height: calc(100% - 32px);
+}
+
+.personal-chat .messages li {
+    display: flex;
+    align-items: center;
+    flex-direction: row-reverse;
+}
+
+.personal-chat .messages li.fromMe {
+    margin-left: auto;
+    flex-direction: row;
 }
 
 .personal-chat .messages p {
-    background: #1D313D;
-    padding: 7px 10px 5px 10px;
     color: #DCDEDF;
     font-size: 14px;
     line-height: 17px;
+    background: #1D313D;
+    padding: 7px 10px 5px 10px;
     margin-top: 7px;
     border-radius: 15px;
 }
 
-.personal-chat .messages p.fromMe {
+.personal-chat .messages li.fromMe p {
     background: rgba(121, 184, 241, 0.25);
-    margin-left: auto;
+}
+
+.personal-chat .messages li .time {
+    font-size: 12px;
+    line-height: 14px;
+    color: #8C949A;
+    margin-right: 13px;
+}
+
+.personal-chat .messages li.fromMe .time {
+    margin-right: 0;
+    margin-left: 13px;
 }
 
 .personal-chat .tab {
@@ -507,6 +528,10 @@ h1, h2, h3, h4, h5, h6 {
     font-size: 14px;
     line-height: 17px;
     color: #E7E9EA;
+}
+
+.home-chat .messages li:first-child {
+    margin-top: auto;
 }
 
 .home-chat .messages .chat-user {
@@ -712,6 +737,10 @@ h1, h2, h3, h4, h5, h6 {
     font-size: 16px;
     line-height: 19px;
     margin: 0;
+}
+
+.friends-list li img {
+    border-radius: 2px;
 }
 
 .friends-list p,

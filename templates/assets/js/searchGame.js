@@ -156,22 +156,7 @@ window.searchGame = (userName, games, hostIcon, userID) => {
         if(room.style.display === 'flex') {
             // socket.disconnect();
             // user = changeRoom('', socket.id, 'world');
-            socket.emit('changeRoom', {user: userName, room: 'world'});
-            document.querySelectorAll('.chat-tabs .tab').forEach((tab) => {
-                if(tab.classList.contains('active')) {
-                    tab.classList.remove('active');
-                    tab.style.display = 'none';
-                }
-                if(tab.classList.contains('tab--world')) {
-                    tab.classList.add('active');
-                    tab.style.display = 'block';
-                }
-            });
-
-            document.querySelectorAll('.chat-content .messages').forEach((messagesBlock) => {
-                if(messagesBlock.classList.contains('active')) messagesBlock.classList.remove('active');
-                if(messagesBlock.classList.contains('messages--world')) messagesBlock.classList.add('active');
-            });
+            socket.emit('changeRoom', {user: userName, room: 'world', userID});
 
             startSearchBtn.innerHTML = 'Найти команду!';
             startSearchBtn.disabled = false;

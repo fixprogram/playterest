@@ -42,7 +42,7 @@ window.chat = function (userID, userName) {
                 socket.emit('sendMessage', {message, userID, room}, () => console.log('1'));
             } else {
                 let time = new Date();
-                socket.emit('sendMessage', {message, userID, room: 'personal'}, () => console.log('1'));
+                socket.emit('sendMessage', {message, userID, room: 'personal', time: time.getTime()}, () => console.log('1'));
                 socket.emit('messageToFriend', {
                     me: userName,
                     friendName,
@@ -60,10 +60,7 @@ window.chat = function (userID, userName) {
             messagesLists[0].appendChild(item);
             messagesLists[0].scrollTo(0, 10000);
         } else if (data.room === 'personal') {
-            let item = document.createElement('p');
-            if (data.user === userName.toLowerCase()) item.classList.add('fromMe');
-            item.innerHTML = data.text;
-            messagesLists[2].appendChild(item);
+            window.renderPersonal(data, messagesLists[2]);
             messagesLists[2].scrollTo(0, 10000);
         } else if(data.room === document.querySelector('.user-room__list li p').innerText.toLowerCase().split(' ')[0]) {
             let item = document.createElement('p');

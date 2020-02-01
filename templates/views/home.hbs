@@ -190,6 +190,7 @@
         });
 
         socket.on('getMessages', (data) => {
+            document.querySelector('#messages-personal').innerHTML = '';
             if (data) {
                 let messages = [].concat(data.messages, data.messagesFriend);
 
@@ -201,50 +202,7 @@
             }
         });
 
-        <!--let rooms = '{{rooms}}';-->
-        <!--if (rooms) {-->
-        <!--    rooms = rooms.replace(/&#x27;/g, "'");-->
-        <!--    rooms = rooms.replace(/&quot;/g, '"');-->
-        <!--    rooms = JSON.parse(rooms);-->
-        <!--    console.log(rooms);-->
-
-        <!--    rooms.forEach((room) => {-->
-        <!--        if (room.username !== userName) {-->
-        <!--            window.renderGame(room._id, roomsList)-->
-        <!--        }-->
-        <!--    });-->
-
-        <!--    selectRoom(roomsList, rooms);-->
-        <!--}-->
-
         window.changeTemplate({{searching}});
-
-        // function selectRoom(roomsParent, rooms) {
-        //     let roomsList = roomsParent.querySelectorAll('p');
-        //
-        //     roomsList.forEach((room) => room.addEventListener('click', function () {
-        //         console.log(this.innerText);
-        //         rooms.forEach((roomsItem) => {
-        //             if (roomsItem._id === this.innerText) changeRoom(userID, userName, roomsItem._id);
-        //         })
-        //     }));
-        // }
-
-        // function changeRoom(userID, userName, id) {
-        //     socket.emit('join', {userID, userName, room: id}, (error) => {
-        //         if (error) {
-        //             alert(error);
-        //         }
-        //     });
-        // }
-        //
-        // function changeRoomTemplate(room, users) {
-        //     room.innerHTML = '';
-        //     users.forEach((user) => {
-        //         renderGame(user.userName, room);
-        //     })
-        // }
-
         window.tabulation(document.querySelectorAll('.tab-chat'), document.querySelectorAll('.chat-content .messages'))
     });
 </script>

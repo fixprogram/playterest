@@ -27,11 +27,7 @@ const removeUser = (id) => {
 };
 
 const getUser = (id = '', socketID = '') => {
-    return users.find((user) => {
-        console.log('id ' + id);
-        console.log('userID ' + user.id);
-        return user.id === id || user.socketID === socketID
-    });
+    return users.find((user) => user.id === id || user.socketID === socketID)
 };
 
 const getUsersInRoom = (room) => users.filter((user) => user.room === room);
