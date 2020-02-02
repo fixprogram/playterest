@@ -327,7 +327,7 @@ h1, h2, h3, h4, h5, h6 {
 
 .home-blocks li {
     width: 49%;
-    /*height: 49%;*/
+    height: 49%;
     margin-bottom: 2%;
     background: linear-gradient(0deg, rgba(16, 25, 29, 0.25), rgba(16, 25, 29, 0.25));
     /*max-height: 170px;*/
@@ -465,7 +465,7 @@ h1, h2, h3, h4, h5, h6 {
     width: calc(100% - 183px);
     overflow-y: auto;
     height: calc(100% - 10px);
-    padding-top: 79px;
+    padding-top: 49px;
     padding-left: 15px;
     display: flex;
     flex-direction: column;
@@ -528,6 +528,10 @@ h1, h2, h3, h4, h5, h6 {
     font-size: 14px;
     line-height: 17px;
     color: #E7E9EA;
+}
+
+.home-chat .messages p:first-child {
+    margin-top: auto;
 }
 
 .home-chat .messages li:first-child {
@@ -745,7 +749,8 @@ h1, h2, h3, h4, h5, h6 {
 
 .friends-list p,
 .profile-block p,
-.personal-chat-name {
+.personal-chat-name,
+.dialogues-list p.friend {
     position: relative;
     padding-right: 10px;
     margin-right: 10px;
@@ -753,7 +758,8 @@ h1, h2, h3, h4, h5, h6 {
 
 .friends-list p:before,
 .profile-block p:before,
-.personal-chat-name:before {
+.personal-chat-name:before,
+.dialogues-list p.friend:before {
     content: "";
     width: 5px;
     height: 5px;
@@ -766,7 +772,8 @@ h1, h2, h3, h4, h5, h6 {
 
 .friends-list p.online:before,
 .profile-block p.online:before,
-.personal-chat-name.online:before {
+.personal-chat-name.online:before,
+.dialogues-list p.friend.online:before {
     background-color: #00FF0A;
 }
 
@@ -852,10 +859,16 @@ h1, h2, h3, h4, h5, h6 {
     border-radius: 2px;
 }
 
-.personal-chat {
+.personal-chat,
+.dialogues {
     display: none;
     margin: 0;
     height: 100%;
+    width: 100%;
+}
+
+.dialogues header {
+    position: relative;
 }
 
 .personal-chat .chat-tabs {
@@ -868,7 +881,8 @@ h1, h2, h3, h4, h5, h6 {
     padding-right: 81px;
 }
 
-.personal-chat .tab button {
+.personal-chat .tab button,
+.dialogues header button {
     border: none;
     padding: 0;
     position: absolute;
@@ -879,6 +893,10 @@ h1, h2, h3, h4, h5, h6 {
     right: 15px;
     background: url(/assets/img/svg/close.svg) no-repeat;
     background-position: center;
+}
+
+.dialogues header button {
+    top: 10px;
 }
 
 .personal-chat .tab div img {
@@ -916,4 +934,59 @@ h1, h2, h3, h4, h5, h6 {
 .personal-chat .tab .hide-chat-btn {
     background: url(/assets/img/svg/hide.svg) no-repeat;
     right: 39px;
+}
+
+.dialogues-list {
+    height: 100%;
+    overflow: auto;
+}
+
+.dialogues-list li {
+    position: relative;
+    background: #1D313D;
+    border-radius: 15px;
+    display: flex;
+    align-items: center;
+    margin-top: 10px;
+    padding: 10px;
+    width: calc(100% - 53px);
+    cursor: pointer;
+}
+
+.dialogues-list li img {
+    border-radius: 2px;
+    margin-right: 10px;
+    width: 38px;
+    height: 38px;
+}
+
+.dialogues-list li p.friend {
+    font-size: 16px;
+    line-height: 19px;
+    color: #DCDEDF;
+    margin-bottom: 3px;
+    text-align: left;
+}
+
+.dialogues-list li p {
+    font-size: 14px;
+    line-height: 17px;
+    color: #8C949A;
+    margin: 0;
+    text-align: left;
+}
+
+.dialogues-list li span.author {
+    font-size: 14px;
+    line-height: 17px;
+    color: #5E90BE;
+}
+
+.dialogues-list li span.time {
+    position: absolute;
+    color: #DCDEDF;
+    font-size: 12px;
+    line-height: 14px;
+    top: 25px;
+    right: -45px;
 }

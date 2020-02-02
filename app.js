@@ -22,7 +22,7 @@ const mongoose = require('mongoose');
 const session = require('express-session');
 const MongoStore = require('connect-mongo')(session);
 
-const { addUser, removeUser, getUser, getUsersInRoom, createRoom, changeRoom, getRooms, removeRoom, addNotice, getRoom, updateRoom, removeUserFromRoom } = require('./users');
+const {addUser, removeUser, getUser, getUsersInRoom, createRoom, changeRoom, getRooms, removeRoom, addNotice, getRoom, updateRoom, removeUserFromRoom} = require('./users');
 
 const views = path.join(__dirname, 'templates/views');
 const partialsPath = path.join(__dirname, 'templates/partials');
@@ -260,8 +260,16 @@ io.on('connection', (socket) => {
             socket.join('rooms');
             socket.join(user.room);
 
-            socket.emit('message', {user: 'admin', text: `${user.userName}, welcome to room ${user.room}.`, room: user.room});
-            socket.broadcast.to(user.room).emit('message', {user: 'admin', text: `${userData.userName} has joined!`, room: user.room});
+            socket.emit('message', {
+                user: 'admin',
+                text: `${user.userName}, welcome to room ${user.room}.`,
+                room: user.room
+            });
+            socket.broadcast.to(user.room).emit('message', {
+                user: 'admin',
+                text: `${userData.userName} has joined!`,
+                room: user.room
+            });
 
             const host = {
                 name: userData.username,
@@ -300,7 +308,11 @@ io.on('connection', (socket) => {
             removeRoom(me.username);
 
             io.to(userName.toLowerCase()).emit('rooms', {rooms: getRooms(), anotherRoom: true});
-            socket.broadcast.to(userName.toLowerCase()).emit('message', {user: 'admin', text: `${me.username} has joined!`, room: userName.toLowerCase()});
+            socket.broadcast.to(userName.toLowerCase()).emit('message', {
+                user: 'admin',
+                text: `${me.username} has joined!`,
+                room: userName.toLowerCase()
+            });
         });
     });
 
@@ -323,6 +335,10 @@ io.on('connection', (socket) => {
         });
     });
 
+    socket.on('removeNotices', (data) => {
+        api.removeNotices(data.me, data.friend);
+    });
+
     socket.on('addToFriend', ({user, content, type}, callback) => {
         api.addFriend(user, content, type)
     });
@@ -333,29 +349,37 @@ io.on('connection', (socket) => {
                 if (friend.name === name) {
                     api.getUser(name).then((userFriend) => {
                         userFriend.friends.forEach((fr) => {
-                            if (fr.name === me) socket.emit('getMessages', {
-                                messages: friend.messages,
-                                messagesFriend: fr.messages
-                            })
+                            if (fr.name === me) {
+                                let messages = [].concat(friend.messages, fr.messages);
+                                messages.sort((prev, next) => prev.time - next.time);
+
+                                socket.emit('getMessages', messages)
+
+                            }
                         });
                     });
                 }
-            })
+            });
         });
     });
 
-    socket.on('messageToFriend', ({me, friendName, message, time}) => api.messageToFriend(me, friendName, message, time));
+    socket.on('messageToFriend', ({me, friendName, message, time}) => {
+        api.messageToFriend(me, friendName, message, time);
+        api.getUser(friendName).then((friendData) => {
+            api.addNotice(friendData._id, message, 'newMessage', me)
+        });
+    });
 
     socket.on('askForDialogues', (userName) => {
-       api.getUser(userName).then((user) => {
-            socket.emit('getDialogues', (user.friends))
-       });
+        api.getUser(userName).then((user) => {
+            socket.emit('getDialogues', ({friendsData: user.friends}))
+        });
     });
 
     socket.on('changeRoom', ({user, room, userID}) => {
-       changeRoom(userID, '', room);
+        changeRoom(userID, '', room);
         let rooms = removeRoom(user);
-        if(rooms === undefined) rooms = removeUserFromRoom(user);
+        if (rooms === undefined) rooms = removeUserFromRoom(user);
 
         io.to('rooms').emit('rooms', {rooms: getRooms()});
     });
@@ -366,9 +390,9 @@ io.on('connection', (socket) => {
         if (user) {
             // user = changeRoom('', socket.id, 'world');
             let rooms = removeRoom(user.userName);
-            if(rooms === undefined) rooms = removeUserFromRoom(user.userName);
+            if (rooms === undefined) rooms = removeUserFromRoom(user.userName);
 
-            io.to(user.room).emit('message', {user: 'admin', text: `${user.userName} has left.`, });
+            io.to(user.room).emit('message', {user: 'admin', text: `${user.userName} has left.`,});
             io.to(user.room).emit('roomData', {room: user.room, users: getUsersInRoom(user.room)});
 
             io.to('rooms').emit('rooms', {rooms: getRooms()});

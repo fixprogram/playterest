@@ -1,11 +1,12 @@
 const mongoose = require('mongoose');
 const crypto = require('crypto');
+const uuid = require('uuid');
 
 let db = mongoose.connect('mongodb://heroku_969m2gr9:d0ljj3k0df4v7psa45cn26u376@ds129098.mlab.com:29098/heroku_969m2gr9');
 let User = require('./models/User.js');
 let Game = require('./models/Game.js');
 
-exports.createUser = function(userData) {
+exports.createUser = (userData) => {
     let user = {
         username: userData.username,
         email: userData.email,
@@ -15,7 +16,7 @@ exports.createUser = function(userData) {
     return new User(user).save()
 };
 
-exports.getGame = function(id) {
+exports.getGame = (id) => {
     return Game.findOne({gameID: id}).then(function(game) {
         return Promise.resolve(game);
     });
@@ -23,7 +24,7 @@ exports.getGame = function(id) {
 
 exports.getGames = (arr) => Game.find({ gameID: arr }).then((games) => Promise.resolve(games));
 
-exports.updateUser = function(userName, games, icon) {
+exports.updateUser = (userName, games, icon) => {
     return User.findOne({ username: userName }).then(function(user) {
         if(icon) user.icon = icon;
         user.games = games;
@@ -32,14 +33,14 @@ exports.updateUser = function(userName, games, icon) {
     })
 };
 
-exports.getNotices = function(userID) {
+exports.getNotices = (userID) => {
     return User.findOne({ _id: userID }).then(function(user) {
         return Promise.resolve(user);
     })
 };
 
-exports.addNotice = function(userID, content, type) {
-    let notice = { content, type };
+exports.addNotice = (userID, content, type, from = '') => {
+    let notice = { content, type, id: uuid(), from};
     return User.findOne({ _id: userID }).then(function(user) {
         user.notices.push(notice);
         User(user).save();
@@ -47,7 +48,30 @@ exports.addNotice = function(userID, content, type) {
     })
 };
 
-exports.addFriend = function(user, content, type) {
+// exports.removeNotice = (userID, noticeID) => {
+//     return User.findOne({ _id: userID }).then(function(user) {
+//         const index = user.notices.findIndex((notice) => notice.id === noticeID);
+//         if (index !== -1) user.notices.splice(index, 1);
+//         User(user).save();
+//         return Promise.resolve(user);
+//     })
+// };
+
+exports.removeNotices = (me, friendName) => {
+    console.log(me);
+    console.log(friendName);
+    return User.findOne({ username: me}).then(function(user) {
+        if(user.notices) {
+            user.notices.forEach((notice, i) => {
+                if(notice.from === friendName) user.notices.splice(i, 1);
+            });
+            User(user).save();
+            return Promise.resolve(user);
+        }
+    })
+};
+
+exports.addFriend = (user, content, type) => {
     return User.findOne({ username: user }).then(function(user) {
         let userName = user.username;
         let userIcon = user.icon;

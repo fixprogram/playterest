@@ -189,13 +189,10 @@
             });
         });
 
-        socket.on('getMessages', (data) => {
+        socket.on('getMessages', (messages) => {
+            console.log(messages);
             document.querySelector('#messages-personal').innerHTML = '';
-            if (data) {
-                let messages = [].concat(data.messages, data.messagesFriend);
-
-                messages.sort((prev, next) => prev.time - next.time);
-
+            if (messages) {
                 messages.forEach((msg) => {
                     window.renderPersonal(msg, document.querySelector('#messages-personal'));
                 });

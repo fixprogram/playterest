@@ -10,7 +10,7 @@
     const personalChatClose = document.querySelector('.close-chat-btn');
     const personalDialogues = document.querySelector('.all-dialogs');
     const dialogues = document.querySelector('.dialogues');
-    const dialoguesList = dialogues.querySelector('.dialogues-list');
+    const dialoguesList = document.querySelector('.dialogues-list');
 
     window.changeTemplate = (search, roomData) => {
         roomUsers.innerHTML = '';
@@ -76,6 +76,10 @@
 
         socket.on('getDialogues', (data) => {
             console.log(data);
+            dialoguesList.innerHTML = '';
+            data.friendsData.forEach((dataItem) => {
+               if(dataItem.messages.length > 1) window.renderDialog(dataItem, dialoguesList)
+            });
         })
     };
 
